@@ -19,7 +19,7 @@ import kr.co.kidultAuction.controller.ListOfAuctionsEvt;
 
 public class ListOfAuctionsFrm extends JDialog {
 	
-	/*private AuctionMainFrm amf;*/
+	private AuctionMainFrm amf;
 
 	private JComboBox<String> cbCategory;
 	
@@ -31,7 +31,7 @@ public class ListOfAuctionsFrm extends JDialog {
 	
 	
 	public ListOfAuctionsFrm(AuctionMainFrm amf) {
-		super(amf,"Kidult Auction - 경매목록");
+		super(amf,"Kidult Auction - 경매목록",true);
 		
 		btnShowDetail=new JButton("상세정보");
 		
@@ -104,7 +104,7 @@ public class ListOfAuctionsFrm extends JDialog {
 		
 		setBounds(100, 100, 600, 900);
 		setVisible(true);
-		setDefaultCloseOperation(JDialog.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		
 		
 		
