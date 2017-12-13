@@ -187,7 +187,7 @@ public class AdminDAO {
 	}//selectUserList
 	
 	/**
-	 승인 대기 목록 
+	 승인 대기 목록  (승인여부Commit - 'N' , 'Y'로 구분)
 	 * */
 	public List<AdminPermitVO> selectPermitListN() throws SQLException {
 		List<AdminPermitVO> list=new ArrayList<AdminPermitVO>();
@@ -198,24 +198,49 @@ public class AdminDAO {
 		
 		StringBuilder selectPermit=new StringBuilder();
 		selectPermit
-		.append(" select user_id, auc_code, category, status, item_name, period, start_price ")
-		.append(" from auction_item where user_id=?");
+		.append(" select user_id, auction_code, category, status, item_name, period, start_price ")
+		.append(" from auction_item where commit='N' ");
 		
 		con=getconn();
 		pstmt=con.prepareStatement(selectPermit.toString());
-		pstmt.setString(1, AuctionMainFrm.User_id);
-		
 		rs=pstmt.executeQuery();
 		
 		AdminPermitVO apv=null;
 		while(rs.next()) {
-			apv=new AdminPermitVO(rs.getString("user_id"), rs.getString("auc_code"), rs.getString("category"), 
+			apv=new AdminPermitVO(rs.getString("user_id"), rs.getString("auction_code"), rs.getString("category"), 
 					rs.getString("status"), rs.getString("item_name"), rs.getString("period"), rs.getInt("start_price"));
 			list.add(apv);
 		}//end while
 		return list;
 	}//selectPermitList
 	
+	/**
+	 승인 완료 목록 ('Y')
+	 */
+	public List<AdminPermitVO> selectPermitListY() throws SQLException {
+		List<AdminPermitVO> list=new ArrayList<AdminPermitVO>();
+		
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
+		StringBuilder selectPermit=new StringBuilder();
+		selectPermit
+		.append(" select user_id, auction_code, category, status, item_name, period, start_price ")
+		.append(" from auction_item where commit='Y' ");
+		
+		con=getconn();
+		pstmt=con.prepareStatement(selectPermit.toString());
+		rs=pstmt.executeQuery();
+		
+		AdminPermitVO apv=null;
+		while(rs.next()) {
+			apv=new AdminPermitVO(rs.getString("user_id"), rs.getString("auction_code"), rs.getString("category"), 
+					rs.getString("status"), rs.getString("item_name"), rs.getString("period"), rs.getInt("start_price"));
+			list.add(apv);
+		}//end while
+		return list;
+	}//selectPermitList
 	
 	
 }//class
