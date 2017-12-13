@@ -7,6 +7,7 @@ import kr.co.kidultAuction.view.AddAuctionItemFrm;
 import kr.co.kidultAuction.view.AddItemImageFrm;
 
 
+/////////////////////// ¼º°ø ?? //////////////////////////
 public class AddAuctionItemFrmEvt implements ActionListener{
 	
 	private AddAuctionItemFrm aaif;

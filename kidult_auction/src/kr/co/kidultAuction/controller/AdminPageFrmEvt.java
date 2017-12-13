@@ -16,15 +16,16 @@ private AdminPageFrm apf;
 
 	public AdminPageFrmEvt(AdminPageFrm apf) throws SQLException {
 		this.apf=apf;
-		AdminDAO a_dao=AdminDAO.getInstance();
-		List<AdminUserVO> userList=a_dao.selectUserList();
-		System.out.println(userList.size());
 		System.out.println("adminPage에서 보이는 관리자 아이디"+AuctionMainFrm.User_id);
 		viewUserList();	
 		viewWatingList();
+		viewPermitList();
 	}//adminPageFrmEvt
 
 	
+	/**
+	 회원 목록
+	 * */
 	public void viewUserList() throws SQLException {
 		DefaultTableModel tempUserList=apf.getUserList();
 		tempUserList.setRowCount(0);
@@ -53,6 +54,9 @@ private AdminPageFrm apf;
 		
 	}//viewUserList
 	
+	/**
+	 승인 대기 목록
+	 * */
 	public void viewWatingList() throws SQLException {
 		DefaultTableModel watingList=apf.getWatingList();
 		watingList.setRowCount(0);
@@ -79,5 +83,36 @@ private AdminPageFrm apf;
 		}//end for
 		
 	}//viewWaitingList
+	
+	
+	/**
+	 승인 대기 목록
+	 * */
+	public void viewPermitList() throws SQLException {
+		DefaultTableModel completeList=apf.getCompleteList();
+		completeList.setRowCount(0);
+		
+		AdminDAO a_dao=AdminDAO.getInstance();
+		List<AdminPermitVO> permitList=a_dao.selectPermitListY();
+		
+		Object[] rowData=null;
+		AdminPermitVO apv=null;
+		
+		for(int i=0; i<permitList.size(); i++) {
+			apv=permitList.get(i);
+			rowData=new Object[8];
+			rowData[0]=new Integer(i+1);
+			rowData[1]=apv.getUser_id();
+			rowData[2]=apv.getAuc_code();
+			rowData[3]=apv.getCategory();
+			rowData[4]=apv.getStatus();
+			rowData[5]=apv.getItem_name();
+			rowData[6]=apv.getStart_price();
+			rowData[7]=apv.getPeriod();
+			
+			completeList.addRow(rowData);
+		}//end for
+		
+	}//viewPermitList
 }//class
 
