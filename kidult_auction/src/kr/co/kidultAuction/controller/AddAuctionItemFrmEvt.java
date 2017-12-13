@@ -22,7 +22,7 @@ public class AddAuctionItemFrmEvt implements ActionListener{
 			new AddItemImageFrm();
 		}
 		if(ae.getSource()==aaif.getBtnPermit()) {
-			System.out.println("등록");
+			System.out.println("등록");  
 		}
 		if(ae.getSource()==aaif.getBtnCancel()) {
 			aaif.dispose();
