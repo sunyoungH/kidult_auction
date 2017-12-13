@@ -21,6 +21,7 @@ private AdminPageFrm apf;
 		System.out.println(userList.size());
 		System.out.println("adminPage에서 보이는 관리자 아이디"+AuctionMainFrm.User_id);
 		viewUserList();	
+		viewWatingList();
 	}//adminPageFrmEvt
 
 	
@@ -65,8 +66,18 @@ private AdminPageFrm apf;
 		for(int i=0; i<permitList.size(); i++) {
 			apv=permitList.get(i);
 			rowData=new Object[8];
-		}
+			rowData[0]=new Integer(i+1);
+			rowData[1]=apv.getUser_id();
+			rowData[2]=apv.getAuc_code();
+			rowData[3]=apv.getCategory();
+			rowData[4]=apv.getStatus();
+			rowData[5]=apv.getItem_name();
+			rowData[6]=apv.getStart_price();
+			rowData[7]=apv.getPeriod();
+			
+			watingList.addRow(rowData);
+		}//end for
 		
-	}
+	}//viewWaitingList
 }//class
 

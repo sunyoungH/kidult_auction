@@ -35,7 +35,7 @@ public class AdminDAO {
 		Connection con=null;
 		Properties prop=new Properties();
 		try {
-			prop.load(new FileReader("C:/dev/workspace/kidult_auction/src/kr/co/kidultAuction/dao/database.properties"));
+			prop.load(new FileReader("C:/dev/git/kidult_auction/kidult_auction/src/kr/co/kidultAuction/dao/database.properties"));
 			
 			try {
 				Class.forName(prop.getProperty("driverClass"));
@@ -203,7 +203,6 @@ public class AdminDAO {
 		
 		con=getconn();
 		pstmt=con.prepareStatement(selectPermit.toString());
-		
 		pstmt.setString(1, AuctionMainFrm.User_id);
 		
 		rs=pstmt.executeQuery();
