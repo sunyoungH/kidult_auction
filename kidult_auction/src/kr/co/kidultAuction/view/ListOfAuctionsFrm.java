@@ -104,7 +104,7 @@ public class ListOfAuctionsFrm extends JDialog {
 		
 		setBounds(100, 100, 600, 900);
 		setVisible(true);
-		setDefaultCloseOperation(JDialog.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		
 		
 		
