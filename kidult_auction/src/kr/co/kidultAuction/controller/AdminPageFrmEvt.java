@@ -1,4 +1,4 @@
-package kr.co.kidultAuction.controller;
+package kr.co.kidultAuction.controller; 
 
 import java.sql.SQLException;
 import java.util.List;
