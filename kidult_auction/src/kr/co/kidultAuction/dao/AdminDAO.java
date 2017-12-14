@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Properties;
 
 import kr.co.kidultAuction.view.AuctionMainFrm;
+import kr.co.kidultAuction.vo.AdminBidVO;
 import kr.co.kidultAuction.vo.AdminPermitVO;
 import kr.co.kidultAuction.vo.AdminUserVO;
 import kr.co.kidultAuction.vo.LoginVO;
@@ -187,7 +188,7 @@ public class AdminDAO {
 	}//selectUserList
 	
 	/**
-	 승인 대기 목록  (승인여부Commit - 'N' , 'Y'로 구분)
+	 승인 대기 목록  (승인여부Permit - 'N' , 'Y'로 구분)
 	 * */
 	public List<AdminPermitVO> selectPermitListN() throws SQLException {
 		List<AdminPermitVO> list=new ArrayList<AdminPermitVO>();
@@ -196,10 +197,11 @@ public class AdminDAO {
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		
+		try {
 		StringBuilder selectPermit=new StringBuilder();
 		selectPermit
-		.append(" select user_id, auction_code, category, status, item_name, period, start_price ")
-		.append(" from auction_item where commit='N' ");
+		.append(" select user_id, auc_code, category, status, item_name, period, start_price ")
+		.append(" from auc_item where permit='N' ");
 		
 		con=getconn();
 		pstmt=con.prepareStatement(selectPermit.toString());
@@ -207,10 +209,13 @@ public class AdminDAO {
 		
 		AdminPermitVO apv=null;
 		while(rs.next()) {
-			apv=new AdminPermitVO(rs.getString("user_id"), rs.getString("auction_code"), rs.getString("category"), 
+			apv=new AdminPermitVO(rs.getString("user_id"), rs.getString("auc_code"), rs.getString("category"), 
 					rs.getString("status"), rs.getString("item_name"), rs.getString("period"), rs.getInt("start_price"));
 			list.add(apv);
 		}//end while
+		}finally {
+			dbClose(con, pstmt, rs);
+		}
 		return list;
 	}//selectPermitList
 	
@@ -224,10 +229,11 @@ public class AdminDAO {
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		
+		try {
 		StringBuilder selectPermit=new StringBuilder();
 		selectPermit
-		.append(" select user_id, auction_code, category, status, item_name, period, start_price ")
-		.append(" from auction_item where commit='Y' ");
+		.append(" select user_id, auc_code, category, status, item_name, period, start_price ")
+		.append(" from auc_item where permit='Y' ");
 		
 		con=getconn();
 		pstmt=con.prepareStatement(selectPermit.toString());
@@ -235,12 +241,53 @@ public class AdminDAO {
 		
 		AdminPermitVO apv=null;
 		while(rs.next()) {
-			apv=new AdminPermitVO(rs.getString("user_id"), rs.getString("auction_code"), rs.getString("category"), 
+			apv=new AdminPermitVO(rs.getString("user_id"), rs.getString("auc_code"), rs.getString("category"), 
 					rs.getString("status"), rs.getString("item_name"), rs.getString("period"), rs.getInt("start_price"));
 			list.add(apv);
 		}//end while
+		}finally {
+			dbClose(con, pstmt, rs);
+		}
 		return list;
 	}//selectPermitList
 	
+	/**
+	 입찰중인 페이지
+	 */
+	public List<AdminBidVO> selectBidList() throws SQLException {
+		List<AdminBidVO> list=new ArrayList<AdminBidVO>();
+		
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
+		try {
+		StringBuilder selectBid=new StringBuilder();
+		selectBid
+		.append(" select au.user_id, ai.auc_code, ai.item_name, ai.permit_date, ei.ended_date, bi.bid_price, ai.start_price ")
+		.append(" from auc_user au, auc_item ai, ended_item ei, bid_item bi ")
+		.append(" where au.user_id=ai.user_id and bi.user_id=ai.user_id and bi.bid_num=ei.bid_num and ei.ended_date is not null");
+		
+		con=getconn();
+		pstmt=con.prepareStatement(selectBid.toString());
+		rs=pstmt.executeQuery();
+		
+		AdminBidVO abv=null;
+		while(rs.next()) {
+			abv=new AdminBidVO(rs.getString("user_id"), rs.getString("auc_code"), rs.getString("item_name"),  
+					rs.getString("permit_date"), rs.getString("ended_date"), rs.getInt("bid_price"), rs.getInt("start_price"));
+			
+			list.add(abv);
+		}//end while
+		}finally {
+			dbClose(con, pstmt, rs);
+		}
+		return list;
+	}//selectBidList
+	
+	/**
+	 낙찰 목록
+	 */
+
 	
 }//class
