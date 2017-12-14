@@ -122,7 +122,7 @@ public class PermitFrm extends JDialog {
 		
 		 setBounds(700, 300, 810, 520);
          setVisible(true);
-         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 	}//PermitFrm
 

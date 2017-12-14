@@ -23,7 +23,7 @@ public class AdminPageFrm extends JDialog{
 	private DefaultTableModel userList,watingList,completeList,bidList,sucBidList;
 	private JTable jtuserList, jtwatingList, jtcompleteList, jtbidList, jtsucBidList;
 	 
-	public AdminPageFrm(AuctionMainFrm amf) {
+	public AdminPageFrm(AuctionMainFrm amf) throws SQLException {
 		super(amf,"관리자 페이지");
 		/*this.amf=amf;*/
 		
@@ -216,11 +216,9 @@ public class AdminPageFrm extends JDialog{
 		setResizable(false);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		
-		try {
-			AdminPageFrmEvt apfe=new AdminPageFrmEvt(this);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		AdminPageFrmEvt apfe=new AdminPageFrmEvt(this);
+		jtpTab.addMouseListener(apfe);
+		jtwatingList.addMouseListener(apfe);
 		
 	}//AdminPageFrm
 

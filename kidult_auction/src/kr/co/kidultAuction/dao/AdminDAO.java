@@ -15,6 +15,7 @@ import java.util.Properties;
 import kr.co.kidultAuction.view.AuctionMainFrm;
 import kr.co.kidultAuction.vo.AdminBidVO;
 import kr.co.kidultAuction.vo.AdminPermitVO;
+import kr.co.kidultAuction.vo.AdminSucBidVO;
 import kr.co.kidultAuction.vo.AdminUserVO;
 import kr.co.kidultAuction.vo.LoginVO;
 
@@ -288,6 +289,36 @@ public class AdminDAO {
 	/**
 	 ³«Âû ¸ñ·Ï
 	 */
+
+	public List<AdminSucBidVO> selectSucBid() throws SQLException{
+		List<AdminSucBidVO> list=new ArrayList<AdminSucBidVO>();
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
+		try {
+		StringBuilder selectSuc=new StringBuilder();
+		selectSuc
+		.append(" select au.user_id, ai.auc_code, ai.item_name, ai.permit_date, ei.ended_date, bi.bid_price, ai.start_price ")
+		.append(" from auc_user au, auc_item ai, ended_item ei, bid_item bi ")
+		.append(" where au.user_id=ai.user_id and bi.user_id=ai.user_id and bi.bid_num=ei.bid_num and ei.ended_date is not null ");
+		
+		con=getconn();
+		pstmt=con.prepareStatement(selectSuc.toString());
+		rs=pstmt.executeQuery();
+		
+		AdminSucBidVO asbv=null;
+		while(rs.next()) {
+			asbv=new AdminSucBidVO(rs.getString("user_id"), rs.getString("item_name"), rs.getString("auc_code"), 
+						rs.getString("permit_date"), rs.getString("ended_date"), rs.getInt("bid_price"), rs.getInt("start_price"));
+			list.add(asbv);
+		}//end while
+		}finally {
+			dbClose(con, pstmt, rs);
+		}
+		return list;
+		
+	}
 
 	
 }//class
