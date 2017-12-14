@@ -2,19 +2,17 @@ package kr.co.kidultAuction.view;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
-
-import com.sun.xml.internal.messaging.saaj.soap.JpegDataContentHandler;
 
 import kr.co.kidultAuction.controller.ListOfAuctionsEvt;
 
@@ -45,7 +43,6 @@ public class ListOfAuctionsFrm extends JDialog {
 		lbImg=new JLabel(new ImageIcon("C:/dev/git/kidult_auction/kidult_auction/src/kr/co/kidultAuction/img/addImg.png"));
 		lbDday=new JLabel("lbDday");
 		
-		
 		JPanel jpSpacprice=new JPanel(new GridLayout(2,2));
 		jpSpacprice.add(lbSeller);
 		jpSpacprice.add(lbSellerId);
@@ -62,18 +59,22 @@ public class ListOfAuctionsFrm extends JDialog {
 		
 		
 		jpImg=new JPanel();
-		jpImg.setPreferredSize(new Dimension(225, 225));
+//		jpImg.setPreferredSize(new Dimension(225, 225));
 		jpImg.add(lbImg);
 		
-		jpAuctionitem=new JPanel(); 
+		ArrayList<JPanel> arrAuctionitem=new ArrayList<JPanel>();
+		jpAuctionitem=new JPanel();
+		jpAuctionitem.setBorder(new TitledBorder(""));
 		jpAuctionitem.add(jpImg);
 		jpAuctionitem.add(jpSpac);
-		jpAuctionitem.setBorder(new TitledBorder(""));
-		jpAuctionitem.setPreferredSize(new Dimension(550, 242));
+		
+		//무한루프 돌리면 될듯
+		
+		arrAuctionitem.add(jpAuctionitem);
 		
 		
 		jpAuctionList=new JPanel();
-		jpAuctionList.add(jpAuctionitem);
+		jpAuctionList.add(arrAuctionitem.get(0));
 		
 		
 		DefaultComboBoxModel<String> dbcm=new DefaultComboBoxModel<String>();
@@ -105,6 +106,7 @@ public class ListOfAuctionsFrm extends JDialog {
 		//이벤트 등록
 		ListOfAuctionsEvt loae=new ListOfAuctionsEvt(this);
 		btnShowDetail.addActionListener(loae);
+		cbCategory.addActionListener(loae);
 		
 		
 		setBounds(100, 100, 600, 900);
