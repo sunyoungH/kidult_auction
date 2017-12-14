@@ -11,7 +11,7 @@ import kr.co.kidultAuction.view.ListOfAuctionsFrm;
 
 public class ListOfAuctionsEvt extends WindowAdapter implements ActionListener {
 	
-	private ListOfAuctionsFrm loaf;
+	private ListOfAuctionsFrm loaf; 
 	
 	
 	public ListOfAuctionsEvt(ListOfAuctionsFrm loaf) {

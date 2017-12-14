@@ -23,7 +23,7 @@ public class ListOfAuctionsFrm extends JDialog {
 	
 	private AuctionMainFrm amf;
 
-	private JComboBox<String> cbCategory;
+	private JComboBox<String> cbCategory; 
 	
 	private JButton btnSearch, btnShowDetail;
 	
