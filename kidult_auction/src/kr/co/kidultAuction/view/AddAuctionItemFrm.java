@@ -35,7 +35,7 @@ public class AddAuctionItemFrm extends JDialog {
 		jlbItemName = new JLabel("경매 물품명");
 		jlbItemStatus = new JLabel("물품 상태");
 		jlbStartPrice = new JLabel("경매 시작 가격");
-		jlbAuctionPeriod = new JLabel("경매 시간");
+		jlbAuctionPeriod = new JLabel("경매 시간"); 
 		jlbWon = new JLabel("원");
 		jlbItemInfo = new JLabel("물품 소개");
 
