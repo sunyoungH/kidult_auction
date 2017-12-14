@@ -1,18 +1,18 @@
 package kr.co.kidultAuction.vo;
 
 public class AdminBidVO {
-	private String user_id, auc_code, item_name, category, permit_date, ended_date;
+	private String user_id, auc_code, item_name, permit_date, ended_date;
 	private int bid_price, start_price;
+	
 	public AdminBidVO() {
 		super();
 	}
-	public AdminBidVO(String user_id, String auc_code, String item_name, String category, String permit_date,
+	public AdminBidVO(String user_id, String auc_code, String item_name, String permit_date,
 			String ended_date, int bid_price, int start_price) {
 		super();
 		this.user_id = user_id;
 		this.auc_code = auc_code;
 		this.item_name = item_name;
-		this.category = category;
 		this.permit_date = permit_date;
 		this.ended_date = ended_date;
 		this.bid_price = bid_price;
@@ -35,12 +35,6 @@ public class AdminBidVO {
 	}
 	public void setItem_name(String item_name) {
 		this.item_name = item_name;
-	}
-	public String getCategory() {
-		return category;
-	}
-	public void setCategory(String category) {
-		this.category = category;
 	}
 	public String getPermit_date() {
 		return permit_date;
@@ -68,8 +62,8 @@ public class AdminBidVO {
 	}
 	@Override
 	public String toString() {
-		return "AdminBidVO [user_id=" + user_id + ", auc_code=" + auc_code + ", item_name=" + item_name + ", category="
-				+ category + ", permit_date=" + permit_date + ", ended_date=" + ended_date + ", bid_price=" + bid_price
+		return "AdminBidVO [user_id=" + user_id + ", auc_code=" + auc_code + ", item_name=" + item_name +
+				", permit_date=" + permit_date + ", ended_date=" + ended_date + ", bid_price=" + bid_price
 				+ ", start_price=" + start_price + "]";
 	}
 	

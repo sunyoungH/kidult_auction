@@ -8,6 +8,7 @@ import javax.swing.table.DefaultTableModel;
 import kr.co.kidultAuction.dao.AdminDAO;
 import kr.co.kidultAuction.view.AdminPageFrm;
 import kr.co.kidultAuction.view.AuctionMainFrm;
+import kr.co.kidultAuction.vo.AdminBidVO;
 import kr.co.kidultAuction.vo.AdminPermitVO;
 import kr.co.kidultAuction.vo.AdminUserVO;
 
@@ -20,6 +21,7 @@ private AdminPageFrm apf;
 		viewUserList();	
 		viewWatingList();
 		viewPermitList();
+		viewBidList();
 	}//adminPageFrmEvt
 
 	
@@ -92,6 +94,7 @@ private AdminPageFrm apf;
 		DefaultTableModel completeList=apf.getCompleteList();
 		completeList.setRowCount(0);
 		
+		
 		AdminDAO a_dao=AdminDAO.getInstance();
 		List<AdminPermitVO> permitList=a_dao.selectPermitListY();
 		
@@ -113,6 +116,38 @@ private AdminPageFrm apf;
 			completeList.addRow(rowData);
 		}//end for
 		
+		System.out.println(permitList.size());
 	}//viewPermitList
+	
+	/**
+	 ÀÔÂû ¸ñ·Ï
+	 * */
+	public void viewBidList() throws SQLException {
+		DefaultTableModel bidList=apf.getBidList();
+		bidList.setRowCount(0);
+		
+		AdminDAO a_dao=AdminDAO.getInstance();
+		List<AdminBidVO> biddingList=a_dao.selectBidList();
+		
+		Object[] rowData=null;
+		AdminBidVO abv=null;
+		
+		for(int i=0; i<biddingList.size(); i++) {
+			abv=biddingList.get(i);
+			rowData=new Object[8];
+			rowData[0]=new Integer(i+1);
+			rowData[1]=abv.getUser_id();
+			rowData[2]=abv.getItem_name();
+			rowData[3]=abv.getAuc_code();
+			rowData[4]=abv.getBid_price();
+			rowData[5]=abv.getStart_price();
+			rowData[6]=abv.getPermit_date();
+			rowData[7]=abv.getEnded_date();
+			
+			bidList.addRow(rowData);
+		}//end for
+		System.out.println(biddingList.size());
+		
+	}//viewBidList
 }//class
 
