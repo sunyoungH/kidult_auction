@@ -24,7 +24,7 @@ public class AdminPageFrmEvt extends MouseAdapter{
 private AdminPageFrm apf;
 private AuctionMainFrm amf;
 public static final int DOUBLE_CLICK=2;
-public static final int WAITING_LIST=2;
+public static final int WAITING_LIST=1;
 
 	public AdminPageFrmEvt(AdminPageFrm apf) throws SQLException {
 		this.apf=apf;
@@ -192,8 +192,7 @@ public static final int WAITING_LIST=2;
 			sucList.addRow(rowData);
 		}//end for
 		
-		
-	}
+	}//viewSucBid
 	
 	@Override
 		public void mouseClicked(MouseEvent me) {
@@ -202,11 +201,11 @@ public static final int WAITING_LIST=2;
 		
 		switch(jtpTab.getSelectedIndex()) {
 		
-		case 1 :
+		case WAITING_LIST :
 			switch(me.getClickCount()) {
 			case DOUBLE_CLICK :
 				new PermitFrm(amf);
-				JOptionPane.showMessageDialog(apf, waitingList.getSelectedRow());
+				System.out.println(waitingList.getValueAt(waitingList.getSelectedRow(), 2));
 		}//end switch
 		
 		
