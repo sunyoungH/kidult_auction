@@ -1,7 +1,9 @@
 package kr.co.kidultAuction.controller;
 
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -11,10 +13,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 
+import kr.co.kidultAuction.dao.UserDAO;
 import kr.co.kidultAuction.view.AuctionMainFrm;
 import kr.co.kidultAuction.view.MyAuctionFrm;
 import kr.co.kidultAuction.view.MyPageFrm;
 import kr.co.kidultAuction.view.UserEditFrm;
+import kr.co.kidultAuction.vo.PasswordVO;
 
 public class MyPageFrmEvt implements ActionListener {
 	private MyPageFrm mpf;
@@ -59,14 +63,28 @@ public class MyPageFrmEvt implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String t = String.valueOf(jp.getPassword());
-				if (t.equals("11")) {
-					new UserEditFrm(amf);
-					p.dispose();
-				} else {
-					JOptionPane.showMessageDialog(null, "비밀번호를 확인해 주세요");
-				}
+				PasswordVO pv=new PasswordVO();
+				pv.setUser_id(AuctionMainFrm.User_id);
+				pv.setUser_pass (t.trim());
+				System.out.println(pv.getUser_pass());
+				
+				UserDAO u_dao=UserDAO.getInstance();
+		
+				try {
+					if (u_dao.confirmPass(pv)) {
+						System.out.println("비밀번호 OK");
+						new UserEditFrm(amf);
+						p.dispose();
+					} else {
+						JOptionPane.showMessageDialog(null, "비밀번호를 확인해 주세요");
+					}//end else
+				} catch (HeadlessException e1) {
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}//end catch
 
-			}
+			}//actionPerformed
 		});
 
 	}// passMsg

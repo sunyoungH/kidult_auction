@@ -42,22 +42,16 @@ public class MyPageFrm extends JDialog {
 		return btnMyAuction;
 	}
 
-
 	public void setBtnMyAuction(JButton btnMyAuction) {
 		this.btnMyAuction = btnMyAuction;
 	}
-
 
 	public JButton getBtnEdit() {
 		return btnEdit;
 	}
 
-
 	public void setBtnEdit(JButton btnEdit) {
 		this.btnEdit = btnEdit;
 	}
-	
-
-	
 	
 }

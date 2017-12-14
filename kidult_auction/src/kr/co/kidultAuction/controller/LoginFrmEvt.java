@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 import kr.co.kidultAuction.dao.AdminDAO;
+import kr.co.kidultAuction.dao.UserDAO;
 import kr.co.kidultAuction.view.AdminPageFrm;
 import kr.co.kidultAuction.view.AuctionMainFrm;
 import kr.co.kidultAuction.view.LoginFrm;
@@ -56,13 +57,13 @@ private AuctionMainFrm amf;
 		lv.setUser_id(lf.getTfId().getText().trim());
 		lv.setUser_pass(user_pass.trim());
 		
-		AdminDAO a_dao=AdminDAO.getInstance();
+		UserDAO a_dao=UserDAO.getInstance();
 		
 		try {
 			if(a_dao.selectUserLogin(lv)) {
 				System.out.println("사용자 로그인 성공!");
 				JOptionPane.showMessageDialog(null, "사용자 로그인 성공!");
-//				AuctionMainFrm.User_id=lf.getTfId().getText().trim();
+			AuctionMainFrm.User_id=lf.getTfId().getText().trim();
 				lf.dispose();
 			}else {
 				System.out.println("사용자 실패");
