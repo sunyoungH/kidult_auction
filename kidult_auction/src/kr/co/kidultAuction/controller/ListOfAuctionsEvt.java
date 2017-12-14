@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 
+import javax.swing.JOptionPane;
+
 import kr.co.kidultAuction.view.DetailOfAuctionsFrm;
 import kr.co.kidultAuction.view.ListOfAuctionsFrm;
 
@@ -21,8 +23,13 @@ public class ListOfAuctionsEvt extends WindowAdapter implements ActionListener {
 	public void actionPerformed(ActionEvent ae) {
 		if(ae.getSource() == loaf.getBtnShowDetail()) {
 			new DetailOfAuctionsFrm(loaf);
+		}//end if
+		
+		String category=(String) loaf.getCbCategory().getSelectedItem();
+		if(ae.getSource() == loaf.getCbCategory()) {
+			JOptionPane.showMessageDialog(loaf,category);
 		}
-	}
+	}//actionPerformed
 
 	
 	

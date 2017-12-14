@@ -14,6 +14,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
 
+import com.sun.xml.internal.messaging.saaj.soap.JpegDataContentHandler;
+
 import kr.co.kidultAuction.controller.ListOfAuctionsEvt;
 
 
@@ -40,7 +42,7 @@ public class ListOfAuctionsFrm extends JDialog {
 		lbSellerId=new JLabel("lbSellerId");
 		lbSPrice=new JLabel("lbSPrice");
 		lbUserPrice=new JLabel("lbUserPrice");
-		lbImg=new JLabel(new ImageIcon("C:/dev/workspace/kidult_auction/src/kr/co/kidultAuction/img/default.jpg"));
+		lbImg=new JLabel(new ImageIcon("C:/dev/git/kidult_auction/kidult_auction/src/kr/co/kidultAuction/img/addImg.png"));
 		lbDday=new JLabel("lbDday");
 		
 		
@@ -60,13 +62,16 @@ public class ListOfAuctionsFrm extends JDialog {
 		
 		
 		jpImg=new JPanel();
+		jpImg.setPreferredSize(new Dimension(225, 225));
 		jpImg.add(lbImg);
 		
 		jpAuctionitem=new JPanel(); 
 		jpAuctionitem.add(jpImg);
 		jpAuctionitem.add(jpSpac);
 		jpAuctionitem.setBorder(new TitledBorder(""));
-//		jpAuctionitem.setPreferredSize(new Dimension(550, 300));
+		jpAuctionitem.setPreferredSize(new Dimension(550, 242));
+		
+		
 		jpAuctionList=new JPanel();
 		jpAuctionList.add(jpAuctionitem);
 		
@@ -115,4 +120,10 @@ public class ListOfAuctionsFrm extends JDialog {
 		return btnShowDetail;
 	}
 
+
+	public JComboBox<String> getCbCategory() {
+		return cbCategory;
+	}
+
+	
 }//class

@@ -24,7 +24,7 @@ public class DetailOfAuctionsFrm extends JDialog {
 		super(loaf,"경매 상세 페이지",true);
 		this.loaf=loaf;
 	
-	lblDlmg=new JLabel(new ImageIcon("C:/dev/workspace/kidult_auction/src/kr/co/kidultAuction/img/123.jpg"));
+	lblDlmg=new JLabel(new ImageIcon("C:/dev/git/kidult_auction/kidult_auction/src/kr/co/kidultAuction/img/daum.png"));
 	lblDItemName=new JLabel("상품명");
 	lblDSeller=new JLabel("경매자ID");
 	lblDSellerId=new JLabel("alsgml4860");

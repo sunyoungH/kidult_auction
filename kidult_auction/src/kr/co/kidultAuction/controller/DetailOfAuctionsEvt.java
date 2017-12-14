@@ -19,13 +19,12 @@ public class DetailOfAuctionsEvt extends WindowAdapter implements ActionListener
 
 	@Override
 	public void actionPerformed(ActionEvent ae) {
-		ImageIcon icon=new ImageIcon("C:/dev/workspace/kidult_auction/src/kr/co/kidultAuction/img/IE.png");
+		ImageIcon icon=new ImageIcon("C:/dev/git/kidult_auction/kidult_auction/src/kr/co/kidultAuction/img/cancel.JPG");
 		String msg=doa.getLblDItemName().getText().trim()+
 				"\n"+doa.getLblDsPrice().getText().trim()+
 				"\t"+doa.getLblUserPrice().getText().trim();
 		if(ae.getSource() == doa.getBtnBid()) {
-			JOptionPane.showInputDialog(msg);
-		}
-	}
-
-}
+			JOptionPane.showInputDialog(null,msg,"¿‘¬˚«œ±‚",0,icon,null,null);
+		}//end if
+	}//actionPerformed
+}//class
