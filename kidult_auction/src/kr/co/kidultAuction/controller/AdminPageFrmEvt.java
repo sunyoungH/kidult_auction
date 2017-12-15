@@ -31,6 +31,11 @@ public static final int DOUBLE_CLICK=2;
 public static final int WAITING_LIST=1;
 public static String auc_code;
 
+
+	public AdminPageFrmEvt() {
+		
+	}	
+
 	public AdminPageFrmEvt(AdminPageFrm apf) throws SQLException {
 		this.apf=apf;
 		System.out.println("adminPage에서 보이는 관리자 아이디"+AuctionMainFrm.User_id);
@@ -228,22 +233,15 @@ public static String auc_code;
 			switch(me.getClickCount()) {
 			case DOUBLE_CLICK :
 				AdminPageFrmEvt.auc_code=(String)waitingList.getValueAt(waitingList.getSelectedRow(), 2);
-				System.out.println(auc_code);
-//				try {
-//					viewApprove();
-//				} catch (SQLException e) {
-//					e.printStackTrace();
-//				}
+				System.out.println(auc_code+"adminPageFrmEvt");
+//				String tfUser=af.getTfUserId().getText();
 				try {
-					af.getTfUserId().setText("hi!!");
-					System.out.println("hello");
-					String tfUser=af.getTfUserId().getText();
 					new ApproveFrm(amf);
-					System.out.println(tfUser);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
-				
+//				System.out.println(tfUser);
+//				af.getTfUserId().setText("hi!!");
 				
 		}//end switch
 		}//switch~case

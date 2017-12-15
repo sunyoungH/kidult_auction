@@ -6,6 +6,7 @@ import javax.swing.JTextField;
 public class Test extends JFrame {
 	private JTextField jtf;
 	
+	
 	public Test() {
 		jtf=new JTextField("¾È³ç");
 		

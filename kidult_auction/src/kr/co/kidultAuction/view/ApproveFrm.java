@@ -13,6 +13,7 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 import kr.co.kidultAuction.controller.AdminPageFrmEvt;
+import kr.co.kidultAuction.controller.ApproveFrmEvt;
 
 /**
  * 승인대기 상세정보
@@ -21,7 +22,7 @@ import kr.co.kidultAuction.controller.AdminPageFrmEvt;
 @SuppressWarnings("serial")
 public class ApproveFrm extends JDialog {
 	private AuctionMainFrm amf;
-	private AdminPageFrm apf;
+	private AdminPageFrmEvt apfe;
 	
 	private JLabel lblImgRight, lblImgLeft, lblImgFront, lblImgBack, lblUserId, lblCategory
 	           , lblStatus, lblItemName, lblSPrice, lblPeriod, lblItemInfo;
@@ -119,11 +120,11 @@ public class ApproveFrm extends JDialog {
 		add(jp);
 		
 		//이벤트 등록
-//    	PermitFrmEvt pfe=new PermitFrmEvt(this);
-//		btnCommit.addActionListener(pfe);
-//		btnReject.addActionListener(pfe);
+    	ApproveFrmEvt afe=new ApproveFrmEvt(this);
+		btnCommit.addActionListener(afe);
+		btnReject.addActionListener(afe);
 		
-		AdminPageFrmEvt apfe=new AdminPageFrmEvt(apf);
+//		apfe=new AdminPageFrmEvt();
 		
 		 setBounds(700, 300, 810, 520);
          setVisible(true);

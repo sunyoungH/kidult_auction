@@ -324,7 +324,7 @@ public class AdminDAO {
 	}//selectSucBid
 
 	/**
-	 * Ω¬¿Œ, Ω¬¿Œ∞≈∫Œ√¢
+	 * Ω¬¿Œ, Ω¬¿Œ∞≈∫Œ√¢ (Approve)
 	 * */
 	public List<AdminApproveVO> selectApprove() throws SQLException {
 		List<AdminApproveVO> list=new ArrayList<AdminApproveVO>();
@@ -336,12 +336,11 @@ public class AdminDAO {
 		StringBuilder selectItem=new StringBuilder();
 		selectItem
 		.append(" select user_id, category, status, item_name, period, detail_info, front_img, left_img, right_img, back_img, start_price ")
-		.append(" from auc_item  ");
+		.append(" from auc_item where auc_code=?  ");
 		
 		con=getconn();
 		pstmt=con.prepareStatement(selectItem.toString());
-		System.out.println(AdminPageFrmEvt.auc_code);
-//		pstmt.setString(1, apfe.getAuc_code());
+		pstmt.setString(1, AdminPageFrmEvt.auc_code);
 		
 		rs=pstmt.executeQuery();
 		
@@ -357,5 +356,36 @@ public class AdminDAO {
 		}
 		return list;
 	}//selectApprove
+	
+	/**
+	 * Ω¬¿Œ (ApproveFrmEvt)
+	 * @throws SQLException 
+	 * */
+	public boolean updateApproveItem() throws SQLException {
+		boolean flag=false;
+		int rsFlag=0;
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		
+		try {
+		StringBuilder updateApprove=new StringBuilder();
+		updateApprove
+		.append(" update auc_item")
+		.append(" set permit_date=sysdate, permit='N' ")
+		.append(" where auc_code=? ");
+		
+		con=getconn();
+		pstmt=con.prepareStatement(updateApprove.toString());
+		pstmt.setString(1, AdminPageFrmEvt.auc_code);
+		rsFlag=pstmt.executeUpdate();
+		
+		if(rsFlag!=0) {
+			flag=true;
+		}//end if
+		}finally {
+			dbClose(con, pstmt, null);
+		}
+		return flag;
+	}//updateApproveItem
 	
 }//class
