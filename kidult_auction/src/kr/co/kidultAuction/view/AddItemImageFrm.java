@@ -25,7 +25,7 @@ public class AddItemImageFrm extends JDialog {
 		ImageIcon itemCancel = new ImageIcon("C:/dev/workspace/kidult_auction/src/kr/co/kidultAuction/img/cancel.JPG");
 		ImageIcon imgRegister = new ImageIcon("C:/dev/workspace/kidult_auction/src/kr/co/kidultAuction/img/img_register.JPG");
 		
-		jpBackground = new JPanel();
+		jpBackground = new JPanel(); 
 		jpBackground.setBackground(Color.white);
 		
 		lbFrontImg = new JLabel(itemImg);

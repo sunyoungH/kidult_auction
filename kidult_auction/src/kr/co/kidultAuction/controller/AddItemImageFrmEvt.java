@@ -129,7 +129,7 @@ public class AddItemImageFrmEvt implements ActionListener{
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(aiif, "이미지가 정상적으로 등록되지 않음");
 				e.printStackTrace();
-			}
+			} 
 		}
 		
 		if(ae.getSource()==aiif.getBtnRight()) {

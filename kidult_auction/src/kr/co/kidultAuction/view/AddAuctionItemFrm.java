@@ -97,7 +97,7 @@ public class AddAuctionItemFrm extends JDialog {
 		jspItemInfo.setBounds(20, 310, 545, 200);
 
 		btnPermit.setBounds(400, 520, 90, 30);
-		btnCancel.setBounds(500, 520, 60, 30);
+		btnCancel.setBounds(500, 520, 60, 30); 
 
 		/////////////////////////////////////////////////
 

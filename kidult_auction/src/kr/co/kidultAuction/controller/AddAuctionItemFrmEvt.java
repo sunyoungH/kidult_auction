@@ -13,7 +13,7 @@ public class AddAuctionItemFrmEvt implements ActionListener{
 	private AddAuctionItemFrm aaif;
 	public AddAuctionItemFrmEvt(AddAuctionItemFrm aaif) {
 		this.aaif=aaif;
-	}//AddAuctionItemFrmEvt
+	}//AddAuctionItemFrmEvt 
 	
 	
 	@Override
