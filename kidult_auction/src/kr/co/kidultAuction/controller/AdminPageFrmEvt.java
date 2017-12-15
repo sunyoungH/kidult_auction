@@ -146,7 +146,7 @@ public static String auc_code;
 	 * */
 	public void viewBidList() throws SQLException {
 		DefaultTableModel bidList=apf.getBidList();
-		bidList.setRowCount(1);
+		bidList.setRowCount(0);
 		
 		AdminDAO a_dao=AdminDAO.getInstance();
 		List<AdminBidVO> biddingList=a_dao.selectBidList();
@@ -179,7 +179,7 @@ public static String auc_code;
 	
 	public void viewSucBidList() throws SQLException {
 		DefaultTableModel sucList= apf.getSucBidList();
-		sucList.setRowCount(1);
+		sucList.setRowCount(0);
 		
 		AdminDAO a_dao=AdminDAO.getInstance();
 		List<AdminSucBidVO> sucBidList=a_dao.selectSucBid();
