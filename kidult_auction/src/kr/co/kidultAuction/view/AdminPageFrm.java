@@ -18,6 +18,7 @@ import kr.co.kidultAuction.controller.AdminPageFrmEvt;
 @SuppressWarnings("serial")
 public class AdminPageFrm extends JDialog{
 	private AuctionMainFrm amf;
+	private ApproveFrm af;
 
 	private JTabbedPane jtpTab;
 	private DefaultTableModel userList,watingList,completeList,bidList,sucBidList;
@@ -215,6 +216,7 @@ public class AdminPageFrm extends JDialog{
 		setVisible(true);
 		setResizable(false);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		
 		
 		AdminPageFrmEvt apfe=new AdminPageFrmEvt(this);
 		jtpTab.addMouseListener(apfe);

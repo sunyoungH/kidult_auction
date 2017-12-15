@@ -3,18 +3,20 @@ package kr.co.kidultAuction.controller;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 
 import kr.co.kidultAuction.dao.AdminDAO;
 import kr.co.kidultAuction.view.AdminPageFrm;
 import kr.co.kidultAuction.view.AuctionMainFrm;
-import kr.co.kidultAuction.view.PermitFrm;
+import kr.co.kidultAuction.view.ApproveFrm;
+import kr.co.kidultAuction.vo.AdminApproveVO;
 import kr.co.kidultAuction.vo.AdminBidVO;
 import kr.co.kidultAuction.vo.AdminPermitVO;
 import kr.co.kidultAuction.vo.AdminSucBidVO;
@@ -23,8 +25,11 @@ import kr.co.kidultAuction.vo.AdminUserVO;
 public class AdminPageFrmEvt extends MouseAdapter{
 private AdminPageFrm apf;
 private AuctionMainFrm amf;
+private ApproveFrm af;
+
 public static final int DOUBLE_CLICK=2;
 public static final int WAITING_LIST=1;
+public static String auc_code;
 
 	public AdminPageFrmEvt(AdminPageFrm apf) throws SQLException {
 		this.apf=apf;
@@ -194,6 +199,24 @@ public static final int WAITING_LIST=1;
 		
 	}//viewSucBid
 	
+	public void viewApprove() throws SQLException {
+		List<AdminApproveVO> approveList=new ArrayList<AdminApproveVO>();
+		AdminDAO a_dao=AdminDAO.getInstance();
+		approveList=a_dao.selectApprove();
+		
+		AdminApproveVO aav=null;
+		
+		for(int i=0; i<approveList.size(); i++) {
+			aav=approveList.get(i);
+			af.getTfUserId().setText("гоюл");
+			af.getTfUserId().setText(aav.getUser_id());
+		}
+		
+		
+		
+		
+	}//viewApprove
+	
 	@Override
 		public void mouseClicked(MouseEvent me) {
 		JTabbedPane jtpTab=apf.getJtpTab();
@@ -204,14 +227,32 @@ public static final int WAITING_LIST=1;
 		case WAITING_LIST :
 			switch(me.getClickCount()) {
 			case DOUBLE_CLICK :
-				new PermitFrm(amf);
-				System.out.println(waitingList.getValueAt(waitingList.getSelectedRow(), 2));
+				AdminPageFrmEvt.auc_code=(String)waitingList.getValueAt(waitingList.getSelectedRow(), 2);
+				System.out.println(auc_code);
+//				try {
+//					viewApprove();
+//				} catch (SQLException e) {
+//					e.printStackTrace();
+//				}
+				try {
+					af.getTfUserId().setText("hi!!");
+					System.out.println("hello");
+					String tfUser=af.getTfUserId().getText();
+					new ApproveFrm(amf);
+					System.out.println(tfUser);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				
+				
 		}//end switch
-		
-		
 		}//switch~case
 		
 	}//mouseClicked
+
+	public String getAuc_code() {
+		return auc_code;
+	}
 
 }//class
 

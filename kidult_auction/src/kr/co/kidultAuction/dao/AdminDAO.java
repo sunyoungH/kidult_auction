@@ -12,7 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import kr.co.kidultAuction.controller.AdminPageFrmEvt;
 import kr.co.kidultAuction.view.AuctionMainFrm;
+import kr.co.kidultAuction.vo.AdminApproveVO;
 import kr.co.kidultAuction.vo.AdminBidVO;
 import kr.co.kidultAuction.vo.AdminPermitVO;
 import kr.co.kidultAuction.vo.AdminSucBidVO;
@@ -20,6 +22,7 @@ import kr.co.kidultAuction.vo.AdminUserVO;
 import kr.co.kidultAuction.vo.LoginVO;
 
 public class AdminDAO {
+	private AdminPageFrmEvt apfe;
 	private static AdminDAO a_dao;
 	
 	private AdminDAO() {
@@ -318,7 +321,41 @@ public class AdminDAO {
 		}
 		return list;
 		
-	}
+	}//selectSucBid
 
+	/**
+	 * Ω¬¿Œ, Ω¬¿Œ∞≈∫Œ√¢
+	 * */
+	public List<AdminApproveVO> selectApprove() throws SQLException {
+		List<AdminApproveVO> list=new ArrayList<AdminApproveVO>();
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
+		try {
+		StringBuilder selectItem=new StringBuilder();
+		selectItem
+		.append(" select user_id, category, status, item_name, period, detail_info, front_img, left_img, right_img, back_img, start_price ")
+		.append(" from auc_item  ");
+		
+		con=getconn();
+		pstmt=con.prepareStatement(selectItem.toString());
+		System.out.println(AdminPageFrmEvt.auc_code);
+//		pstmt.setString(1, apfe.getAuc_code());
+		
+		rs=pstmt.executeQuery();
+		
+		AdminApproveVO aav=null;
+		while(rs.next()) {
+			aav=new AdminApproveVO(rs.getString("user_id"), rs.getString("category"), rs.getString("status"), rs.getString("item_name"), 
+					rs.getString("period"), rs.getString("detail_info"), rs.getString("front_img"), rs.getString("left_img"), 
+					rs.getString("right_img"), rs.getString("back_img"), rs.getInt("start_price"));
+			list.add(aav);
+		}//end while
+		}finally {
+			dbClose(con, pstmt, rs);
+		}
+		return list;
+	}//selectApprove
 	
 }//class

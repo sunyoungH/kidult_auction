@@ -1,6 +1,7 @@
 package kr.co.kidultAuction.view;
 
 import java.awt.Color;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -11,13 +12,16 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+import kr.co.kidultAuction.controller.AdminPageFrmEvt;
+
 /**
  * 승인대기 상세정보
  * @author user
  */
 @SuppressWarnings("serial")
-public class PermitFrm extends JDialog {
+public class ApproveFrm extends JDialog {
 	private AuctionMainFrm amf;
+	private AdminPageFrm apf;
 	
 	private JLabel lblImgRight, lblImgLeft, lblImgFront, lblImgBack, lblUserId, lblCategory
 	           , lblStatus, lblItemName, lblSPrice, lblPeriod, lblItemInfo;
@@ -27,7 +31,7 @@ public class PermitFrm extends JDialog {
 	
 	private JPanel jp;
 	
-	public PermitFrm(AuctionMainFrm amf) {
+	public ApproveFrm(AuctionMainFrm amf) throws SQLException {
 		super(amf,"승인대기 상세정보");
 		setLayout(null);
 		
@@ -47,7 +51,7 @@ public class PermitFrm extends JDialog {
 		lblPeriod = new JLabel("경매 기간");
 		lblItemInfo = new JLabel("상세정보");
 		
-		tfUserId=new JTextField();
+		tfUserId=new JTextField("하이");
 		tfCategory=new JTextField();
 		tfStatus=new JTextField();
 		tfItemName=new JTextField();
@@ -119,6 +123,7 @@ public class PermitFrm extends JDialog {
 //		btnCommit.addActionListener(pfe);
 //		btnReject.addActionListener(pfe);
 		
+		AdminPageFrmEvt apfe=new AdminPageFrmEvt(apf);
 		
 		 setBounds(700, 300, 810, 520);
          setVisible(true);
