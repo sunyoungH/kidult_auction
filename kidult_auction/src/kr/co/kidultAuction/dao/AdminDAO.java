@@ -270,7 +270,7 @@ public class AdminDAO {
 		selectBid
 		.append(" select au.user_id, ai.auc_code, ai.item_name, ai.permit_date, ei.ended_date, bi.bid_price, ai.start_price ")
 		.append(" from auc_user au, auc_item ai, ended_item ei, bid_item bi ")
-		.append(" where au.user_id=ai.user_id and bi.user_id=ai.user_id and bi.bid_num=ei.bid_num and ei.ended_date is not null and permit='N' ");
+		.append(" where au.user_id=ai.user_id and bi.user_id=ai.user_id and bi.bid_num=ei.bid_num and ei.ended_date is null and permit='Y' ");
 		
 		con=getconn();
 		pstmt=con.prepareStatement(selectBid.toString());
@@ -371,8 +371,8 @@ public class AdminDAO {
 		StringBuilder updateApprove=new StringBuilder();
 		updateApprove
 		.append(" update auc_item")
-		.append(" set permit_date=sysdate, permit='N' ")
-		.append(" where auc_code=? ");
+		.append(" set permit_date=sysdate, permit='Y' ")
+		.append(" where auc_code=?");
 		
 		con=getconn();
 		pstmt=con.prepareStatement(updateApprove.toString());
