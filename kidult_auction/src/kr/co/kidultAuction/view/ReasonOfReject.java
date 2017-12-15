@@ -10,13 +10,13 @@ import javax.swing.JTextArea;
 
 @SuppressWarnings("serial")
 public class ReasonOfReject extends JDialog{
-	
+	//거부사유
 	JButton btnOk, btnCancel;
 	JTextArea jtaReason;
 	
 	
 	public ReasonOfReject() {
-		
+
 		JLabel lbReasonOfReject = new JLabel("거부 사유");
 		Font lbfont = new Font("Dialog", Font.PLAIN | Font.BOLD, 20);
 		lbReasonOfReject.setFont(lbfont);
