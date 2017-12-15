@@ -1,11 +1,13 @@
 package kr.co.kidultAuction.controller;
 
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
@@ -59,9 +61,33 @@ public class ApproveFrmEvt implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		if(ae.getSource()==af.getBtnCommit()) {
-			af.getTfUserId().setText("hi");
-			String str=af.getTfUserId().getText();
-			System.out.println(str);
-		}
-	}
+			AdminDAO a_dao=AdminDAO.getInstance();
+			try {
+				boolean approveFlag=a_dao.updateApproveItem();
+				if(approveFlag) {
+					JOptionPane.showMessageDialog(af, "승인 완료!");
+					af.dispose();
+				}else {
+					JOptionPane.showMessageDialog(af, "승인과정중 오류");
+				}//end else
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}//end catch
+		}//end if
+		
+		if(ae.getSource()==af.getBtnReject()) {
+			AdminDAO a_dao=AdminDAO.getInstance();
+			try {
+				JOptionPane.showMessageDialog(af, a_dao.updateApproveItem());
+			} catch (HeadlessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println("관리자께서 승인거부하셨습니다.");
+			af.dispose();
+		}//end if
+	}//actionPerformed
 }//class
