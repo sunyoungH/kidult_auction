@@ -2,13 +2,13 @@ package kr.co.kidultAuction.vo;
 
 public class UserShowVO {
 	
-	private String user_id, name, birth_date, addr, email, phode, kakao_id;
+	private String user_id, name, birth_date, addr, email, phone, kakao_id;
 
 	public UserShowVO() {
 		super();
 	}
 
-	public UserShowVO(String user_id, String name, String birth_date, String addr, String email, String phode,
+	public UserShowVO(String user_id, String name, String birth_date, String addr, String email, String phone,
 			String kakao_id) {
 		super();
 		this.user_id = user_id;
@@ -16,7 +16,7 @@ public class UserShowVO {
 		this.birth_date = birth_date;
 		this.addr = addr;
 		this.email = email;
-		this.phode = phode;
+		this.phone = phone;
 		this.kakao_id = kakao_id;
 	}
 
@@ -60,12 +60,12 @@ public class UserShowVO {
 		this.email = email;
 	}
 
-	public String getPhode() {
-		return phode;
+	public String getPhone() {
+		return phone;
 	}
 
-	public void setPhode(String phode) {
-		this.phode = phode;
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 	public String getKakao_id() {
@@ -79,7 +79,7 @@ public class UserShowVO {
 	@Override
 	public String toString() {
 		return "UserShowVO [user_id=" + user_id + ", name=" + name + ", birth_date=" + birth_date + ", addr=" + addr
-				+ ", email=" + email + ", phode=" + phode + ", kakao_id=" + kakao_id + "]";
+				+ ", email=" + email + ", phone=" + phone + ", kakao_id=" + kakao_id + "]";
 	}
-
+	
 }

@@ -18,7 +18,7 @@ import kr.co.kidultAuction.view.AuctionMainFrm;
 import kr.co.kidultAuction.view.MyAuctionFrm;
 import kr.co.kidultAuction.view.MyPageFrm;
 import kr.co.kidultAuction.view.UserEditFrm;
-import kr.co.kidultAuction.vo.PasswordVO;
+import kr.co.kidultAuction.vo.LoginVO;
 
 public class MyPageFrmEvt implements ActionListener {
 	private MyPageFrm mpf;
@@ -63,15 +63,15 @@ public class MyPageFrmEvt implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String t = String.valueOf(jp.getPassword());
-				PasswordVO pv=new PasswordVO();
-				pv.setUser_id(AuctionMainFrm.User_id);
-				pv.setUser_pass (t.trim());
-				System.out.println(pv.getUser_pass());
+				LoginVO lv=new LoginVO();
+				lv.setUser_id(AuctionMainFrm.User_id);
+				lv.setUser_pass (t.trim());
+				System.out.println(lv.getUser_pass());
 				
 				UserDAO u_dao=UserDAO.getInstance();
 		
 				try {
-					if (u_dao.confirmPass(pv)) {
+					if (u_dao.confirmPass(lv)) {
 						System.out.println("비밀번호 OK");
 						new UserEditFrm(amf);
 						p.dispose();

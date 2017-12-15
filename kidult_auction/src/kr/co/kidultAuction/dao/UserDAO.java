@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import kr.co.kidultAuction.view.AuctionMainFrm;
 import kr.co.kidultAuction.vo.LoginVO;
-import kr.co.kidultAuction.vo.PasswordVO;
 import kr.co.kidultAuction.vo.UserEditVO;
 import kr.co.kidultAuction.vo.UserShowVO;
 
@@ -90,7 +90,7 @@ public class UserDAO {
 		return flag;
 	}//selectAdminLogin
 	
-	public boolean confirmPass(PasswordVO pv) throws SQLException {
+	public boolean confirmPass(LoginVO pv) throws SQLException {
 		boolean flag=false;
 		
 		Connection con=null;
@@ -128,11 +128,12 @@ public class UserDAO {
 		
 		try {
 		StringBuilder UserInfo=new StringBuilder();
-		UserInfo.append(" select user_id, name, birth_date, addr, email, phone,kakao_id")
-			        .append(" from auc_user where user_id=? user_pass=?");
+		UserInfo.append(" select user_id, name, to_char(birth_date,'yyyymmdd') birth_date, addr, email, phone,kakao_id")
+			        .append(" from auc_user where user_id=?");
 		
 		con=getconn();
 		pstmt=con.prepareStatement(UserInfo.toString());
+		pstmt.setString(1, AuctionMainFrm.User_id );
 		rs=pstmt.executeQuery();
 		
 		 while (rs.next()) {

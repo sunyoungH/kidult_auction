@@ -2,6 +2,7 @@ package kr.co.kidultAuction.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -29,7 +30,7 @@ public class UserEditFrm extends JDialog {
 	private JButton btnSubmit, btnCancel;
 	
 	
-	public UserEditFrm(AuctionMainFrm amf) {
+	public UserEditFrm(AuctionMainFrm amf) throws SQLException {
 		super(amf,"회원정보수정");
 		setLayout(null);
 		
@@ -43,7 +44,6 @@ public class UserEditFrm extends JDialog {
 		lblPhone=new JLabel("연락처");
 		lblKakao=new JLabel("카카오톡ID");
 		lblBirthinfo=new JLabel("ex) 19951110");
-		lblPhoneinfo=new JLabel("'-'을 제외하고 쓰시오");
 		
 		tfId=new JTextField();
 		tfId.setEnabled(false);
@@ -72,7 +72,6 @@ public class UserEditFrm extends JDialog {
 		lblPhone.setBounds(70,320,80,30);
 		lblKakao.setBounds(58,360,80,30);
 		lblBirthinfo.setBounds(260,200,80,30);
-		lblPhoneinfo.setBounds(265,320,120,30);
 		
 		
 		tfId.setBounds(170,40,80,25);
@@ -90,7 +89,6 @@ public class UserEditFrm extends JDialog {
 		
 		Font infofont = new Font("Dialog", Font.PLAIN |Font.BOLD, 10);
 		lblBirthinfo.setFont(infofont);
-		lblPhoneinfo.setFont(infofont);
 		
 
 		
@@ -107,7 +105,6 @@ public class UserEditFrm extends JDialog {
 		add(lblPhone);
 		add(lblKakao);
 		add(lblBirthinfo);
-		add(lblPhoneinfo);
 		
 		add(tfId);
 		add(pfPass);
@@ -126,7 +123,17 @@ public class UserEditFrm extends JDialog {
 		UserEditFrmEvt uefe= new UserEditFrmEvt(this);
 		 btnSubmit.addActionListener(uefe);
 		 btnCancel.addActionListener(uefe);
+		 tfId.addActionListener(uefe);
+		 pfPass.addActionListener(uefe);
+		 pfPassCon.addActionListener(uefe);
+		 tfName.addActionListener(uefe);
+		 tfBirth.addActionListener(uefe);
+		 tfAddr.addActionListener(uefe);
+		 tfEmail.addActionListener(uefe);
+		 tfPhone.addActionListener(uefe);
+		 tfKakao.addActionListener(uefe);
 
+		 
 		 setBounds(700, 300, 430, 550);
          setVisible(true);
          setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
