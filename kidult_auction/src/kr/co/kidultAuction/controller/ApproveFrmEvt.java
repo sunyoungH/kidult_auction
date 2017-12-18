@@ -14,7 +14,9 @@ import javax.swing.JTable;
 import kr.co.kidultAuction.dao.AdminDAO;
 import kr.co.kidultAuction.view.AdminPageFrm;
 import kr.co.kidultAuction.view.ApproveFrm;
+import kr.co.kidultAuction.view.ReasonOfReject;
 import kr.co.kidultAuction.vo.AdminApproveVO;
+import sun.security.x509.ReasonFlags;
 
 public class ApproveFrmEvt implements ActionListener{
 	public static final int DOUBLE_CLICK=2;
@@ -76,16 +78,7 @@ public class ApproveFrmEvt implements ActionListener{
 		}//end if
 		
 		if(ae.getSource()==af.getBtnReject()) {
-			AdminDAO a_dao=AdminDAO.getInstance();
-			try {
-				JOptionPane.showMessageDialog(af, a_dao.updateApproveItem());
-			} catch (HeadlessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			new ReasonOfReject();
 			System.out.println("관리자께서 승인거부하셨습니다.");
 			af.dispose();
 		}//end if

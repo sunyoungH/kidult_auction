@@ -2,9 +2,18 @@ package kr.co.kidultAuction.controller;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -26,6 +35,8 @@ public class AdminPageFrmEvt extends MouseAdapter{
 private AdminPageFrm apf;
 private AuctionMainFrm amf;
 private ApproveFrm af;
+private Thread threadFile;
+private ServerSocket ssFile;
 
 public static final int DOUBLE_CLICK=2;
 public static final int WAITING_LIST=1;
@@ -203,7 +214,9 @@ public static String auc_code;
 		}//end for
 		
 	}//viewSucBid
-	
+	/**
+	 *  승인목록 보기
+	 * */
 	public void viewApprove() throws SQLException {
 		List<AdminApproveVO> approveList=new ArrayList<AdminApproveVO>();
 		AdminDAO a_dao=AdminDAO.getInstance();
@@ -215,13 +228,17 @@ public static String auc_code;
 			aav=approveList.get(i);
 			af.getTfUserId().setText("하이");
 			af.getTfUserId().setText(aav.getUser_id());
-		}
-		
-		
-		
-		
+		}//end for
 	}//viewApprove
 	
+	/**
+	 * fileserver
+	 * */
+	
+	
+	
+	
+		
 	@Override
 		public void mouseClicked(MouseEvent me) {
 		JTabbedPane jtpTab=apf.getJtpTab();
