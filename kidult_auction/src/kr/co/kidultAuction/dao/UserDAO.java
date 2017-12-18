@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Properties;
 
 import kr.co.kidultAuction.view.AuctionMainFrm;
+import kr.co.kidultAuction.vo.AddUserVO;
 import kr.co.kidultAuction.vo.LoginVO;
 import kr.co.kidultAuction.vo.UserEditVO;
 import kr.co.kidultAuction.vo.UserShowVO;
@@ -117,6 +118,14 @@ public class UserDAO {
 		}//end finally
 		return flag;
 	}//confirmPass
+	
+	public void insertUser(AddUserVO auv) throws SQLException{
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+	}//insertUser
 	
 	public List<UserShowVO> selectUserInfo() throws SQLException{
 		List<UserShowVO> list=new ArrayList<UserShowVO>();
