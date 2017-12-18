@@ -149,7 +149,6 @@ public static String auc_code;
 			completeList.addRow(rowData);
 		}//end for
 		
-		System.out.println(permitList.size());
 	}//viewPermitList
 	
 	/**
@@ -179,7 +178,6 @@ public static String auc_code;
 			
 			bidList.addRow(rowData);
 		}//end for
-		System.out.println(biddingList.size());
 		
 	}//viewBidList
 	
@@ -236,8 +234,6 @@ public static String auc_code;
 	 * */
 	
 	
-	
-	
 		
 	@Override
 		public void mouseClicked(MouseEvent me) {
@@ -257,9 +253,6 @@ public static String auc_code;
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
-//				System.out.println(tfUser);
-//				af.getTfUserId().setText("hi!!");
-				
 		}//end switch
 		}//switch~case
 		

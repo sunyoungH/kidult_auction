@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import com.sun.corba.se.spi.orbutil.fsm.Guard.Result;
+
 import kr.co.kidultAuction.controller.AdminPageFrmEvt;
 import kr.co.kidultAuction.view.AuctionMainFrm;
 import kr.co.kidultAuction.vo.AdminApproveVO;
@@ -20,6 +22,7 @@ import kr.co.kidultAuction.vo.AdminPermitVO;
 import kr.co.kidultAuction.vo.AdminSucBidVO;
 import kr.co.kidultAuction.vo.AdminUserVO;
 import kr.co.kidultAuction.vo.LoginVO;
+import kr.co.kidultAuction.vo.RejectVO;
 
 public class AdminDAO {
 	private AdminPageFrmEvt apfe;
@@ -387,5 +390,39 @@ public class AdminDAO {
 		}
 		return flag;
 	}//updateApproveItem
+	
+	/**
+	 * °ÅºÎ 
+	 * @throws SQLException 
+	 */
+	public boolean rejectItem(RejectVO rv) throws SQLException {
+		boolean rejectFlag=false;
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
+		StringBuilder addReject=new StringBuilder();
+		addReject
+		.append(" insert into reject_item(reject_reason, auc_code, admin_id) values(?,?,?) ");
+		
+		con=getconn();
+		pstmt=con.prepareStatement(addReject.toString());
+		pstmt.setString(1, rv.getReject_reason());
+		pstmt.setString(2, rv.getAuc_code());
+		pstmt.setString(3, rv.getAdmin_id());
+		
+		rs=pstmt.executeQuery();
+		
+		if(rs.next()) {
+			rejectFlag=true;
+		}//end if
+		
+		return rejectFlag;
+	}//rejectItem
+	
+	
+	
+	
+	
 	
 }//class

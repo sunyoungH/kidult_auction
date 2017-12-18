@@ -1,6 +1,5 @@
 package kr.co.kidultAuction.controller;
 
-import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -8,21 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTable;
 
 import kr.co.kidultAuction.dao.AdminDAO;
-import kr.co.kidultAuction.view.AdminPageFrm;
 import kr.co.kidultAuction.view.ApproveFrm;
-import kr.co.kidultAuction.view.ReasonOfReject;
+import kr.co.kidultAuction.view.ReasonOfRejectFrm;
 import kr.co.kidultAuction.vo.AdminApproveVO;
-import sun.security.x509.ReasonFlags;
 
 public class ApproveFrmEvt implements ActionListener{
 	public static final int DOUBLE_CLICK=2;
 	public static final int WAITING_LIST=1;
 	private ApproveFrm af;
-	private AdminPageFrm apf;
 
 	public ApproveFrmEvt(ApproveFrm af) throws SQLException {
 		this.af=af;
@@ -78,7 +72,7 @@ public class ApproveFrmEvt implements ActionListener{
 		}//end if
 		
 		if(ae.getSource()==af.getBtnReject()) {
-			new ReasonOfReject();
+			new ReasonOfRejectFrm(af);
 			System.out.println("관리자께서 승인거부하셨습니다.");
 			af.dispose();
 		}//end if

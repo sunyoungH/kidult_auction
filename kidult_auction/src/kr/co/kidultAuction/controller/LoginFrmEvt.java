@@ -13,6 +13,7 @@ import kr.co.kidultAuction.view.AdminPageFrm;
 import kr.co.kidultAuction.view.AuctionMainFrm;
 import kr.co.kidultAuction.view.LoginFrm;
 import kr.co.kidultAuction.vo.LoginVO;
+import kr.co.kidultAuction.vo.RejectVO;
 	
 public class LoginFrmEvt implements ActionListener {
 private LoginFrm lf;
@@ -36,9 +37,10 @@ private AuctionMainFrm amf;
 		try {
 //			System.out.println(a_dao.listAdminLogin(lv));
 			if(a_dao.selectAdminLogin(lv)) {
-				System.out.println("로그인 성공!");
-				JOptionPane.showMessageDialog(null, "로그인 성공!");
-				AuctionMainFrm.User_id=lf.getTfId().getText().trim();
+				System.out.println("관리자 로그인 성공!");
+				JOptionPane.showMessageDialog(null, "관리자 로그인 성공!");
+				AuctionMainFrm.Admin_id=lf.getTfId().getText().trim();
+				System.out.println(AuctionMainFrm.Admin_id);
 				lf.dispose();
 				new AdminPageFrm(amf);
 			}else {
