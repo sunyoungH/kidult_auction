@@ -26,9 +26,13 @@ public class ListOfAuctionsEvt extends WindowAdapter implements ActionListener {
 		String category=(String) loaf.getCbCategory().getSelectedItem();
 		if(ae.getSource() == loaf.getCbCategory()) {
 			switch(category) {
-			case "레고":
+			case "F": ;
+			break;
+			case "P": ;
+			break;
+			case "L": ;
 				///////카테고리 생성중
-			}
+			}//switch
 		}
 	}//actionPerformed
 

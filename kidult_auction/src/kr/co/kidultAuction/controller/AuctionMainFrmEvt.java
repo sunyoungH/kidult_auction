@@ -2,6 +2,7 @@ package kr.co.kidultAuction.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import kr.co.kidultAuction.view.AddAuctionItemFrm;
 import kr.co.kidultAuction.view.AddUserFrm;
@@ -27,7 +28,11 @@ public class AuctionMainFrmEvt implements ActionListener{
 		}//end if
 		
 		if(ae.getSource()==amf.getBtnAuctionList()) {
-			new ListOfAuctionsFrm(amf);
+			try {
+				new ListOfAuctionsFrm(amf);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}//end if
 		
 		if(ae.getSource()==amf.getBtnLogin()) {
