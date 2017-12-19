@@ -2,7 +2,7 @@ package kr.co.kidultAuction.vo;
 
 public class UserEditVO {
  private String user_id, user_pass, user_validpass, 
- name, birth_date, addr, email, phone, kakao_id;
+ name, birth_date, addr, email, phone,kakao_id;
 
 public UserEditVO() {
 	super();
@@ -101,5 +101,4 @@ public String toString() {
 			+ phone + ", kakao_id=" + kakao_id + "]";
 }
 
-
-}//UserEditVO
+}

@@ -6,12 +6,19 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+
 import kr.co.kidultAuction.dao.UserDAO;
+import kr.co.kidultAuction.dao.UserDAO_MH;
 import kr.co.kidultAuction.view.UserEditFrm;
+import kr.co.kidultAuction.vo.UserEditVO;
 import kr.co.kidultAuction.vo.UserShowVO;
 
 public class UserEditFrmEvt implements ActionListener {
 	private UserEditFrm uef;
+	private UserDAO_MH u_dao1;
+	private UserEditVO uev;
 
 	public UserEditFrmEvt(UserEditFrm uef) throws SQLException {
 		this.uef = uef;
@@ -40,12 +47,90 @@ public class UserEditFrmEvt implements ActionListener {
 		}
 
 	}// UserEditFrmEvt
+	
+	private void updateUser() throws SQLException {
+		u_dao1=UserDAO_MH.getInstance();
+		uev=new UserEditVO();
+		JTextField tfPfPass=uef.getPfPass();
+		JTextField tfPfPassCon=uef.getPfPassCon();
+		JTextField tfName=uef.getTfName();
+		JTextField tfBirth=uef.getTfBirth();
+		JTextField tfAddr=uef.getTfAddr();
+		JTextField tfEmail=uef.getTfEmail();
+		JTextField tfPhone=uef.getTfPhone();
+		
+		
+		String pass=tfPfPass.getText().trim();
+		String passcon=tfPfPassCon.getText().trim();
+		String name=tfName.getText().trim();
+		String birth=tfBirth.getText().trim();
+		String addr=tfAddr.getText().trim();
+		String email=tfEmail.getText().trim();
+		String phone=tfPhone.getText().trim();
+		
+		uev.setUser_pass(pass);
+		uev.setUser_validpass(passcon);
+		uev.setName(name);
+		uev.setBirth_date(birth);
+		uev.setAddr(addr);
+		uev.setEmail(email);
+		uev.setPhone(phone);
+		
+		
+		if("".equals(pass)) {
+			JOptionPane.showMessageDialog(uef, "비밀번호를 입력해 주세요");
+			return;
+		}
+		if("".equals(passcon)) {
+			JOptionPane.showMessageDialog(uef, "비밀번호를 확인해 주세요");
+			return;
+		}
+		if("".equals(name)) {
+			JOptionPane.showMessageDialog(uef, "비밀번호를 입력해 주세요");
+			return;
+		}
+		if("".equals(birth)) {
+			JOptionPane.showMessageDialog(uef, "생년월일을 입력해 주세요");
+			return;
+		}
+		if("".equals(addr)) {
+			JOptionPane.showMessageDialog(uef, "주소를 입력해 주세요");
+			return;
+		}
+		if("".equals(email)) {
+			JOptionPane.showMessageDialog(uef, "이메일을 입력해 주세요");
+			return;
+		}
+		if("".equals(phone)) {
+			JOptionPane.showMessageDialog(uef, "핸드폰번호를 입력해 주세요");
+			return;
+		}
+		
+		
+		try {
+			boolean flag=u_dao1.updateUser(uev);
+			if(flag) {
+				JOptionPane.showMessageDialog(uef, "회원정보가 수정되었습니다.");
+			}else {
+				JOptionPane.showMessageDialog(uef, "회원정보가 수정되지 않았습니다.");
+			}
+		}catch(SQLException e) {
+			JOptionPane.showMessageDialog(uef, "서비스 장애 발생");
+			e.printStackTrace();
+		}//end catch
+	}//updateUser
 
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		if (ae.getSource() == uef.getBtnSubmit()) {
-
-			System.out.println("변경되었음");
+			try {
+				updateUser();
+				System.out.println("변경되었음");
+				System.out.println(u_dao1.updateUser(uev));
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
 		} // end if
 		if (ae.getSource() == uef.getBtnCancel()) {
 			uef.dispose();
