@@ -20,7 +20,7 @@ private Thread threadFile;
 private ServerSocket server;
 	
 	public KidultServer() {
-		if(threadFile!=null) {
+		if(server!=null) {
 			JOptionPane.showMessageDialog(null, "이미 서버 가동중");
 			System.out.println("이미 서버 가동중");
 			return;
@@ -55,7 +55,7 @@ private ServerSocket server;
 			newFileName=new StringBuilder(fileFullName);
 			newFileName.insert(newFileName.indexOf("."), "_"+AuctionMainFrm.User_id+"_"+date);
 			
-			file=new File("d:/savefile/"+newFileName);
+			file=new File("C:/dev/git/kidult_auction/kidult_auction/src/kr/co/kidultAuction/img/"+newFileName);
 			fos=new FileOutputStream(file);
 				while(fileDataSize>0) {
 					binaryLen=dis.read(data);
@@ -66,7 +66,6 @@ private ServerSocket server;
 			System.out.println(clientSocket.getInetAddress()+" => 아이피가 "+newFileName+" => 상기 파일명으로 등록함" );
 			fos.close();
 			clientSocket.close();
-			
 		}//end while
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -74,7 +73,4 @@ private ServerSocket server;
 		
 	}//run	
 	
-	public static void main(String args[]) {
-		new KidultServer();
-	}
 }//class

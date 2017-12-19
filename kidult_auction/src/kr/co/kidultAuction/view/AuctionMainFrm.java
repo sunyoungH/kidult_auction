@@ -18,8 +18,8 @@ public class AuctionMainFrm extends JFrame {
 
 	private JButton btnAuctionList, btnMyPage, btnAddItem, btnAddUser, btnLogin;
 	private JLabel lblMainName;
-	public static String User_id="user_test";
-	public static String Admin_id;
+	public static String User_id="";
+	public static String Admin_id="";
 
 	public AuctionMainFrm() {
 		super("Å°´úÆ® ¿Á¼Ç");

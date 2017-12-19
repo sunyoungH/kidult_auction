@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -31,7 +30,7 @@ public class AddTestEvt implements ActionListener{
 		front_userid_20171219_145401 의 형식으로 기록
 		즉, 최대길이가 userid최대길이에 한정됨. front_(6자) _20171219(8자) _145401(7자) => 21자 + userid최대 바이트수 (DB는 이에 알맞게 수정)
 	 * */
-	private void imgSelect()  {
+	private void imgSelect() throws IOException {
 		FileDialog fdImg = new FileDialog(aiif, "사진 선택하기 ", FileDialog.LOAD);
 		fdImg.setVisible(true);
 
@@ -39,6 +38,7 @@ public class AddTestEvt implements ActionListener{
 		String fileName = fdImg.getFile();
 
 		if (fileName != null) {// 선택한 파일이 있음
+			
 			String[] arrFile = fileName.split("[.]");
 			String ext = arrFile[arrFile.length - 1];
 			/////////////////////////////////////////////////// PNG ,JPG, GIF 도 포함해주세요 /////////////////////////////////////////
@@ -47,40 +47,36 @@ public class AddTestEvt implements ActionListener{
 				return;
 		}// end if
 			
-		try {
-			int dataSize=0;
-			byte[] data=new byte[512];
-			File file=new File(path+"/"+fileName);
-			FileInputStream fis;
-			fis = new FileInputStream(file);
-			int binaryLen=0;
-			while((binaryLen=fis.read(data))>0) {
-				dataSize++;
-				fis.close();
-				client=new Socket("211.63.89.157", 5500);
-				DataOutputStream dos=new DataOutputStream(client.getOutputStream());
-				dos.writeUTF(fileName);
-				dos.writeInt(dataSize);
-				fis=new FileInputStream(file);
-				
-				while(dataSize>0) {
-					binaryLen=fis.read(data);
-					dos.write(data, 0, binaryLen);
-					dataSize--;
-				}//end while
-				
-				dos.flush();
-				System.out.println(fileName+" => 전송완료");
-				fis.close();
-				client.close();
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			System.err.println("서버 전송 과정중 파일 존재하지 않음 에러(fileinputStream)");
-		}catch (IOException e) {
-			e.printStackTrace();
-			System.err.println("서버 전송 과정중 io excetpion");
+		int dataSize=0;
+		byte[] data=new byte[512];
+		File file=new File(path+"/"+fileName);
+		FileInputStream fis=new FileInputStream(file);
+		int binaryLen=0;
+		
+		while((binaryLen=fis.read(data))>0) {
+			dataSize++;
 		}//end while
+		
+		fis.close();
+		client=new Socket("211.63.89.157", 5500);
+		DataOutputStream dos=new DataOutputStream(client.getOutputStream());
+		dos.writeUTF(fileName);
+		dos.writeInt(dataSize);
+		fis=new FileInputStream(file);
+		
+		while(dataSize>0) {
+			binaryLen=fis.read(data);
+			dos.write(data, 0, binaryLen);
+			dataSize--;
+		}//end while
+		
+		dos.flush();
+		System.out.println(fileName+" => 전송완료");
+		fis.close();
+		client.close();
+		
+		icon=new ImageIcon(path+fileName);
+		
 		}//end if
 	}//imgSelect
 	
@@ -88,24 +84,45 @@ public class AddTestEvt implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		if(ae.getSource()==aiif.getBtnFront()) {
-				new KidultServer();
+			try {
+//				new KidultServer();
 				imgSelect();
-				System.out.println( icon);
+				System.out.println("아이콘 이미지 : "+ icon);
 				aiif.getLbFrontImg().setIcon(icon);
+			} catch (IOException e) {
+				JOptionPane.showMessageDialog(aiif, "이미지가 정상적으로 등록되지 않음");
+				e.printStackTrace();
+			}
 		}
 		
 		if(ae.getSource()==aiif.getBtnBack()) {
+			try {
 					imgSelect();
 				aiif.getLbBackImg().setIcon(icon);
+			} catch (IOException e) {
+				JOptionPane.showMessageDialog(aiif, "이미지가 정상적으로 등록되지 않음");
+				e.printStackTrace();
+			}
 		}
 		
 		if(ae.getSource()==aiif.getBtnLeft()) {
+			try {
 				imgSelect();
 				aiif.getLbLeftImg().setIcon(icon);
+			} catch (IOException e) {
+				JOptionPane.showMessageDialog(aiif, "이미지가 정상적으로 등록되지 않음");
+				e.printStackTrace();
+			} 
 		}
 		
 		if(ae.getSource()==aiif.getBtnRight()) {
+			try {
 				imgSelect();
+				aiif.getLbRightImg().setIcon(icon);
+			} catch (IOException e) {
+				JOptionPane.showMessageDialog(aiif, "이미지가 정상적으로 등록되지 않음");
+				e.printStackTrace();
+			}
 		}
 		
 		if(ae.getSource()==aiif.getBtnAdd()) {
