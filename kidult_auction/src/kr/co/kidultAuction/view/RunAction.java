@@ -20,10 +20,10 @@ public class RunAction {
 		String s= sdf_date.format(new Date());
 		System.out.println(s);
 		
-		ServerSocket ss=new ServerSocket(5050);
-		Socket so=new Socket("211.63.89.157",5050);
-		so=ss.accept();
-		System.out.println("내 아이피 : "+so.getInetAddress().toString());
+//		ServerSocket ss=new ServerSocket(5050);
+//		Socket so=new Socket("211.63.89.157",5050);
+//		so=ss.accept();
+//		System.out.println("내 아이피 : "+so.getInetAddress().toString());
 		
 		SimpleDateFormat sdf=new SimpleDateFormat("yyMMdd_h_m_s");
 		String date= sdf.format(new Date());

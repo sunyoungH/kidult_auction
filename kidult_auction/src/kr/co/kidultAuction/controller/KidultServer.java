@@ -20,7 +20,7 @@ private Thread threadFile;
 private ServerSocket server;
 	
 	public KidultServer() {
-		if(server!=null) {
+		if(threadFile!=null) {
 			JOptionPane.showMessageDialog(null, "이미 서버 가동중");
 			System.out.println("이미 서버 가동중");
 			return;
