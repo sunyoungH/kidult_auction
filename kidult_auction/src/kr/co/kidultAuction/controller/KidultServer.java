@@ -16,24 +16,24 @@ import kr.co.kidultAuction.view.AuctionMainFrm;
 
 
 public class KidultServer implements Runnable{
-private Thread threadFile;
+private Thread thread;
 private ServerSocket server;
 	
 	public KidultServer() {
-		if(threadFile!=null) {
+		if(thread!=null) {
 			JOptionPane.showMessageDialog(null, "이미 서버 가동중");
 			System.out.println("이미 서버 가동중");
 			return;
 		}//end if
-		threadFile=new Thread(this);
-		threadFile.start();
+		thread=new Thread(this);
+		thread.start();
 		System.out.println("가동중");
 	}//kidultServer
 	
 	public void run() {		//파일이 읽는 메소드를 동기화 처리... 파일을 읽어들이는 일
 		
 		try {
-			Socket clientSocket=null;
+			Socket userSocket=null;
 			DataInputStream dis=null;
 			FileOutputStream fos=null;
 			String fileFullName=null;
@@ -42,11 +42,10 @@ private ServerSocket server;
 			byte[] data=new byte[512];
 			StringBuilder newFileName=null;
 			File file=null;
-			
-		while(true) {
 			server=new ServerSocket(5500);
-			clientSocket=server.accept();
-			dis=new DataInputStream(clientSocket.getInputStream());
+		while(true) {
+			userSocket=server.accept();
+			dis=new DataInputStream(userSocket.getInputStream());
 			fileFullName=dis.readUTF();
 			fileDataSize=dis.readInt();
 			
@@ -63,9 +62,9 @@ private ServerSocket server;
 					fileDataSize--;
 				}//end while
 			fos.flush();
-			System.out.println(clientSocket.getInetAddress()+" => 아이피가 "+newFileName+" => 상기 파일명으로 등록함" );
+			System.out.println(userSocket.getInetAddress()+" => 아이피가 "+newFileName+" => 상기 파일명으로 등록함" );
 			fos.close();
-			clientSocket.close();
+			userSocket.close();
 		}//end while
 		} catch (IOException e) {
 			e.printStackTrace();
