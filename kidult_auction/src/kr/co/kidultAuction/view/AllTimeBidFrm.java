@@ -1,20 +1,31 @@
 package kr.co.kidultAuction.view;
 
+import java.sql.SQLException;
+import java.util.List;
+
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import kr.co.kidultAuction.dao.AdminDAO;
+import kr.co.kidultAuction.vo.AdminItemPriceVO;
+import kr.co.kidultAuction.vo.AdminSucBidVO;
+
 @SuppressWarnings("serial")
-public class AllTimeBidFrm extends JFrame{
+public class AllTimeBidFrm extends JDialog{
 	
 	private JTabbedPane jtpTab;
 	private JTable jtAllBid;
 	private DefaultTableModel dtmAllBid;
+	private AdminPageFrm apf;
 	
 	
-	public AllTimeBidFrm() {
+	public AllTimeBidFrm(AdminPageFrm apf) throws SQLException {
+		super(apf,"실시간 입찰 정보",true);
+		this.apf=apf;
 		setLayout(null);
 		
 		String[] arrAllBid= {"경매코드","입찰자ID","입찰가","입찰시간"};
@@ -59,11 +70,45 @@ public class AllTimeBidFrm extends JFrame{
 				setVisible(true);
 				setResizable(false);
 				
-		
+				viewAllTimeBidding();
 	}//AllTimeBidFrm
+	
+	public void viewAllTimeBidding() throws SQLException {
+		AdminDAO a_dao=AdminDAO.getInstance();
+		List<AdminItemPriceVO> allTimelist=a_dao.selectATBidList();
+			
+		Object[] rowData=null;
+		AdminItemPriceVO aipv=null;
+		
+		for(int i=0; i<allTimelist.size(); i++) {
+			aipv=allTimelist.get(i);
+			rowData=new Object[4];
+			rowData[0]="버튼눌릴때 경매코드받아오기";
+			rowData[1]=aipv.getUser_id();
+			rowData[2]=aipv.getBid_price();
+			rowData[3]=aipv.getBid_date();
+			
+			dtmAllBid.addRow(rowData);
+		}//end for
 
-	public static void main(String[] args) {
-		new AllTimeBidFrm();
-	}//main
+		
+	}//viewBidding
+	
+
+	public JTabbedPane getJtpTab() {
+		return jtpTab;
+	}
+
+	public void setJtpTab(JTabbedPane jtpTab) {
+		this.jtpTab = jtpTab;
+	}
+
+	public JTable getJtAllBid() {
+		return jtAllBid;
+	}
+
+	public void setJtAllBid(JTable jtAllBid) {
+		this.jtAllBid = jtAllBid;
+	}
 
 }//class

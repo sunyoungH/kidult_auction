@@ -72,4 +72,8 @@ private ServerSocket server;
 		
 	}//run	
 	
+	public static void main (String args[]) {
+		new KidultServer();
+	}
+	
 }//class

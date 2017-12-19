@@ -23,6 +23,7 @@ import javax.swing.table.DefaultTableModel;
 
 import kr.co.kidultAuction.dao.AdminDAO;
 import kr.co.kidultAuction.view.AdminPageFrm;
+import kr.co.kidultAuction.view.AllTimeBidFrm;
 import kr.co.kidultAuction.view.AuctionMainFrm;
 import kr.co.kidultAuction.view.ApproveFrm;
 import kr.co.kidultAuction.vo.AdminApproveVO;
@@ -40,6 +41,7 @@ private ServerSocket ssFile;
 
 public static final int DOUBLE_CLICK=2;
 public static final int WAITING_LIST=1;
+public static final int BIDDING_LIST=3;
 public static String auc_code;
 
 
@@ -188,7 +190,7 @@ public static String auc_code;
 	
 	public void viewSucBidList() throws SQLException {
 		DefaultTableModel sucList= apf.getSucBidList();
-		sucList.setRowCount(1);
+		sucList.setRowCount(0);
 		
 		AdminDAO a_dao=AdminDAO.getInstance();
 		List<AdminSucBidVO> sucBidList=a_dao.selectSucBid();
@@ -242,9 +244,9 @@ public static String auc_code;
 		public void mouseClicked(MouseEvent me) {
 		JTabbedPane jtpTab=apf.getJtpTab();
 		JTable waitingList=apf.getJtwatingList();
+		JTable bidList=apf.getJtbidList();
 		
 		switch(jtpTab.getSelectedIndex()) {
-		
 		case WAITING_LIST :
 			switch(me.getClickCount()) {
 			case DOUBLE_CLICK :
@@ -253,12 +255,21 @@ public static String auc_code;
 //				String tfUser=af.getTfUserId().getText();
 				try {
 					new ApproveFrm(amf);
+					System.out.println("왜되냐");
 				} catch (SQLException e) {
 					e.printStackTrace();
-				}
+				}//end catch
 		}//end switch
+			break;
+		case BIDDING_LIST :
+			if(me.getClickCount()==2) {
+				System.out.println("switch");
+			}
 		}//switch~case
 		
+		if(me.getClickCount()==2) {
+			System.out.println("비드선택");
+		}
 	}//mouseClicked
 
 	public String getAuc_code() {

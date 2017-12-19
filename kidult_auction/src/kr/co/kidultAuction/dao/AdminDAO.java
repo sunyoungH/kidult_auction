@@ -18,6 +18,7 @@ import kr.co.kidultAuction.controller.AdminPageFrmEvt;
 import kr.co.kidultAuction.view.AuctionMainFrm;
 import kr.co.kidultAuction.vo.AdminApproveVO;
 import kr.co.kidultAuction.vo.AdminBidVO;
+import kr.co.kidultAuction.vo.AdminItemPriceVO;
 import kr.co.kidultAuction.vo.AdminPermitVO;
 import kr.co.kidultAuction.vo.AdminSucBidVO;
 import kr.co.kidultAuction.vo.AdminUserVO;
@@ -273,7 +274,7 @@ public class AdminDAO {
 		selectBid
 		.append(" select au.user_id, ai.auc_code, ai.item_name, ai.permit_date, ei.ended_date, bi.bid_price, ai.start_price ")
 		.append(" from auc_user au, auc_item ai, ended_item ei, bid_item bi ")
-		.append(" where au.user_id=ai.user_id and bi.user_id=ai.user_id and bi.bid_num=ei.bid_num and ei.ended_date is null and permit='Y' ");
+		.append(" where au.user_id=ai.user_id and bi.user_id=ai.user_id and bi.bid_num=ei.bid_num and permit='Y' ");
 		
 		con=getconn();
 		pstmt=con.prepareStatement(selectBid.toString());
@@ -420,8 +421,29 @@ public class AdminDAO {
 		return rejectFlag;
 	}//rejectItem
 	
-	
-	
+	/**
+	 * AllTimeBid
+	 * @throws SQLException 
+	 * */
+	public List<AdminItemPriceVO> selectATBidList() throws SQLException {
+		List<AdminItemPriceVO> list=new ArrayList<AdminItemPriceVO>();
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
+		String selectBid="select user_id, bid_date, bid_price from bid_item order by bid_price desc";
+		
+		con=getconn();
+		pstmt=con.prepareStatement(selectBid);
+		rs=pstmt.executeQuery();
+		
+		AdminItemPriceVO aipv=null;
+		while(rs.next()) {
+			aipv=new AdminItemPriceVO(rs.getString("user_id"), rs.getString("bid_date"), rs.getInt("bid_price"));
+			list.add(aipv);
+		}//end while
+		return list;
+	}//selectATBidList
 	
 	
 	
