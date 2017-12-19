@@ -3,15 +3,14 @@ package kr.co.kidultAuction.controller;
 import java.awt.FileDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.net.Socket;
 
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import kr.co.kidultAuction.view.AuctionMainFrm;
@@ -19,126 +18,94 @@ import kr.co.kidultAuction.view.AuctionMainFrm;
 public class AddTestEvt implements ActionListener{
 	
 	private AddTest aiif;
-	
 	private File writeFile, writeThumbFile;
-	
 	private ImageIcon icon;
+	private Socket client;
 	
 	public AddTestEvt(AddTest aiif) {
 		this.aiif=aiif;
 	}//AddItemImageFrmEvt
 	
-	
-	private void imgSelect() throws IOException {
+	/**
+	 	사용자가 등록한 이미지이름을 대체하여, 이미지이름 앞 부분에 front_  left_  right_ back_ 을 추가 
+		front_userid_20171219_145401 의 형식으로 기록
+		즉, 최대길이가 userid최대길이에 한정됨. front_(6자) _20171219(8자) _145401(7자) => 21자 + userid최대 바이트수 (DB는 이에 알맞게 수정)
+	 * */
+	private void imgSelect()  {
 		FileDialog fdImg = new FileDialog(aiif, "사진 선택하기 ", FileDialog.LOAD);
 		fdImg.setVisible(true);
 
 		String path = fdImg.getDirectory();
-		String file = fdImg.getFile();
+		String fileName = fdImg.getFile();
 
-		if (file != null) {// 선택한 파일이 있음
-			// 이미지 파일만 선택하도록 확장자(jpg,gif,png)비교
-			String[] arrFile = file.split("[.]");
+		if (fileName != null) {// 선택한 파일이 있음
+			String[] arrFile = fileName.split("[.]");
 			String ext = arrFile[arrFile.length - 1];
 			/////////////////////////////////////////////////// PNG ,JPG, GIF 도 포함해주세요 /////////////////////////////////////////
-			if (!"jpg,gif,png,PNG".contains(ext)) {
-				JOptionPane.showMessageDialog(aiif, "도시락이미지는 jpg,gif,png만 가능합니다.");
+			if (!"jpg,gif,png,PNG,JPG,GIF".contains(ext)) {
+				JOptionPane.showMessageDialog(aiif, "jpg,gif,png파일만 가능합니다.");
 				return;
-			} // end if
-
-			///////////////////////////// SimpleDateFormat////////////////
-			SimpleDateFormat sdf=new SimpleDateFormat("yyMMdd_h_m_s");
-			String date= sdf.format(new Date());
-			/////////////////////////////////////////////////////////////////////
+		}// end if
 			
-			String runDir = System.getProperty("user.dir");
-			File readFile = new File(path + file);
-			/////////////////////////////////////////////////////////////////////
-			writeFile = new File(runDir + "/src/kr/co/kidultAuction/img/" + AuctionMainFrm.User_id+date); // 같은이름으로 파일 못올리게
-			/////////////////////////////////////////////////////////////////////
-			
-			FileInputStream fis = null;
-			FileOutputStream fos = null;
-			byte[] readData=new byte[512];
-			int temp=0;
-			
-			//파일에서 읽어 들이는 스트림
-			fis=new FileInputStream(readFile);
-			//목적지에 파일을 생성하는 스트림
-			fos=new FileOutputStream(writeFile);
-			while ((temp=fis.read(readData))!=-1) {
-				//파일에서 읽어들인 내용을 파일로 보낸다
-				fos.write(readData, 0, temp);
-			}//end while
-			fos.flush();//분출 하지 않으면 파일이 제대로 생성되지 않는다
-			if(fis !=null) {
+		try {
+			int dataSize=0;
+			byte[] data=new byte[512];
+			File file=new File(path+"/"+fileName);
+			FileInputStream fis;
+			fis = new FileInputStream(file);
+			int binaryLen=0;
+			while((binaryLen=fis.read(data))>0) {
+				dataSize++;
 				fis.close();
-			}//end if
-			if(fos !=null) {
-				fos.close();
-			}//end if
-			readData=null;
-			
-			fis=new FileInputStream(readFile);
-			fos=new FileOutputStream(writeFile);
-			readData=new byte[512];
-			while((temp=fis.read(readData))!=-1) {
-				fos.write(readData, 0, temp);
-			}//end while
-			fos.flush();
-			
-			JLabel lblTemp = null;
-			 icon=new ImageIcon(writeFile.getAbsolutePath());
-			//lblTemp.setIcon(icon);
-			System.out.println( icon);
-			JOptionPane.showMessageDialog(aiif, "이미지가 정상적으로 등록되었음");
-			
-			System.out.println(writeFile.getAbsolutePath());
-			
+				client=new Socket("211.63.89.157", 5500);
+				DataOutputStream dos=new DataOutputStream(client.getOutputStream());
+				dos.writeUTF(fileName);
+				dos.writeInt(dataSize);
+				fis=new FileInputStream(file);
+				
+				while(dataSize>0) {
+					binaryLen=fis.read(data);
+					dos.write(data, 0, binaryLen);
+					dataSize--;
+				}//end while
+				
+				dos.flush();
+				System.out.println(fileName+" => 전송완료");
+				fis.close();
+				client.close();
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			System.err.println("서버 전송 과정중 파일 존재하지 않음 에러(fileinputStream)");
+		}catch (IOException e) {
+			e.printStackTrace();
+			System.err.println("서버 전송 과정중 io excetpion");
+		}//end while
 		}//end if
 	}//imgSelect
-
+	
+	
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		if(ae.getSource()==aiif.getBtnFront()) {
-			try {
+				new KidultServer();
 				imgSelect();
 				System.out.println( icon);
 				aiif.getLbFrontImg().setIcon(icon);
-			} catch (IOException e) {
-				JOptionPane.showMessageDialog(aiif, "이미지가 정상적으로 등록되지 않음");
-				e.printStackTrace();
-			}
 		}
 		
 		if(ae.getSource()==aiif.getBtnBack()) {
-			try {
 					imgSelect();
 				aiif.getLbBackImg().setIcon(icon);
-			} catch (IOException e) {
-				JOptionPane.showMessageDialog(aiif, "이미지가 정상적으로 등록되지 않음");
-				e.printStackTrace();
-			}
 		}
 		
 		if(ae.getSource()==aiif.getBtnLeft()) {
-			try {
 				imgSelect();
 				aiif.getLbLeftImg().setIcon(icon);
-			} catch (IOException e) {
-				JOptionPane.showMessageDialog(aiif, "이미지가 정상적으로 등록되지 않음");
-				e.printStackTrace();
-			} 
 		}
 		
 		if(ae.getSource()==aiif.getBtnRight()) {
-			try {
 				imgSelect();
-				aiif.getLbRightImg().setIcon(icon);
-			} catch (IOException e) {
-				JOptionPane.showMessageDialog(aiif, "이미지가 정상적으로 등록되지 않음");
-				e.printStackTrace();
-			}
 		}
 		
 		if(ae.getSource()==aiif.getBtnAdd()) {

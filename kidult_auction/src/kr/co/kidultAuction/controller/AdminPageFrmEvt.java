@@ -182,13 +182,13 @@ public static String auc_code;
 	}//viewBidList
 	
 	/**
-	 낙찰 목록    !!!!!왜 setRowCount 1을 해야 보이는지 확인!!!!!
+	 낙찰 목록   (0부터 시작할때 nullpointer 떨어짐)
 	 * @throws SQLException 
 	 */
 	
 	public void viewSucBidList() throws SQLException {
 		DefaultTableModel sucList= apf.getSucBidList();
-		sucList.setRowCount(0);
+		sucList.setRowCount(1);
 		
 		AdminDAO a_dao=AdminDAO.getInstance();
 		List<AdminSucBidVO> sucBidList=a_dao.selectSucBid();
@@ -230,8 +230,11 @@ public static String auc_code;
 	}//viewApprove
 	
 	/**
-	 * fileserver
+	 * getImgIcon  승인, 승인거부 창에 있는 이미지 네장 불러오는 method
 	 * */
+	public void getImgIcon() {
+		
+	}
 	
 	
 		

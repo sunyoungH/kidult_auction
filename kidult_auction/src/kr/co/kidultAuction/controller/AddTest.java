@@ -150,6 +150,7 @@ public class AddTest extends JDialog {
 	
 	public static void main(String args[]) {
 		new AddTest();
+		new KidultServer();
 	}
 	
 
