@@ -1,11 +1,7 @@
 package kr.co.kidultAuction.vo;
 
 public class AddUserVO {
-	String user_id, password, name, birth, addr, email, phone, kakao_id;
-	
-	public AddUserVO() {
-		super();
-	}
+	String user_id, user_pass, name, birth_date, addr, email, phone, kakao_id;
 
 	public String getUser_id() {
 		return user_id;
@@ -15,12 +11,12 @@ public class AddUserVO {
 		this.user_id = user_id;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getUser_pass() {
+		return user_pass;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setUser_pass(String user_pass) {
+		this.user_pass = user_pass;
 	}
 
 	public String getName() {
@@ -31,12 +27,12 @@ public class AddUserVO {
 		this.name = name;
 	}
 
-	public String getBirth() {
-		return birth;
+	public String getBirth_date() {
+		return birth_date;
 	}
 
-	public void setBirth(String birth) {
-		this.birth = birth;
+	public void setBirth_date(String birth_date) {
+		this.birth_date = birth_date;
 	}
 
 	public String getAddr() {
@@ -70,5 +66,12 @@ public class AddUserVO {
 	public void setKakao_id(String kakao_id) {
 		this.kakao_id = kakao_id;
 	}
+
+	@Override
+	public String toString() {
+		return "AddUserVO [user_id=" + user_id + ", user_pass=" + user_pass + ", name=" + name + ", birth_date="
+				+ birth_date + ", addr=" + addr + ", email=" + email + ", phone=" + phone + ", kakao_id=" + kakao_id
+				+ "]";
+	}	
 
 }//class
