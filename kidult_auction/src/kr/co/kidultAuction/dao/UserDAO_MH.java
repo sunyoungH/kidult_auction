@@ -15,6 +15,8 @@ import java.util.Properties;
 import kr.co.kidultAuction.view.AuctionMainFrm;
 import kr.co.kidultAuction.vo.AddUserVO;
 import kr.co.kidultAuction.vo.LoginVO;
+import kr.co.kidultAuction.vo.MyAuctionAddVO;
+import kr.co.kidultAuction.vo.MyAuctionSendVO;
 import kr.co.kidultAuction.vo.UserEditVO;
 import kr.co.kidultAuction.vo.UserShowVO;
 
@@ -219,4 +221,76 @@ public class UserDAO_MH {
 	        return returnValue; 
 	      
 	    }   
+	  
+	  /**
+	   * 등록한 경매
+	 */
+	public List<MyAuctionAddVO> selectMyAuctionAdd() throws SQLException{
+			List<MyAuctionAddVO> list=new ArrayList<MyAuctionAddVO>();
+			
+			Connection con=null;
+			PreparedStatement pstmt=null;
+			ResultSet rs=null;
+			
+			
+			try {
+			StringBuilder AuctionAdd=new StringBuilder();
+			AuctionAdd.append(" select a.item_name, a.category, a.period, a.add_date, a.permit, a.start_price, r.reject_reason, r.reject_date ")
+			.append(" from auc_item a, reject_item r  where a.auc_code=r.auc_code and user_id=? ");
+			
+			con=getconn();
+			pstmt=con.prepareStatement(AuctionAdd.toString());
+			pstmt.setString(1, AuctionMainFrm.User_id );
+			rs=pstmt.executeQuery();
+			
+			MyAuctionAddVO maav = null;
+			 while (rs.next()) {
+				 maav = new MyAuctionAddVO(rs.getString("item_name"), rs.getString("category"), rs.getString("period"),
+	                             rs.getString("add_date"), rs.getString("permit"),rs.getString("reject_reason"),rs.getString("reject_date"),rs.getInt("start_price")) ;
+				 
+	             list.add(maav); 
+	     } // end while
+
+			}finally {
+				dbClose(con, pstmt, rs);
+			}//end finally
+			return list;
+		}//selectMyAuctionAdd
+	  
+	  /**
+	   * 보낼물건
+	 */
+	public List<MyAuctionSendVO> selectMyAuctionSend() throws SQLException{
+			List<MyAuctionSendVO> list=new ArrayList<MyAuctionSendVO>();
+			
+			Connection con=null;
+			PreparedStatement pstmt=null;
+			ResultSet rs=null;
+			MyAuctionSendVO masv = null;
+			
+			try {
+			StringBuilder AuctionSend=new StringBuilder();
+			AuctionSend.append(" select a.item_name, a.category, a.period, a.add_date, a.permit, a.start_price, r.reject_reason");
+			AuctionSend.append(" from auc_item a, reject_item r  where a.auc_code=r.auc_code and user_id=?");
+			
+			con=getconn();
+			pstmt=con.prepareStatement(AuctionSend.toString());
+			pstmt.setString(1, AuctionMainFrm.User_id );
+			rs=pstmt.executeQuery();
+			
+			 while (rs.next()) {
+				 masv = new MyAuctionSendVO(rs.getString("item_name"), rs.getString("add_date"), rs.getString("ended_date"),
+	                             rs.getString("kakao_id"), rs.getString("send_status"), rs.getInt("start_price") ,rs.getInt("bid_price"));
+				 
+	             list.add(masv); 
+	     } // end while
+
+			}finally {
+				dbClose(con, pstmt, rs);
+			}//end finally
+			return list;
+		}//AuctionSend
+	  
+	  
+	  
 	}//class

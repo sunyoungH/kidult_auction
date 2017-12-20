@@ -3,18 +3,13 @@ package kr.co.kidultAuction.controller;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-
-import com.sun.glass.events.KeyEvent;
 
 import kr.co.kidultAuction.dao.UserDAO;
 import kr.co.kidultAuction.view.AuctionMainFrm;
@@ -34,7 +29,11 @@ public class MyPageFrmEvt implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		if (ae.getSource() == mpf.getBtnMyAuction()) {
-			new MyAuctionFrm(amf);
+			try {
+				new MyAuctionFrm(amf);
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, "응 sql 잘못해쪄");
+			}
 		} // end if
 
 		if (ae.getSource() == mpf.getBtnEdit()) {
@@ -46,10 +45,10 @@ public class MyPageFrmEvt implements ActionListener {
 	JButton btn1;
 
 	public void passMsg() {
-		
+
 		JFrame p = new JFrame("비밀번호 입력");
 		JPasswordField jp = new JPasswordField(10);
-		JLabel lb=new JLabel("비밀번호를 입력하세요");
+		JLabel lb = new JLabel("비밀번호를 입력하세요");
 		btn1 = new JButton("입력");
 
 		p.setLayout(null);
@@ -66,13 +65,13 @@ public class MyPageFrmEvt implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String t = String.valueOf(jp.getPassword());
-				LoginVO lv=new LoginVO();
+				LoginVO lv = new LoginVO();
 				lv.setUser_id(AuctionMainFrm.User_id);
-				lv.setUser_pass (t.trim());
+				lv.setUser_pass(t.trim());
 				System.out.println(lv.getUser_pass());
-				
-				UserDAO u_dao=UserDAO.getInstance();
-		
+
+				UserDAO u_dao = UserDAO.getInstance();
+
 				try {
 					if (u_dao.confirmPass(lv)) {
 						System.out.println("비밀번호 OK");
@@ -81,14 +80,14 @@ public class MyPageFrmEvt implements ActionListener {
 					} else {
 						JOptionPane.showMessageDialog(null, "비밀번호를 확인해 주세요");
 						jp.setText("");
-					}//end else
+					} // end else
 				} catch (HeadlessException e1) {
 					e1.printStackTrace();
 				} catch (SQLException e1) {
 					e1.printStackTrace();
-				}//end catch
+				} // end catch
 
-			}//actionPerformed
+			}// actionPerformed
 		});
 
 	}// passMsg

@@ -29,7 +29,7 @@ public class UserEditFrmEvt implements ActionListener {
 
 		UserDAO u_dao = UserDAO.getInstance();
 		List<UserShowVO> list = new ArrayList<UserShowVO>();
-		list=u_dao.selectUserInfo();
+		list = u_dao.selectUserInfo();
 		UserShowVO usv = null;
 
 		for (int i = 0; i < list.size(); i++) {
@@ -47,27 +47,26 @@ public class UserEditFrmEvt implements ActionListener {
 		}
 
 	}// UserEditFrmEvt
-	
+
 	private void updateUser() throws SQLException {
-		u_dao1=UserDAO_MH.getInstance();
-		uev=new UserEditVO();
-		JTextField tfPfPass=uef.getPfPass();
-		JTextField tfPfPassCon=uef.getPfPassCon();
-		JTextField tfName=uef.getTfName();
-		JTextField tfBirth=uef.getTfBirth();
-		JTextField tfAddr=uef.getTfAddr();
-		JTextField tfEmail=uef.getTfEmail();
-		JTextField tfPhone=uef.getTfPhone();
-		
-		
-		String pass=tfPfPass.getText().trim();
-		String passcon=tfPfPassCon.getText().trim();
-		String name=tfName.getText().trim();
-		String birth=tfBirth.getText().trim();
-		String addr=tfAddr.getText().trim();
-		String email=tfEmail.getText().trim();
-		String phone=tfPhone.getText().trim();
-		
+		u_dao1 = UserDAO_MH.getInstance();
+		uev = new UserEditVO();
+		JTextField tfPfPass = uef.getPfPass();
+		JTextField tfPfPassCon = uef.getPfPassCon();
+		JTextField tfName = uef.getTfName();
+		JTextField tfBirth = uef.getTfBirth();
+		JTextField tfAddr = uef.getTfAddr();
+		JTextField tfEmail = uef.getTfEmail();
+		JTextField tfPhone = uef.getTfPhone();
+
+		String pass = tfPfPass.getText().trim();
+		String passcon = tfPfPassCon.getText().trim();
+		String name = tfName.getText().trim();
+		String birth = tfBirth.getText().trim();
+		String addr = tfAddr.getText().trim();
+		String email = tfEmail.getText().trim();
+		String phone = tfPhone.getText().trim();
+
 		uev.setUser_pass(pass);
 		uev.setUser_validpass(passcon);
 		uev.setName(name);
@@ -75,50 +74,49 @@ public class UserEditFrmEvt implements ActionListener {
 		uev.setAddr(addr);
 		uev.setEmail(email);
 		uev.setPhone(phone);
-		
-		
-		if("".equals(pass)) {
+
+		if ("".equals(pass)) {
 			JOptionPane.showMessageDialog(uef, "비밀번호를 입력해 주세요");
 			return;
 		}
-		if("".equals(passcon)) {
+		if ("".equals(passcon)) {
 			JOptionPane.showMessageDialog(uef, "비밀번호를 확인해 주세요");
 			return;
 		}
-		if("".equals(name)) {
+		if ("".equals(name)) {
 			JOptionPane.showMessageDialog(uef, "비밀번호를 입력해 주세요");
 			return;
 		}
-		if("".equals(birth)) {
+		if ("".equals(birth)) {
 			JOptionPane.showMessageDialog(uef, "생년월일을 입력해 주세요");
 			return;
 		}
-		if("".equals(addr)) {
+		if ("".equals(addr)) {
 			JOptionPane.showMessageDialog(uef, "주소를 입력해 주세요");
 			return;
 		}
-		if("".equals(email)) {
+		if ("".equals(email)) {
 			JOptionPane.showMessageDialog(uef, "이메일을 입력해 주세요");
 			return;
 		}
-		if("".equals(phone)) {
+		if ("".equals(phone)) {
 			JOptionPane.showMessageDialog(uef, "핸드폰번호를 입력해 주세요");
 			return;
 		}
-		
-		
+
 		try {
-			boolean flag=u_dao1.updateUser(uev);
-			if(flag) {
+			boolean flag = u_dao1.updateUser(uev);
+			if (flag) {
 				JOptionPane.showMessageDialog(uef, "회원정보가 수정되었습니다.");
-			}else {
+				uef.dispose();
+			} else {
 				JOptionPane.showMessageDialog(uef, "회원정보가 수정되지 않았습니다.");
 			}
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(uef, "서비스 장애 발생");
 			e.printStackTrace();
-		}//end catch
-	}//updateUser
+		} // end catch
+	}// updateUser
 
 	@Override
 	public void actionPerformed(ActionEvent ae) {
@@ -126,9 +124,7 @@ public class UserEditFrmEvt implements ActionListener {
 			try {
 				updateUser();
 				System.out.println("변경되었음");
-				System.out.println(u_dao1.updateUser(uev));
 			} catch (SQLException e) {
-				
 				e.printStackTrace();
 			}
 		} // end if
