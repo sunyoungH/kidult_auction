@@ -3,6 +3,7 @@ package kr.co.kidultAuction.controller;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
@@ -12,6 +13,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+
+import com.sun.glass.events.KeyEvent;
 
 import kr.co.kidultAuction.dao.UserDAO;
 import kr.co.kidultAuction.view.AuctionMainFrm;
@@ -50,7 +53,7 @@ public class MyPageFrmEvt implements ActionListener {
 		btn1 = new JButton("입력");
 
 		p.setLayout(null);
-		p.setBounds(100, 100, 255, 200);
+		p.setBounds(770, 400, 255, 200);
 		lb.setBounds(56, 30, 180, 30);
 		jp.setBounds(50, 70, 150, 30);
 		btn1.setBounds(90, 115, 60, 30);
@@ -77,6 +80,7 @@ public class MyPageFrmEvt implements ActionListener {
 						p.dispose();
 					} else {
 						JOptionPane.showMessageDialog(null, "비밀번호를 확인해 주세요");
+						jp.setText("");
 					}//end else
 				} catch (HeadlessException e1) {
 					e1.printStackTrace();

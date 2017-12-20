@@ -54,7 +54,7 @@ public class AuctionMainFrm extends JFrame {
 		add(btnAddUser);
 		add(btnLogin);
 
-		setBounds(0, 0, 700, 500);
+		setBounds(550, 200, 700, 500);
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		

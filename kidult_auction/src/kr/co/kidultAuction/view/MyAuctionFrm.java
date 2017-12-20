@@ -21,14 +21,11 @@ public class MyAuctionFrm extends JDialog  {
 		super(amf,"내 경매");
 		setLayout(null);
 		
-		String[] arrAucItem= {"이미지","물품명","카테고리","경매시작가격","경매기간","등록일","승인여부"};
-//		String[][] arrAucItemData=new String[10][7];
+		String[] arrAucItem= {"번호","물품명","카테고리","경매시작가격","경매기간","등록일","승인여부"};
 		String[][] arrAucItemData= {{"","","","","","",""}};
-		String[] arrSendItem= {"이미지","물품명","경매 시작가격","낙찰가격","등록일","종료일","낙찰자 카톡ID","발송여부"};
-//		String[][] arrSendItemData=new String[10][8];
+		String[] arrSendItem= {"번호","물품명","경매 시작가격","낙찰가격","등록일","종료일","낙찰자 카톡ID","발송여부"};
 		String[][] arrSendItemData= {{"","","","","","","",""}};
-		String[] arrRecieveItem= {"이미지","물품명","경매 시작가격","낙찰가격","등록일","낙찰일","경매자 카톡ID","발송여부"};
-//		String[][] arrRecieveItemData=new String[10][8];
+		String[] arrRecieveItem= {"번호","물품명","경매 시작가격","낙찰가격","등록일","낙찰일","경매자 카톡ID","수취여부"};
 		String[][] arrRecieveItemData= {{"","","","","","","",""}};
 		
 		dtmAucItem=new DefaultTableModel(arrAucItemData, arrAucItem);
@@ -81,12 +78,12 @@ public class MyAuctionFrm extends JDialog  {
 		};
 		
 		//column 의 넓이 변경
-		jtAucItem.getColumnModel().getColumn(0).setPreferredWidth(120);//이미지
+		jtAucItem.getColumnModel().getColumn(0).setPreferredWidth(10);//번호
 		jtAucItem.getColumnModel().getColumn(1).setPreferredWidth(100);//물품명
 		jtAucItem.getColumnModel().getColumn(2).setPreferredWidth(60);//카테고리
 		jtAucItem.getColumnModel().getColumn(3).setPreferredWidth(60);//경매시작가격
 		jtAucItem.getColumnModel().getColumn(4).setPreferredWidth(60);//경매기간
-		jtAucItem.getColumnModel().getColumn(5).setPreferredWidth(60);//등록일
+		jtAucItem.getColumnModel().getColumn(5).setPreferredWidth(50);//등록일
 		jtAucItem.getColumnModel().getColumn(6).setPreferredWidth(60);//승인여부
 		//column의 높이 변경
 		jtAucItem.setRowHeight(50);
@@ -94,12 +91,12 @@ public class MyAuctionFrm extends JDialog  {
 		jtAucItem.getTableHeader().setReorderingAllowed(false);
 		
 		//column 의 넓이 변경
-		jtSendItem.getColumnModel().getColumn(0).setPreferredWidth(120);//이미지
+		jtSendItem.getColumnModel().getColumn(0).setPreferredWidth(10);//번호
 		jtSendItem.getColumnModel().getColumn(1).setPreferredWidth(100);//물품명
 		jtSendItem.getColumnModel().getColumn(2).setPreferredWidth(40);//경매 시작가격
 		jtSendItem.getColumnModel().getColumn(3).setPreferredWidth(40);//낙찰가격
-		jtSendItem.getColumnModel().getColumn(4).setPreferredWidth(40);//등록일
-		jtSendItem.getColumnModel().getColumn(5).setPreferredWidth(40);//종료일
+		jtSendItem.getColumnModel().getColumn(4).setPreferredWidth(50);//등록일
+		jtSendItem.getColumnModel().getColumn(5).setPreferredWidth(50);//종료일
 		jtSendItem.getColumnModel().getColumn(6).setPreferredWidth(40);//낙찰자 카톡
 		jtSendItem.getColumnModel().getColumn(7).setPreferredWidth(40);//발송여부
 		//column의 높이 변경
@@ -108,14 +105,14 @@ public class MyAuctionFrm extends JDialog  {
 		jtSendItem.getTableHeader().setReorderingAllowed(false);
 		
 		//column 의 넓이 변경
-		jtRecieveItem.getColumnModel().getColumn(0).setPreferredWidth(120);//이미지
+		jtRecieveItem.getColumnModel().getColumn(0).setPreferredWidth(10);//번호
 		jtRecieveItem.getColumnModel().getColumn(1).setPreferredWidth(100);//물품명
 		jtRecieveItem.getColumnModel().getColumn(2).setPreferredWidth(40);//경매 시작가격
 		jtRecieveItem.getColumnModel().getColumn(3).setPreferredWidth(40);//낙찰가격
-		jtRecieveItem.getColumnModel().getColumn(4).setPreferredWidth(40);//등록일
-		jtRecieveItem.getColumnModel().getColumn(5).setPreferredWidth(40);//낙찰일
+		jtRecieveItem.getColumnModel().getColumn(4).setPreferredWidth(50);//등록일
+		jtRecieveItem.getColumnModel().getColumn(5).setPreferredWidth(50);//낙찰일
 		jtRecieveItem.getColumnModel().getColumn(6).setPreferredWidth(40);//경매자 카톡
-		jtRecieveItem.getColumnModel().getColumn(7).setPreferredWidth(40);//발송여부
+		jtRecieveItem.getColumnModel().getColumn(7).setPreferredWidth(40);//수취여부
 		//column의 높이 변경
 		jtRecieveItem.setRowHeight(50);
 		//컬럼 이동막기
@@ -130,12 +127,11 @@ public class MyAuctionFrm extends JDialog  {
 		jtpTab.addTab("보낼물건", jspSend);
 		jtpTab.addTab("받을물건", jspRecieve);
 		
-		jtpTab.setBounds(0,
-				0,800,500);
+		jtpTab.setBounds(0,0,795,500);
 		
 		add(jtpTab);
 		
-		setBounds(100,100,800,500);
+		setBounds(550,200,800,500);
 		setVisible(true);
 		setResizable(false);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);

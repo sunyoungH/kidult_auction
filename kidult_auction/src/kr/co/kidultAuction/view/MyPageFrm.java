@@ -26,7 +26,7 @@ public class MyPageFrm extends JDialog {
 		add(btnMyAuction);
 		add(btnEdit);
 	
-		setBounds(100,100,500,300);
+		setBounds(650,330,500,300);
 		setVisible(true);
 		setResizable(false);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
