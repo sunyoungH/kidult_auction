@@ -15,6 +15,7 @@ import java.util.Properties;
 import com.sun.corba.se.spi.orbutil.fsm.Guard.Result;
 
 import kr.co.kidultAuction.controller.AdminPageFrmEvt;
+import kr.co.kidultAuction.view.AdminPageFrm;
 import kr.co.kidultAuction.view.AuctionMainFrm;
 import kr.co.kidultAuction.vo.AdminApproveVO;
 import kr.co.kidultAuction.vo.AdminBidVO;
@@ -344,7 +345,7 @@ public class AdminDAO {
 		
 		con=getconn();
 		pstmt=con.prepareStatement(selectItem.toString());
-		pstmt.setString(1, AdminPageFrmEvt.auc_code);
+		pstmt.setString(1, AdminPageFrm.auc_code);
 		
 		rs=pstmt.executeQuery();
 		
@@ -380,7 +381,7 @@ public class AdminDAO {
 		
 		con=getconn();
 		pstmt=con.prepareStatement(updateApprove.toString());
-		pstmt.setString(1, AdminPageFrmEvt.auc_code);
+		pstmt.setString(1, AdminPageFrm.auc_code);
 		rsFlag=pstmt.executeUpdate();
 		
 		if(rsFlag!=0) {
@@ -431,10 +432,11 @@ public class AdminDAO {
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		
-		String selectBid="select user_id, bid_date, bid_price from bid_item order by bid_price desc";
+		String selectBid="select user_id, bid_date, bid_price from bid_item order by bid_price desc where auc_code=?";
 		
 		con=getconn();
 		pstmt=con.prepareStatement(selectBid);
+		pstmt.setString(1, AdminPageFrm.auc_code);
 		rs=pstmt.executeQuery();
 		
 		AdminItemPriceVO aipv=null;

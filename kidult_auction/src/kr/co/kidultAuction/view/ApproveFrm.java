@@ -21,7 +21,7 @@ import kr.co.kidultAuction.controller.ApproveFrmEvt;
  */
 @SuppressWarnings("serial")
 public class ApproveFrm extends JDialog {
-	private AuctionMainFrm amf;
+	private AdminPageFrm apf;
 	private AdminPageFrmEvt apfe;
 	
 	private JLabel lblImgRight, lblImgLeft, lblImgFront, lblImgBack, lblUserId, lblCategory
@@ -32,8 +32,8 @@ public class ApproveFrm extends JDialog {
 	
 	private JPanel jp;
 	
-	public ApproveFrm(AuctionMainFrm amf) throws SQLException {
-		super(amf,"승인대기 상세정보");
+	public ApproveFrm(AdminPageFrm apf) throws SQLException {
+		super(apf,"승인대기 상세정보",true);
 		setLayout(null);
 		
 		lblImgRight = new JLabel("오이미지");
@@ -131,10 +131,6 @@ public class ApproveFrm extends JDialog {
          setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 	}//PermitFrm
-
-	public AuctionMainFrm getAmf() {
-		return amf;
-	}
 
 	public JLabel getLblImgRight() {
 		return lblImgRight;

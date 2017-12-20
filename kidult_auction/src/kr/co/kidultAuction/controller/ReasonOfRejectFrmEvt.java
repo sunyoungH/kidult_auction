@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 import kr.co.kidultAuction.dao.AdminDAO;
+import kr.co.kidultAuction.view.AdminPageFrm;
 import kr.co.kidultAuction.view.AuctionMainFrm;
 import kr.co.kidultAuction.view.ReasonOfRejectFrm;
 import kr.co.kidultAuction.vo.RejectVO;
@@ -21,9 +22,9 @@ private RejectVO rv;
 
 	public void addReject() throws SQLException {
 		RejectVO rv=new RejectVO();
-		System.out.println(AuctionMainFrm.User_id+"/"+AuctionMainFrm.Admin_id+"/"+AdminPageFrmEvt.auc_code);
+		System.out.println(AuctionMainFrm.User_id+"/"+AuctionMainFrm.Admin_id+"/"+AdminPageFrm.auc_code);
 		rv.setAdmin_id(AuctionMainFrm.Admin_id);
-		rv.setAuc_code(AdminPageFrmEvt.auc_code);
+		rv.setAuc_code(AdminPageFrm.auc_code);
 		rv.setReject_reason(rorf.getJtaReason().getText());
 		
 		AdminDAO a_dao=AdminDAO.getInstance();

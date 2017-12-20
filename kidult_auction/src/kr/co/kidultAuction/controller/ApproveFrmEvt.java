@@ -11,6 +11,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 import kr.co.kidultAuction.dao.AdminDAO;
+import kr.co.kidultAuction.view.AdminPageFrm;
 import kr.co.kidultAuction.view.ApproveFrm;
 import kr.co.kidultAuction.view.ReasonOfRejectFrm;
 import kr.co.kidultAuction.vo.AdminApproveVO;
@@ -31,7 +32,7 @@ public class ApproveFrmEvt implements ActionListener{
 	 * @throws SQLException
 	 */
 	public void addApprove() throws SQLException {
-		String str=AdminPageFrmEvt.auc_code;
+		String str=AdminPageFrm.auc_code;
 		System.out.println(str+"ApproveFrmEvt");
 
 		List<AdminApproveVO> approveList=new ArrayList<AdminApproveVO>();
@@ -45,13 +46,11 @@ public class ApproveFrmEvt implements ActionListener{
 		}//end for
 		
 		af.getTfUserId().setText(aav.getUser_id());
-		if("L".equals(aav.getCategory())){
-			af.getTfCategory().setText("레고");
-		}else if("P".equals(aav.getCategory())) {
-			af.getTfCategory().setText("프라모델");
-		}else if("F".equals(aav.getCategory())) {
-			af.getTfCategory().setText("피규어");
-		}//end else if
+		switch(aav.getCategory().toString()) {
+		case("F") : af.getTfCategory().setText("피규어");
+		case("P") : af.getTfCategory().setText("프라모델");
+		case("L") : af.getTfCategory().setText("레고");
+		}//end switch
 		af.getTfStatus().setText(aav.getStatus());
 		af.getTfItemName().setText(aav.getItem_name());
 		af.getTfSPrice().setText(String.valueOf(aav.getStart_price()));

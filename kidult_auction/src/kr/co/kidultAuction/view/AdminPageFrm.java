@@ -6,7 +6,10 @@ import javax.swing.JDialog;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 import kr.co.kidultAuction.controller.AdminPageFrmEvt;
 
@@ -18,7 +21,7 @@ import kr.co.kidultAuction.controller.AdminPageFrmEvt;
 @SuppressWarnings("serial")
 public class AdminPageFrm extends JDialog{
 	private AuctionMainFrm amf;
-	private ApproveFrm af;
+	public static String auc_code="";
 
 	private JTabbedPane jtpTab;
 	private DefaultTableModel userList,watingList,completeList,bidList,sucBidList;
@@ -26,7 +29,6 @@ public class AdminPageFrm extends JDialog{
 	 
 	public AdminPageFrm(AuctionMainFrm amf) throws SQLException {
 		super(amf,"관리자 페이지");
-		/*this.amf=amf;*/
 		
 		String[] arrUserList= {"번호","회원ID","이름","연락처","카톡ID","생년월일","이메일","주소","가입일"};
 		String[][] arrUserListData= {{"","","","","","","","",""}};
@@ -116,14 +118,14 @@ public class AdminPageFrm extends JDialog{
 		};
 		
 		//column 의 넓이 변경
-		jtuserList.getColumnModel().getColumn(0).setPreferredWidth(20);//번호
+		jtuserList.getColumnModel().getColumn(0).setPreferredWidth(10);//번호
 		jtuserList.getColumnModel().getColumn(1).setPreferredWidth(60);//회원ID
 		jtuserList.getColumnModel().getColumn(2).setPreferredWidth(40);//이름
 		jtuserList.getColumnModel().getColumn(3).setPreferredWidth(60);//연락처
 		jtuserList.getColumnModel().getColumn(4).setPreferredWidth(60);//카톡ID
 		jtuserList.getColumnModel().getColumn(5).setPreferredWidth(40);//생년월일
 		jtuserList.getColumnModel().getColumn(6).setPreferredWidth(70);//이메일
-		jtuserList.getColumnModel().getColumn(7).setPreferredWidth(100);//주소
+		jtuserList.getColumnModel().getColumn(7).setPreferredWidth(110);//주소
 		jtuserList.getColumnModel().getColumn(8).setPreferredWidth(40);//가입일
 		//column의 높이 변경
 		jtuserList.setRowHeight(50);
@@ -131,12 +133,12 @@ public class AdminPageFrm extends JDialog{
 		jtuserList.getTableHeader().setReorderingAllowed(false);
 		
 		//column 의 넓이 변경
-		jtwatingList.getColumnModel().getColumn(0).setPreferredWidth(20);//번호
+		jtwatingList.getColumnModel().getColumn(0).setPreferredWidth(10);//번호
 		jtwatingList.getColumnModel().getColumn(1).setPreferredWidth(60);//판매자ID
-		jtwatingList.getColumnModel().getColumn(2).setPreferredWidth(90);//이미지
+		jtwatingList.getColumnModel().getColumn(2).setPreferredWidth(90);//경매코드
 		jtwatingList.getColumnModel().getColumn(3).setPreferredWidth(60);//카테고리
 		jtwatingList.getColumnModel().getColumn(4).setPreferredWidth(40);//상태
-		jtwatingList.getColumnModel().getColumn(5).setPreferredWidth(80);//물건명
+		jtwatingList.getColumnModel().getColumn(5).setPreferredWidth(90);//물건명
 		jtwatingList.getColumnModel().getColumn(6).setPreferredWidth(40);//시작가격
 		jtwatingList.getColumnModel().getColumn(7).setPreferredWidth(40);//경매기간
 		//column의 높이 변경
@@ -145,12 +147,12 @@ public class AdminPageFrm extends JDialog{
 		jtwatingList.getTableHeader().setReorderingAllowed(false);
 		
 		//column 의 넓이 변경
-		jtcompleteList.getColumnModel().getColumn(0).setPreferredWidth(20);//번호
+		jtcompleteList.getColumnModel().getColumn(0).setPreferredWidth(10);//번호
 		jtcompleteList.getColumnModel().getColumn(1).setPreferredWidth(60);//판매자ID
 		jtcompleteList.getColumnModel().getColumn(2).setPreferredWidth(90);//이미지
 		jtcompleteList.getColumnModel().getColumn(3).setPreferredWidth(60);//카테고리
 		jtcompleteList.getColumnModel().getColumn(4).setPreferredWidth(40);//상태
-		jtcompleteList.getColumnModel().getColumn(5).setPreferredWidth(80);//물건명
+		jtcompleteList.getColumnModel().getColumn(5).setPreferredWidth(90);//물건명
 		jtcompleteList.getColumnModel().getColumn(6).setPreferredWidth(40);//시작가격
 		jtcompleteList.getColumnModel().getColumn(7).setPreferredWidth(40);//경매기간
 		//column의 높이 변경
@@ -159,9 +161,9 @@ public class AdminPageFrm extends JDialog{
 		jtcompleteList.getTableHeader().setReorderingAllowed(false);
 		
 		//column 의 넓이 변경
-		jtbidList.getColumnModel().getColumn(0).setPreferredWidth(20);//번호
+		jtbidList.getColumnModel().getColumn(0).setPreferredWidth(10);//번호
 		jtbidList.getColumnModel().getColumn(1).setPreferredWidth(60);//등록자ID
-		jtbidList.getColumnModel().getColumn(2).setPreferredWidth(80);//물건명
+		jtbidList.getColumnModel().getColumn(2).setPreferredWidth(90);//물건명
 		jtbidList.getColumnModel().getColumn(3).setPreferredWidth(60);//경매코드
 		jtbidList.getColumnModel().getColumn(4).setPreferredWidth(40);//현재 입찰가
 		jtbidList.getColumnModel().getColumn(5).setPreferredWidth(40);//시작가격
@@ -173,9 +175,9 @@ public class AdminPageFrm extends JDialog{
 		jtbidList.getTableHeader().setReorderingAllowed(false);
 		
 		//column 의 넓이 변경
-		jtsucBidList.getColumnModel().getColumn(0).setPreferredWidth(20);//번호
+		jtsucBidList.getColumnModel().getColumn(0).setPreferredWidth(10);//번호
 		jtsucBidList.getColumnModel().getColumn(1).setPreferredWidth(60);//등록자ID
-		jtsucBidList.getColumnModel().getColumn(2).setPreferredWidth(80);//물건명
+		jtsucBidList.getColumnModel().getColumn(2).setPreferredWidth(90);//물건명
 		jtsucBidList.getColumnModel().getColumn(3).setPreferredWidth(60);//경매코드
 		jtsucBidList.getColumnModel().getColumn(4).setPreferredWidth(40);//낙찰가
 		jtsucBidList.getColumnModel().getColumn(5).setPreferredWidth(40);//시작가격
@@ -191,6 +193,34 @@ public class AdminPageFrm extends JDialog{
 		JScrollPane jspComplete=new JScrollPane(jtcompleteList);
 		JScrollPane jspBid=new JScrollPane(jtbidList);
 		JScrollPane jspSucBid=new JScrollPane(jtsucBidList);
+		
+		//////////// DefaultTableCellRender
+		// DefaultTableCellHeaderRenderer 생성 (가운데 정렬을 위한)
+		DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer();
+		// DefaultTableCellHeaderRenderer의 정렬을 가운데 정렬로 지정
+		cellRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+		// 정렬할 테이블의 ColumnModel을 가져옴
+		TableColumnModel userListColumnModel= jtuserList.getColumnModel();
+		TableColumnModel jtwatingListColumnModel= jtwatingList.getColumnModel();
+		TableColumnModel jtcompleteListColumnModel= jtcompleteList.getColumnModel();
+		TableColumnModel jtbidListColumnModel= jtbidList.getColumnModel();
+		TableColumnModel jtsucBidListColumnModel= jtsucBidList.getColumnModel();
+		// 반복문을 이용하여 테이블을 가운데 정렬로 지정
+		for (int i = 0; i < userListColumnModel.getColumnCount(); i++) {
+			userListColumnModel.getColumn(i).setCellRenderer(cellRenderer);
+		}//end for
+		for (int i = 0; i < jtwatingListColumnModel.getColumnCount(); i++) {
+			jtwatingListColumnModel.getColumn(i).setCellRenderer(cellRenderer);
+		}//end for
+		for (int i = 0; i < jtcompleteListColumnModel.getColumnCount(); i++) {
+			jtcompleteListColumnModel.getColumn(i).setCellRenderer(cellRenderer);
+		}//end for
+		for (int i = 0; i < jtbidListColumnModel.getColumnCount(); i++) {
+			jtbidListColumnModel.getColumn(i).setCellRenderer(cellRenderer);
+		}//end for
+		for (int i = 0; i < jtsucBidListColumnModel.getColumnCount(); i++) {
+			jtsucBidListColumnModel.getColumn(i).setCellRenderer(cellRenderer);
+		}//end for
 		
 		jtpTab=new JTabbedPane();
 		jtpTab.add("회원목록", jspUser);

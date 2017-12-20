@@ -34,20 +34,11 @@ import kr.co.kidultAuction.vo.AdminUserVO;
 
 public class AdminPageFrmEvt extends MouseAdapter{
 private AdminPageFrm apf;
-private AuctionMainFrm amf;
 private ApproveFrm af;
-private Thread threadFile;
-private ServerSocket ssFile;
 
-public static final int DOUBLE_CLICK=2;
 public static final int WAITING_LIST=1;
 public static final int BIDDING_LIST=3;
-public static String auc_code;
 
-
-	public AdminPageFrmEvt() {
-		
-	}	
 
 	public AdminPageFrmEvt(AdminPageFrm apf) throws SQLException {
 		this.apf=apf;
@@ -110,7 +101,11 @@ public static String auc_code;
 			rowData[0]=new Integer(i+1);
 			rowData[1]=apv.getUser_id();
 			rowData[2]=apv.getAuc_code();
-			rowData[3]=apv.getCategory();
+			switch(apv.getCategory().toString()) {
+			case("F") : rowData[3]="피규어";
+			case("P") : rowData[3]="프라모델";
+			case("L") : rowData[3]="레고";
+			}//end switch
 			rowData[4]=apv.getStatus();
 			rowData[5]=apv.getItem_name();
 			rowData[6]=apv.getStart_price();
@@ -123,7 +118,7 @@ public static String auc_code;
 	
 	
 	/**
-	 승인 대기 목록
+	 승인 완료 목록
 	 * */
 	public void viewPermitList() throws SQLException {
 		DefaultTableModel completeList=apf.getCompleteList();
@@ -142,7 +137,11 @@ public static String auc_code;
 			rowData[0]=new Integer(i+1);
 			rowData[1]=apv.getUser_id();
 			rowData[2]=apv.getAuc_code();
-			rowData[3]=apv.getCategory();
+			switch(apv.getCategory().toString()) {
+			case("F") : rowData[3]="피규어";
+			case("P") : rowData[3]="프라모델";
+			case("L") : rowData[3]="레고";
+			}//end switch
 			rowData[4]=apv.getStatus();
 			rowData[5]=apv.getItem_name();
 			rowData[6]=apv.getStart_price();
@@ -239,6 +238,7 @@ public static String auc_code;
 	}
 	
 	
+	
 		
 	@Override
 		public void mouseClicked(MouseEvent me) {
@@ -247,34 +247,33 @@ public static String auc_code;
 		JTable bidList=apf.getJtbidList();
 		
 		switch(jtpTab.getSelectedIndex()) {
-		case WAITING_LIST :
-			switch(me.getClickCount()) {
-			case DOUBLE_CLICK :
-				AdminPageFrmEvt.auc_code=(String)waitingList.getValueAt(waitingList.getSelectedRow(), 2);
-				System.out.println(auc_code+"adminPageFrmEvt");
-//				String tfUser=af.getTfUserId().getText();
+//		case WAITING_LIST :
+//			if(me.getClickCount()==2) {
+//			 AdminPageFrm.auc_code=(String)waitingList.getValueAt(waitingList.getSelectedRow(), 2);
+//			 System.out.println(AdminPageFrm.auc_code+" : adminPageFrmEvt에서 찍히는 auction code");
+//			 try {
+//				 new ApproveFrm(apf);
+//			 } catch (SQLException e) {
+//				 e.printStackTrace();
+//			 }//end catch
+//			 }//end if
+//			break;
+			
+		case BIDDING_LIST :
+			if(me.getClickCount()==2) {
+				System.out.println("넌 왜안타");
+				AdminPageFrm.auc_code=(String)bidList.getValueAt(bidList.getSelectedRow(), 3);
+				System.out.println(AdminPageFrm.auc_code);
 				try {
-					new ApproveFrm(amf);
-					System.out.println("왜되냐");
+					new AllTimeBidFrm(apf);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}//end catch
-		}//end switch
-			break;
-		case BIDDING_LIST :
-			if(me.getClickCount()==2) {
-				System.out.println("switch");
-			}
+			}//end if
+			
 		}//switch~case
-		
-		if(me.getClickCount()==2) {
-			System.out.println("비드선택");
-		}
 	}//mouseClicked
-
-	public String getAuc_code() {
-		return auc_code;
-	}
+		
 
 }//class
 
