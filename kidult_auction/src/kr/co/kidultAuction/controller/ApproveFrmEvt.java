@@ -20,6 +20,7 @@ public class ApproveFrmEvt implements ActionListener{
 	public static final int DOUBLE_CLICK=2;
 	public static final int WAITING_LIST=1;
 	private ApproveFrm af;
+	private AdminApproveVO aav;
 
 	public ApproveFrmEvt(ApproveFrm af) throws SQLException {
 		this.af=af;
@@ -74,6 +75,9 @@ public class ApproveFrmEvt implements ActionListener{
 				boolean approveFlag=a_dao.updateApproveItem();
 				if(approveFlag) {
 					JOptionPane.showMessageDialog(af, "승인 완료!");
+					if(a_dao.insertBidUserData()) {
+						System.out.println("사용자의 bid 데이터 추가완료");
+					}//end if
 					af.dispose();
 				}else {
 					JOptionPane.showMessageDialog(af, "승인과정중 오류");

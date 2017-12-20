@@ -32,6 +32,11 @@ public class RunAction {
 		newFileName.insert(newFileName.indexOf("."), "_"+AuctionMainFrm.User_id+"_"+date);
 		System.out.println(newFileName.toString());
 		
+		ArrayList<String> list=new ArrayList<String>();
+		list.add("1");
+		System.out.println(list.get(0));
+		System.out.println(list.size());
+		
 	}//main
 
 }//class

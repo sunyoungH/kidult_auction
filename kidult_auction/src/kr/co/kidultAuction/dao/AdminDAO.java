@@ -100,38 +100,6 @@ public class AdminDAO {
 	}//selectAdminLogin
 	
 	/**
-	 없어도 되는 메소드. 관리자 유효성 검증하기 위해 만듦
-	 * */
-	public List<String> listAdminLogin(LoginVO lv) throws SQLException{
-		List<String> list=new ArrayList<String>();
-		
-		Connection con=null;
-		PreparedStatement pstmt=null;
-		ResultSet rs=null;
-		
-		try {
-			StringBuilder selectAdmin=new StringBuilder();
-			selectAdmin
-			.append(" select admin_id, admin_pass")
-			.append(" from admin where admin_id=? and admin_pass=? ");
-			
-			con=getconn();
-			pstmt=con.prepareStatement(selectAdmin.toString());
-			
-			pstmt.setString(1, lv.getAdmin_id());
-			pstmt.setString(2, lv.getAdmin_pass());
-			
-			rs=pstmt.executeQuery();
-			while(rs.next()) {
-				list.add(rs.getString("admin_id"));
-			}//end while
-		}finally {
-			dbClose(con, pstmt, rs);
-		}//end finally
-		return list;
-	}//selectAdminLogin
-	
-	/**
 	 사용자 로그인 (user_dao에 들어가있어야하는 메소드) 
 	 * */
 	public boolean selectUserLogin(LoginVO lv) throws SQLException{
@@ -273,9 +241,12 @@ public class AdminDAO {
 		try {
 		StringBuilder selectBid=new StringBuilder();
 		selectBid
-		.append(" select au.user_id, ai.auc_code, ai.item_name, ai.permit_date, ei.ended_date, bi.bid_price, ai.start_price ")
-		.append(" from auc_user au, auc_item ai, ended_item ei, bid_item bi ")
-		.append(" where au.user_id=ai.user_id and bi.user_id=ai.user_id and bi.bid_num=ei.bid_num and permit='Y' ");
+		.append(" select rownum r, user_id, item_name, auc_code, bid_price, start_price, to_date(start_date,'yy-mm-dd') start_date, period ")
+		.append(" from(select rownum, au.user_id user_id, ai.item_name item_name, ai.auc_code auc_code, bi.bid_price bid_price, ")
+		.append(" ai.start_price start_price, ai.start_date start_date, ai.period period ")
+		.append(" from auc_user au, auc_item ai, bid_item bi ")
+		.append(" where au.user_id=ai.user_id and bi.auc_code=ai.auc_code ") 
+		.append(" order by bid_price desc) where rownum=1 ");
 		
 		con=getconn();
 		pstmt=con.prepareStatement(selectBid.toString());
@@ -283,8 +254,8 @@ public class AdminDAO {
 		
 		AdminBidVO abv=null;
 		while(rs.next()) {
-			abv=new AdminBidVO(rs.getString("user_id"), rs.getString("auc_code"), rs.getString("item_name"),  
-					rs.getString("permit_date"), rs.getString("ended_date"), rs.getInt("bid_price"), rs.getInt("start_price"));
+			abv=new AdminBidVO(rs.getString("user_id"),  rs.getString("auc_code"), rs.getString("item_name"),rs.getString("start_date"), 
+						 rs.getInt("bid_price"), rs.getInt("start_price"), rs.getInt("period"));
 			
 			list.add(abv);
 		}//end while
@@ -300,32 +271,32 @@ public class AdminDAO {
 
 	public List<AdminSucBidVO> selectSucBid() throws SQLException{
 		List<AdminSucBidVO> list=new ArrayList<AdminSucBidVO>();
+		
 		Connection con=null;
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		
 		try {
-		StringBuilder selectSuc=new StringBuilder();
-		selectSuc
-		.append(" select au.user_id, ai.auc_code, ai.item_name, ai.permit_date, ei.ended_date, bi.bid_price, ai.start_price ")
-		.append(" from auc_user au, auc_item ai, ended_item ei, bid_item bi ")
-		.append(" where au.user_id=ai.user_id and bi.user_id=ai.user_id and bi.bid_num=ei.bid_num and ei.ended_date is not null ");
+		StringBuilder selectBid=new StringBuilder();
+		selectBid
+		.append(" select au.user_id, ai.item_name, ai.auc_code, ei.ended_price, ai.start_price, to_date(ai.start_date,'yy-mm-dd') start_date, to_date(ei.ended_date, 'yy-mm-dd') ended_date")
+		.append(" from auc_user au, auc_item ai, bid_item bi, ended_item ei ")
+		.append(" where au.user_id=ai.user_id and bi.auc_code=ai.auc_code  and ei.bid_num=bi.bid_num ");
 		
 		con=getconn();
-		pstmt=con.prepareStatement(selectSuc.toString());
+		pstmt=con.prepareStatement(selectBid.toString());
 		rs=pstmt.executeQuery();
 		
 		AdminSucBidVO asbv=null;
 		while(rs.next()) {
-			asbv=new AdminSucBidVO(rs.getString("user_id"), rs.getString("item_name"), rs.getString("auc_code"), 
-						rs.getString("permit_date"), rs.getString("ended_date"), rs.getInt("bid_price"), rs.getInt("start_price"));
+			asbv=new AdminSucBidVO(rs.getString("user_id"), rs.getString("item_name"), rs.getString("auc_code"), rs.getString("start_date"), 
+					rs.getString("ended_date"), rs.getInt("ended_price"), rs.getInt("start_price"));
 			list.add(asbv);
 		}//end while
 		}finally {
 			dbClose(con, pstmt, rs);
 		}
 		return list;
-		
 	}//selectSucBid
 
 	/**
@@ -376,7 +347,7 @@ public class AdminDAO {
 		StringBuilder updateApprove=new StringBuilder();
 		updateApprove
 		.append(" update auc_item")
-		.append(" set permit_date=sysdate, permit='Y' ")
+		.append(" set permit_date=sysdate, permit='Y', start_date=to_date(sysdate+1,'yy-mm-dd') ")
 		.append(" where auc_code=?");
 		
 		con=getconn();
@@ -387,6 +358,37 @@ public class AdminDAO {
 		if(rsFlag!=0) {
 			flag=true;
 		}//end if
+		}finally {
+			dbClose(con, pstmt, null);
+		}
+		return flag;
+	}//updateApproveItem
+	
+	/**
+	 * 승인되면서 , 입찰 가데이터 추가됨!!!!!
+	 * @throws SQLException 
+	 * */
+	public boolean insertBidUserData() throws SQLException {
+		boolean flag=false;
+		int rsFlag=0;
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		
+		try {
+			StringBuilder insertBidData=new StringBuilder();
+			insertBidData
+			.append(" insert into bid_item(bid_num, bid_price, bid_date, auc_code, user_id)")
+			.append(" values(seq_bid.nextval,5000,sysdate, ? , ?) ");
+			
+			con=getconn();
+			pstmt=con.prepareStatement(insertBidData.toString());
+			pstmt.setString(1, AdminPageFrm.auc_code);
+			pstmt.setString(2, AdminPageFrm.user_id);
+			rsFlag=pstmt.executeUpdate();
+			
+			if(rsFlag!=0) {
+				flag=true;
+			}//end if
 		}finally {
 			dbClose(con, pstmt, null);
 		}
@@ -432,11 +434,16 @@ public class AdminDAO {
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		
-		String selectBid="select user_id, bid_date, bid_price from bid_item order by bid_price desc where auc_code=?";
+		StringBuilder selectBid=new StringBuilder();
+		selectBid
+		.append("select ai.auc_code, bi.user_id, bi.bid_price, bi.bid_date")
+		.append(" from auc_user au, auc_item ai, bid_item bi ")
+		.append(" where au.user_id=ai.user_id and bi.auc_code=ai.auc_code and bi.user_id!=? ")
+		.append(" order by bid_price desc ");
 		
 		con=getconn();
-		pstmt=con.prepareStatement(selectBid);
-		pstmt.setString(1, AdminPageFrm.auc_code);
+		pstmt=con.prepareStatement(selectBid.toString());
+		pstmt.setString(1, AdminPageFrm.user_id);
 		rs=pstmt.executeQuery();
 		
 		AdminItemPriceVO aipv=null;
@@ -448,5 +455,47 @@ public class AdminDAO {
 	}//selectATBidList
 	
 	
+	/**
+	 *  경매가 종료되면 ended_date로 insert되는 정보들
+	 */
+	public boolean insertEndBid() throws SQLException{
+		boolean insertFlag=false;
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
+		try {
+		StringBuilder selectSuc=new StringBuilder();
+		selectSuc
+		.append(" insert into ended_item(ended_num, send_status, ended_date, bid_num,ended_price) ")
+		.append(" values(seq_end_bid.nextval, '준비중', ")
+		.append(" sysdate+(select period from auc_item where auc_code=?), ")
+		.append(" (select num from ")
+		.append(" (select rownum r, bid_price, num  from ")
+		.append(" (select rownum, bid_price, bid_num num ")
+		.append(" from bid_item where auc_code=? order by bid_price desc)) ")
+		.append(" where r=1), ")
+		.append(" (select bid_price ")
+		.append(" from(select rownum , bid_price ")
+		.append(" from(select rownum , bid_price, user_id from bid_item where user_id!=? and rownum=1 order by bid_price desc) ")
+		.append(" where rownum=1)) ")
+		.append(" ); ");
+		
+		con=getconn();
+		pstmt=con.prepareStatement(selectSuc.toString());
+		pstmt.setString(1, AdminPageFrm.auc_code);
+		pstmt.setString(2, AdminPageFrm.auc_code);
+		pstmt.setString(3, AdminPageFrm.user_id);
+		rs=pstmt.executeQuery();
+		
+		while(rs.next()) {
+			insertFlag=true;
+		}//end while
+		}finally {
+			dbClose(con, pstmt, rs);
+		}
+		return insertFlag;
+		
+	}//selectSucBid
 	
 }//class

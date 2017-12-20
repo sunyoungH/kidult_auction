@@ -153,7 +153,7 @@ public static final int BIDDING_LIST=3;
 	}//viewPermitList
 	
 	/**
-	 입찰 목록   왜 rowCount 1부터 시작해야하는지....
+	 입찰 목록   
 	 * */
 	public void viewBidList() throws SQLException {
 		DefaultTableModel bidList=apf.getBidList();
@@ -174,8 +174,8 @@ public static final int BIDDING_LIST=3;
 			rowData[3]=abv.getAuc_code();
 			rowData[4]=abv.getBid_price();
 			rowData[5]=abv.getStart_price();
-			rowData[6]=abv.getPermit_date();
-			rowData[7]=abv.getEnded_date();
+			rowData[6]=abv.getStart_date();
+			rowData[7]=abv.getPeriod()+"일";
 			
 			bidList.addRow(rowData);
 		}//end for
@@ -189,10 +189,11 @@ public static final int BIDDING_LIST=3;
 	
 	public void viewSucBidList() throws SQLException {
 		DefaultTableModel sucList= apf.getSucBidList();
-		sucList.setRowCount(0);
+		sucList.setRowCount(1);
 		
 		AdminDAO a_dao=AdminDAO.getInstance();
 		List<AdminSucBidVO> sucBidList=a_dao.selectSucBid();
+		System.out.println(sucBidList.get(0));
 		
 		Object[] rowData=null;
 		AdminSucBidVO asbv=null;
@@ -204,9 +205,9 @@ public static final int BIDDING_LIST=3;
 			rowData[1]=asbv.getUser_id();
 			rowData[2]=asbv.getItem_name();
 			rowData[3]=asbv.getAuc_code();
-			rowData[4]=asbv.getBid_price();
+			rowData[4]=asbv.getEnded_price();
 			rowData[5]=asbv.getStart_price();
-			rowData[6]=asbv.getPermit_date();
+			rowData[6]=asbv.getStart_date();
 			rowData[7]=asbv.getEnded_date();
 			
 			sucList.addRow(rowData);
@@ -230,6 +231,9 @@ public static final int BIDDING_LIST=3;
 		}//end for
 	}//viewApprove
 	
+	
+	
+	
 	/**
 	 * getImgIcon  승인, 승인거부 창에 있는 이미지 네장 불러오는 method
 	 * */
@@ -247,22 +251,24 @@ public static final int BIDDING_LIST=3;
 		JTable bidList=apf.getJtbidList();
 		
 		switch(jtpTab.getSelectedIndex()) {
-//		case WAITING_LIST :
-//			if(me.getClickCount()==2) {
-//			 AdminPageFrm.auc_code=(String)waitingList.getValueAt(waitingList.getSelectedRow(), 2);
-//			 System.out.println(AdminPageFrm.auc_code+" : adminPageFrmEvt에서 찍히는 auction code");
-//			 try {
-//				 new ApproveFrm(apf);
-//			 } catch (SQLException e) {
-//				 e.printStackTrace();
-//			 }//end catch
-//			 }//end if
-//			break;
+		case WAITING_LIST :
+			if(me.getClickCount()==2) {
+			 AdminPageFrm.auc_code=(String)waitingList.getValueAt(waitingList.getSelectedRow(), 2);
+			 AdminPageFrm.user_id=(String)waitingList.getValueAt(waitingList.getSelectedRow(), 1);
+			 System.out.println(AdminPageFrm.auc_code+" : adminPageFrmEvt에서 찍히는 auction code");
+			 try {
+				 new ApproveFrm(apf);
+			 } catch (SQLException e) {
+				 e.printStackTrace();
+			 }//end catch
+			 }//end if
+			break;
 			
 		case BIDDING_LIST :
 			if(me.getClickCount()==2) {
 				System.out.println("넌 왜안타");
 				AdminPageFrm.auc_code=(String)bidList.getValueAt(bidList.getSelectedRow(), 3);
+				AdminPageFrm.user_id=(String)bidList.getValueAt(bidList.getSelectedRow(), 1);
 				System.out.println(AdminPageFrm.auc_code);
 				try {
 					new AllTimeBidFrm(apf);

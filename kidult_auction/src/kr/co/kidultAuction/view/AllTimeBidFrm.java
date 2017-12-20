@@ -48,42 +48,41 @@ public class AllTimeBidFrm extends JDialog{
 		};
 		
 		//column 의 넓이 변경
-				jtAllBid.getColumnModel().getColumn(0).setPreferredWidth(120);//경매코드
+				jtAllBid.getColumnModel().getColumn(0).setPreferredWidth(100);//경매코드
 				jtAllBid.getColumnModel().getColumn(1).setPreferredWidth(100);//입찰자ID
-				jtAllBid.getColumnModel().getColumn(2).setPreferredWidth(60);//입찰가
-				jtAllBid.getColumnModel().getColumn(3).setPreferredWidth(60);//입찰시간
+				jtAllBid.getColumnModel().getColumn(2).setPreferredWidth(100);//입찰가
+				jtAllBid.getColumnModel().getColumn(3).setPreferredWidth(100);//입찰시간
 				//column의 높이 변경
 				jtAllBid.setRowHeight(50);
 				//컬럼 이동막기
 				jtAllBid.getTableHeader().setReorderingAllowed(false);
+	
+				viewAllTimeBidding();
 				
 				JScrollPane jspAllBid=new JScrollPane(jtAllBid);
 				
-				jtpTab=new JTabbedPane();
-				jtpTab.add("등록한 경매", jspAllBid);
+				jspAllBid.setBounds(0,0,400,500);
 				
-				jtpTab.setBounds(0,0,800,500);
+				add(jspAllBid);
 				
-				add(jtpTab);
-				
-				setBounds(100,100,810,500);
+				setBounds(0, 0, 400, 500);
 				setVisible(true);
 				setResizable(false);
 				
-				viewAllTimeBidding();
 	}//AllTimeBidFrm
 	
 	public void viewAllTimeBidding() throws SQLException {
 		AdminDAO a_dao=AdminDAO.getInstance();
 		List<AdminItemPriceVO> allTimelist=a_dao.selectATBidList();
-			
+		
+		dtmAllBid.setRowCount(0);
 		Object[] rowData=null;
 		AdminItemPriceVO aipv=null;
 		
 		for(int i=0; i<allTimelist.size(); i++) {
 			aipv=allTimelist.get(i);
 			rowData=new Object[4];
-			rowData[0]="버튼눌릴때 경매코드받아오기";
+			rowData[0]=AdminPageFrm.auc_code;
 			rowData[1]=aipv.getUser_id();
 			rowData[2]=aipv.getBid_price();
 			rowData[3]=aipv.getBid_date();
