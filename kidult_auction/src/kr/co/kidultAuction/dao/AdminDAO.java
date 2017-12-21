@@ -241,7 +241,7 @@ public class AdminDAO {
 		try {
 		StringBuilder selectBid=new StringBuilder();
 		selectBid
-		.append(" select rownum r, user_id, item_name, auc_code, bid_price, start_price, to_date(start_date,'yy-mm-dd') start_date, period ")
+		.append(" select rownum r, user_id, item_name, auc_code, bid_price, start_price, to_date(start_date,'yy-mm-dd') start_date, to_date(start_date+period, 'yy-mm-dd') bid_end_date ")
 		.append(" from(select rownum, au.user_id user_id, ai.item_name item_name, ai.auc_code auc_code, bi.bid_price bid_price, ")
 		.append(" ai.start_price start_price, ai.start_date start_date, ai.period period ")
 		.append(" from auc_user au, auc_item ai, bid_item bi ")
@@ -255,8 +255,7 @@ public class AdminDAO {
 		AdminBidVO abv=null;
 		while(rs.next()) {
 			abv=new AdminBidVO(rs.getString("user_id"),  rs.getString("auc_code"), rs.getString("item_name"),rs.getString("start_date"), 
-						 rs.getInt("bid_price"), rs.getInt("start_price"), rs.getInt("period"));
-			
+						 rs.getString("bid_end_date"), rs.getInt("bid_price"), rs.getInt("start_price"));
 			list.add(abv);
 		}//end while
 		}finally {
@@ -457,6 +456,7 @@ public class AdminDAO {
 	
 	/**
 	 *  경매가 종료되면 ended_date로 insert되는 정보들
+	 *  경매 종료 처리 > 1. 자바내에서 sdf와 end_bid_price가 동일할때 insert처리?? 
 	 */
 	public boolean insertEndBid() throws SQLException{
 		boolean insertFlag=false;
@@ -469,7 +469,7 @@ public class AdminDAO {
 		selectSuc
 		.append(" insert into ended_item(ended_num, send_status, ended_date, bid_num,ended_price) ")
 		.append(" values(seq_end_bid.nextval, '준비중', ")
-		.append(" sysdate+(select period from auc_item where auc_code=?), ")
+		.append(" (select start_date from auc_item where auc_code=?)+(select period from auc_item where auc_code=?), ")
 		.append(" (select num from ")
 		.append(" (select rownum r, bid_price, num  from ")
 		.append(" (select rownum, bid_price, bid_num num ")
@@ -485,7 +485,8 @@ public class AdminDAO {
 		pstmt=con.prepareStatement(selectSuc.toString());
 		pstmt.setString(1, AdminPageFrm.auc_code);
 		pstmt.setString(2, AdminPageFrm.auc_code);
-		pstmt.setString(3, AdminPageFrm.user_id);
+		pstmt.setString(3, AdminPageFrm.auc_code);
+		pstmt.setString(4, AdminPageFrm.user_id);
 		rs=pstmt.executeQuery();
 		
 		while(rs.next()) {
@@ -497,5 +498,7 @@ public class AdminDAO {
 		return insertFlag;
 		
 	}//selectSucBid
+	
+	
 	
 }//class

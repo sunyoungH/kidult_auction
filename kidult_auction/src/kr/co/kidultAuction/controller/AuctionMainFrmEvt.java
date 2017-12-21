@@ -3,6 +3,8 @@ package kr.co.kidultAuction.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import kr.co.kidultAuction.view.AddAuctionItemFrm;
 import kr.co.kidultAuction.view.AddUserFrm;
@@ -16,7 +18,20 @@ public class AuctionMainFrmEvt implements ActionListener{
 	private AuctionMainFrm amf;
 	public AuctionMainFrmEvt(AuctionMainFrm amf) {
 		this.amf=amf;
-	}
+		insertEndBid();
+		System.out.println(insertEndBid());
+	}//auctionmainFrmEvt
+	
+	public boolean insertEndBid() {
+		boolean endflag=false;
+		SimpleDateFormat sdf=new SimpleDateFormat("yy-MM-dd");
+		String nowDate=sdf.format(new Date());
+		if(nowDate.equals("17-12-21")) {
+			endflag=true;
+		}//end if
+		return endflag;
+	}//insertEndBid
+	
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		if(ae.getSource()==amf.getBtnAddUser()) {
@@ -43,6 +58,8 @@ public class AuctionMainFrmEvt implements ActionListener{
 			new MyPageFrm(amf);
 		}//end if
 		
+		
 	}//actionPerformed
+	
 	
 }//class

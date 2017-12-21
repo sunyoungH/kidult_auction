@@ -175,7 +175,7 @@ public static final int BIDDING_LIST=3;
 			rowData[4]=abv.getBid_price();
 			rowData[5]=abv.getStart_price();
 			rowData[6]=abv.getStart_date();
-			rowData[7]=abv.getPeriod()+"¿œ";
+			rowData[7]=abv.getBid_end_date();
 			
 			bidList.addRow(rowData);
 		}//end for
@@ -189,7 +189,7 @@ public static final int BIDDING_LIST=3;
 	
 	public void viewSucBidList() throws SQLException {
 		DefaultTableModel sucList= apf.getSucBidList();
-		sucList.setRowCount(1);
+		sucList.setRowCount(0);
 		
 		AdminDAO a_dao=AdminDAO.getInstance();
 		List<AdminSucBidVO> sucBidList=a_dao.selectSucBid();

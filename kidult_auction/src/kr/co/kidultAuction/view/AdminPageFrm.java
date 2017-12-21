@@ -37,7 +37,7 @@ public class AdminPageFrm extends JDialog{
 		String[][] arrWatingListData= {{"","","","","","","",""}};
 		String[] arrCompleteList= {"번호","판매자ID","경매코드","카테고리","상태","물건명","시작가격","경매기간"};
 		String[][] arrCompleteListData= {{"","","","","","","",""}};
-		String[] arrBidList= {"번호","등록자ID","물건명","경매코드","현재 최고 입찰가","시작가격","시작일","경매기간"};
+		String[] arrBidList= {"번호","등록자ID","물건명","경매코드","현재 최고 입찰가","시작가격","시작일","종료일"};
 		String[][] arrBidListData= {{"","","","","","","",""}};
 		String[] arrSucBidList= {"번호","등록자ID","물건명","경매코드","낙찰가","시작가격","시작일","종료일"};
 		String[][] arrSucBidListData= {{"","","","","","","",""}};

@@ -1,23 +1,23 @@
 package kr.co.kidultAuction.vo;
 
 public class AdminBidVO {
-	private String user_id, auc_code, item_name, start_date;
-	private int bid_price, start_price, period;
+	private String user_id, auc_code, item_name, start_date, bid_end_date;
+	private int bid_price, start_price;
 	
 	public AdminBidVO() {
 		super();
 	}
 
-	public AdminBidVO(String user_id, String auc_code, String item_name, String start_date, int bid_price,
-			int start_price, int period) {
+	public AdminBidVO(String user_id, String auc_code, String item_name, String start_date, String bid_end_date,
+			int bid_price, int start_price) {
 		super();
 		this.user_id = user_id;
 		this.auc_code = auc_code;
 		this.item_name = item_name;
 		this.start_date = start_date;
+		this.bid_end_date = bid_end_date;
 		this.bid_price = bid_price;
 		this.start_price = start_price;
-		this.period = period;
 	}
 
 	public String getUser_id() {
@@ -52,6 +52,14 @@ public class AdminBidVO {
 		this.start_date = start_date;
 	}
 
+	public String getBid_end_date() {
+		return bid_end_date;
+	}
+
+	public void setBid_end_date(String bid_end_date) {
+		this.bid_end_date = bid_end_date;
+	}
+
 	public int getBid_price() {
 		return bid_price;
 	}
@@ -68,13 +76,6 @@ public class AdminBidVO {
 		this.start_price = start_price;
 	}
 
-	public int getPeriod() {
-		return period;
-	}
-
-	public void setPeriod(int period) {
-		this.period = period;
-	}
 
 	
 	
