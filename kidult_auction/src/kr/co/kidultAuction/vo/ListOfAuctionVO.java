@@ -8,16 +8,24 @@ public class ListOfAuctionVO {
 		super();
 	}
 
-	public ListOfAuctionVO(String front_img, String status, String item_name, String end_date, String user_id,
-			String auc_code, int start_price) {
+	public ListOfAuctionVO(String auc_code,String front_img, String status, String item_name, String end_date, String user_id,
+			int start_price) {
 		super();
+		this.auc_code = auc_code;
 		this.front_img = front_img;
 		this.status = status;
 		this.item_name = item_name;
 		this.end_date = end_date;
 		this.user_id = user_id;
-		this.auc_code = auc_code;
 		this.start_price = start_price;
+	}
+
+	public String getAuc_code() {
+		return auc_code;
+	}
+	
+	public void setAuc_code(String auc_code) {
+		this.auc_code = auc_code;
 	}
 
 	public String getFront_img() {
@@ -60,14 +68,6 @@ public class ListOfAuctionVO {
 		this.user_id = user_id;
 	}
 
-	public String getAuc_code() {
-		return auc_code;
-	}
-
-	public void setAuc_code(String auc_code) {
-		this.auc_code = auc_code;
-	}
-
 	public int getStart_price() {
 		return start_price;
 	}
@@ -78,10 +78,11 @@ public class ListOfAuctionVO {
 
 	@Override
 	public String toString() {
-		return "ListOfAuctionVO [front_img=" + front_img + ", status=" + status + ", item_name=" + item_name
-				+ ", end_date=" + end_date + ", user_id=" + user_id + ", auc_code=" + auc_code + ", start_price="
+		return "ListOfAuctionVO [auc_code=" + auc_code + ", front_img=" + front_img + ", status=" + status + ", item_name=" + item_name
+				+ ", end_date=" + end_date + ", user_id=" + user_id + ", start_price="
 				+ start_price + "]";
 	}
+
 	
 	
 	

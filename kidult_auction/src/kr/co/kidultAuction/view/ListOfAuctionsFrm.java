@@ -1,5 +1,6 @@
 package kr.co.kidultAuction.view;
 
+import java.awt.Button;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.sql.SQLException;
@@ -20,86 +21,105 @@ import kr.co.kidultAuction.controller.ListOfAuctionsEvt;
 import kr.co.kidultAuction.dao.UserDAO_YW;
 
 
+@SuppressWarnings("serial")
 public class ListOfAuctionsFrm extends JDialog {
 	
 	private AuctionMainFrm amf;
 
 	private JComboBox cbCategory; 
 	
-	private JButton btnSearch, btnShowDetail;
+	private JButton btnSearch;
 	
-	private JLabel lbItemName, lbSeller, lbSellerId, lbSPrice, lbUserPrice, lbImg, lbDday;
+	private ArrayList<JButton> btnShowDetail;
 	
-	private JPanel jpImg, jpSpac, jpAuctionitem, jpAuctionList;
+	private ArrayList<JLabel> lbItemName, lbSeller, lbSellerId, lbSPrice, lbUserPrice, lbImg, lbDday;
 	
+	private ArrayList<JPanel> arrAuctionitem, jpImg, jpSpac, jpAuctionitem, jpSpacprice;
+	
+	private JPanel jp, jpAuctionList;
 	
 	public ListOfAuctionsFrm(AuctionMainFrm amf) throws SQLException {
 		super(amf,"Kidult Auction - 경매목록",true);
+		
+		UserDAO_YW u_dao=UserDAO_YW.getInstance();
 		
 ////////////////////////////////// 리스트 구성 //////////////////////////////////
 		
 		jpAuctionList=new JPanel(); //전체 틀 패널
 		int cnt=0;
-		ArrayList<JPanel> arrAuctionitem=new ArrayList<>();
-		JPanel jpSpacprice=null;
-		for(int i=0;i<5;i++) {
-			jpAuctionitem=new JPanel();	//innerPanel
+		arrAuctionitem=new ArrayList<>();
+//		jpSpacprice=null;
+//		for(int i=0;i<5;i++) {
+			jpAuctionitem=new ArrayList<>();	//innerPanel
 			
-			btnShowDetail=new JButton("상세정보");
+//			btnShowDetail=new JButton("상세정보");
 			
-			lbItemName=new JLabel("lbItemName");
-			lbSeller=new JLabel("lbSeller");
-			lbSellerId=new JLabel("lbSellerId");
-			lbSPrice=new JLabel("lbSPrice");
-			lbUserPrice=new JLabel("lbUserPrice");
-			lbImg=new JLabel(new ImageIcon("C:/dev/git/kidult_auction/kidult_auction/src/kr/co/kidultAuction/img/addImg.png"));
-			lbDday=new JLabel("lbDday");
+			JLabel[][] jl=new JLabel[2][7];
+			for(int i=0; i<jl.length;i++) {
+				JButton[][] jb=new JButton[2][2];
+				for(int j=0; j<jl[i].length;j++) {
+					jl[i][j]=new JLabel(i+"1");
+					jp.add(jl[i][j]);
+				}
+				jpAuctionList.add(arrAuctionitem.get(i));
+			}
+//			lbSeller=new ArrayList<>();
+//			lbSellerId=new ArrayList<>();
+//			lbSPrice=new ArrayList<>();
+//			lbUserPrice=new ArrayList<>();
+//			lbImg=new ArrayList<>(new ImageIcon("C:/dev/git/kidult_auction/kidult_auction/src/kr/co/kidultAuction/img/addImg.png"));
+//			lbDday=new ArrayList<>();
 			
-			jpSpacprice=new JPanel(new GridLayout(2,2));
-			jpSpacprice.add(lbSeller);
-			jpSpacprice.add(lbSellerId);
-			jpSpacprice.add(lbSPrice);
-			jpSpacprice.add(lbUserPrice);
+			jpSpacprice=new ArrayList<>();
+//			jpSpacprice.add(lbSeller);
+//			jpSpacprice.add(lbSellerId);
+//			jpSpacprice.add(lbSPrice);
+//			jpSpacprice.add(lbUserPrice);
 			
-			jpSpac=new JPanel(new GridLayout(4, 1));
-			jpSpac.setPreferredSize(new Dimension(290, 212));
-			jpSpac.add(lbItemName);
-			jpSpac.add(jpSpacprice);
-			jpSpac.add(lbDday);
-			jpSpac.add(btnShowDetail);
+			jpSpac=new ArrayList<>();
+//			jpSpac.setPreferredSize(new Dimension(290, 212));
+//			jpSpac.add(lbItemName);
+//			jpSpac.add(jpSpacprice);
+//			jpSpac.add(lbDday);
+//			jpSpac.add(btnShowDetail);
 			
 			
-			jpImg=new JPanel();
-			jpImg.add(lbImg);
+			jpImg=new ArrayList<>();
+//			jpImg.add(lbImg);
 			
-			jpAuctionitem.setBorder(new TitledBorder(""));
-			jpAuctionitem.add(jpImg);
-			jpAuctionitem.add(jpSpac);
+//			jpAuctionitem.setBorder(new TitledBorder(""));
+//			jpAuctionitem.add(jpImg);
+//			jpAuctionitem.add(jpSpac);
 			cnt++;
 			
 ////////////////////////////////// 수정 //////////////////////////////////
-			arrAuctionitem.add(jpAuctionitem);
-			jpAuctionList.add(arrAuctionitem.get(i));
+			arrAuctionitem.add(jp);
+			
 			jpAuctionList.setPreferredSize(new Dimension(300, cnt*200));
-		}//end while
+			
+//		}//end while
 		
 ////////////////////////////////// 수정 //////////////////////////////////
 		
 ////////////////////////////////// 리스트 구성 //////////////////////////////////
 		
-		UserDAO_YW u_dao=UserDAO_YW.getInstance();
+		List<String> list=u_dao.selectCategory();
 		
-		cbCategory=new JComboBox();
-		cbCategory.setModel(new DefaultComboBoxModel(u_dao.selectCategory().toArray()));
+		DefaultComboBoxModel<String> dcbm=new DefaultComboBoxModel<>();
 		
-//		for(int i=0; i<categorylist.size(); i++) {
-//			dbcm.addElement(categorylist.get(i));
-//			
-//		}//end for
+		dcbm.addElement("전체상품");
+		for(int i=0; i<list.size(); i++) {
+			switch(list.get(i)) {
+			case "F" : dcbm.addElement("피규어");
+			break;
+			case "P" : dcbm.addElement("프라모델");
+			break;
+			case "L" : dcbm.addElement("레고");
+			}//end switch
+		}//end for
 		
 		
-//		cbCategory.setSelectedItem(categorylist);
-
+		cbCategory=new JComboBox<>(dcbm);
 		
 		btnSearch=new JButton("검색");
 		
@@ -122,8 +142,10 @@ public class ListOfAuctionsFrm extends JDialog {
 		
 		//이벤트 등록
 		ListOfAuctionsEvt loae=new ListOfAuctionsEvt(this);
-		btnShowDetail.addActionListener(loae);
+//		btnShowDetail.addActionListener(loae);
 		cbCategory.addActionListener(loae);
+		btnSearch.addActionListener(loae);
+		
 		
 		
 		setBounds(100, 100, 600, 900);
@@ -133,16 +155,14 @@ public class ListOfAuctionsFrm extends JDialog {
 		
 		
 	}//ListOfAuctionsFrm
-	
-
-	public JButton getBtnShowDetail() {
-		return btnShowDetail;
-	}
 
 
-	public JComboBox<String> getCbCategory() {
+	public JComboBox getCbCategory() {
 		return cbCategory;
 	}
 
-	
+	public JButton getBtnSearch() {
+		return btnSearch;
+	}
+
 }//class

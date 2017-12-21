@@ -9,9 +9,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
+import kr.co.kidultAuction.view.ListOfAuctionsFrm;
+import kr.co.kidultAuction.vo.ListOfAuctionVO;
 import kr.co.kidultAuction.vo.LoginVO;
 import kr.co.kidultAuction.vo.PasswordVO;
 import kr.co.kidultAuction.vo.UserEditVO;
@@ -147,6 +150,8 @@ public class UserDAO_YW {
 		return list;
 	}//selectUserInfo
 	
+//////////////////////////////////////////////////////////////////////////////////////
+	
 	public List<String> selectCategory() throws SQLException {
 		List<String> list=new ArrayList<>();
 		
@@ -162,11 +167,48 @@ public class UserDAO_YW {
 			rs=pstmt.executeQuery();
 			while (rs.next()) {
 				list.add(rs.getString("category"));
+				System.out.println(rs.getString("category"));
 			}//end while
 		} finally {
 			dbClose(con, pstmt, rs);
 		}//end finally
 		return list;
 	}//selectCategory
+	
+	public List<ListOfAuctionVO> selectItem() throws SQLException{
+
+		List<ListOfAuctionVO> list=new ArrayList<ListOfAuctionVO>();
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
+		try {
+			con=getconn();
+			
+			StringBuilder selectCategory=new StringBuilder();
+			selectCategory.append("select front_img, status, item_name, end_date, user_id, auc_code, start_price")
+						  .append(" from auc_item ")
+						  /*.append(" where auc_code=? ")*/;
+			pstmt=con.prepareStatement(selectCategory.toString());
+			
+//			pstmt.setString(1, ListOfAuctionsFrm.);
+			
+			rs=pstmt.executeQuery();
+			
+			ListOfAuctionVO loav=null;
+			while (rs.next()) {
+				loav=new ListOfAuctionVO(rs.getString("front_img"),rs.getString("status"),rs.getString("item_name")
+										,rs.getString("end_date"),rs.getString("user_id"),rs.getString("auc_code")
+										,rs.getInt("start_price"));
+				list.add(loav);
+			}//end while
+		} finally {
+			dbClose(con, pstmt, rs);
+		}//end finally
+		
+		return list;
+	}//selectItem
+	
+//////////////////////////////////////////////////////////////////////////////////////
 	
 	}//class
