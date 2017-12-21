@@ -8,7 +8,10 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 import kr.co.kidultAuction.controller.MyAuctionFrmEvt;
 
@@ -90,8 +93,8 @@ public class MyAuctionFrm extends JDialog {
 		jtAucItem.getColumnModel().getColumn(2).setPreferredWidth(60);// 카테고리
 		jtAucItem.getColumnModel().getColumn(3).setPreferredWidth(60);// 경매시작가격
 		jtAucItem.getColumnModel().getColumn(4).setPreferredWidth(60);// 경매기간
-		jtAucItem.getColumnModel().getColumn(5).setPreferredWidth(50);// 등록일
-		jtAucItem.getColumnModel().getColumn(6).setPreferredWidth(60);// 승인여부
+		jtAucItem.getColumnModel().getColumn(5).setPreferredWidth(80);// 등록일
+		jtAucItem.getColumnModel().getColumn(6).setPreferredWidth(40);// 승인여부
 		// column의 높이 변경
 		jtAucItem.setRowHeight(50);
 		// 컬럼 이동막기
@@ -135,6 +138,30 @@ public class MyAuctionFrm extends JDialog {
 		jtpTab.addTab("받을물건", jspRecieve);
 
 		jtpTab.setBounds(0, 0, 795, 500);
+		
+		//가운데 정렬
+		DefaultTableCellRenderer center = new DefaultTableCellRenderer();
+
+		center.setHorizontalAlignment(SwingConstants.CENTER);
+		// 정렬할 테이블의 ColumnModel을 가져옴
+		TableColumnModel tcmAuc = jtAucItem.getColumnModel();
+
+		// 반복문을 이용하여 테이블을 가운데 정렬로 지정
+		for (int i = 0; i < tcmAuc.getColumnCount(); i++) {
+			tcmAuc.getColumn(i).setCellRenderer(center);
+		}
+		/////////////////////////////////////////////////////////////////////
+		TableColumnModel tcmSend = jtSendItem.getColumnModel();
+		
+		for (int i = 0; i < tcmSend.getColumnCount(); i++) {
+			tcmSend.getColumn(i).setCellRenderer(center);
+		}
+		/////////////////////////////////////////////////////////////////////
+		TableColumnModel tcmRecieve = jtRecieveItem.getColumnModel();
+		
+		for (int i = 0; i < tcmRecieve.getColumnCount(); i++) {
+			tcmRecieve.getColumn(i).setCellRenderer(center);
+		}
 
 		add(jtpTab);
 

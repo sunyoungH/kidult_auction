@@ -16,6 +16,7 @@ import kr.co.kidultAuction.view.AuctionMainFrm;
 import kr.co.kidultAuction.vo.AddUserVO;
 import kr.co.kidultAuction.vo.LoginVO;
 import kr.co.kidultAuction.vo.MyAuctionAddVO;
+import kr.co.kidultAuction.vo.MyAuctionReceiveVO;
 import kr.co.kidultAuction.vo.MyAuctionSendVO;
 import kr.co.kidultAuction.vo.UserEditVO;
 import kr.co.kidultAuction.vo.UserShowVO;
@@ -291,6 +292,39 @@ public class UserDAO_MH {
 			return list;
 		}//AuctionSend
 	  
+	/**
+	 * 받을 물건
+	 */
+	public List<MyAuctionReceiveVO> selectMyAuctionReceive() throws SQLException{
+		List<MyAuctionReceiveVO> list=new ArrayList<MyAuctionReceiveVO>();
+		
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		MyAuctionReceiveVO masv = null;
+		
+		try {
+		StringBuilder AuctionReceive=new StringBuilder();
+		AuctionReceive.append(" select a.item_name, a.category, a.period, a.add_date, a.permit, a.start_price, r.reject_reason");
+		AuctionReceive.append(" from auc_item a, reject_item r  where a.auc_code=r.auc_code and user_id=?");
+		
+		con=getconn();
+		pstmt=con.prepareStatement(AuctionReceive.toString());
+		pstmt.setString(1, AuctionMainFrm.User_id );
+		rs=pstmt.executeQuery();
+		
+		 while (rs.next()) {
+			 masv = new MyAuctionReceiveVO(rs.getString("item_name"), rs.getString("add_date"), rs.getString("ended_date"),
+                             rs.getString("kakao_id"), rs.getString("send_status"), rs.getInt("start_price") ,rs.getInt("bid_price"));
+			 
+             list.add(masv); 
+     } // end while
+
+		}finally {
+			dbClose(con, pstmt, rs);
+		}//end finally
+		return list;
+	}//AuctionSend
 	  
 	  
 	}//class

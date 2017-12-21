@@ -125,6 +125,7 @@ public class UserEditFrmEvt implements ActionListener {
 				updateUser();
 				System.out.println("변경되었음");
 			} catch (SQLException e) {
+				System.out.println("변경 안되었음");
 				e.printStackTrace();
 			}
 		} // end if

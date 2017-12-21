@@ -31,6 +31,7 @@ public class MyPageFrmEvt implements ActionListener {
 		if (ae.getSource() == mpf.getBtnMyAuction()) {
 			try {
 				new MyAuctionFrm(amf);
+				System.out.println("마이옥션");
 			} catch (SQLException e) {
 				JOptionPane.showMessageDialog(null, "응 sql 잘못해쪄");
 			}
