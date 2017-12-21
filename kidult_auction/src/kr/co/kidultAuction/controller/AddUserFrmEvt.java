@@ -4,107 +4,241 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 import kr.co.kidultAuction.dao.UserDAO_JR;
 import kr.co.kidultAuction.view.AddUserFrm;
+import kr.co.kidultAuction.view.AuctionMainFrm;
 import kr.co.kidultAuction.vo.AddUserVO;
 
 public class AddUserFrmEvt implements ActionListener {
-	
 	private AddUserFrm auf;
 	private AddUserVO auv;
 	private UserDAO_JR u_dao;
-	private String[] ex;
-	
+	private boolean flag=false;
+
 	public AddUserFrmEvt(AddUserFrm auf) {
 		this.auf=auf;
 	}//AddUserFrmEvt
-	
+
+	private boolean chkPassEqual() { // 입력된 비밀번호확인과 비밀번호와 같은지 확인하는 매서드
+		boolean result = false;
+		return result;
+	}// chkPassEqual
+
 	public void addUser() throws IOException{
 		u_dao = UserDAO_JR.getInstance();
-		ex = new String[9];
+		auv = new AddUserVO();
+	}//addUser
+
+	private boolean overlapID() throws SQLException { // 중복 id가 있는지와 한글 id입력을 확인할 매서드
+		u_dao = UserDAO_JR.getInstance();		
+		String id = auf.getTfId().getText().trim();
+		char chrInput;
+		// 아이디 중복 체크
+		boolean chkId = u_dao.checkId(id);
 		
-		if(new String(auf.getTfId().getText()).equals("")) {
-			JOptionPane.showMessageDialog(auf, "아이디를 입력하세요.");
-			auf.getTfId().requestFocus();
-			ex[0] = String.valueOf(auf.getTfId().getText().trim());
-			return;
-		}
-		if(new String(auf.getPfPass().getPassword()).equals("")) {
-			JOptionPane.showMessageDialog(auf, "비밀번호를 입력하세요.");
-			auf.getPfPass().requestFocus();
-			return;
-		}
-		if(new String(auf.getPfPassCon().getPassword()).equals("")) {
-			JOptionPane.showMessageDialog(auf, "확인할 비밀번호를 입력하세요.");
-			auf.getPfPassCon().requestFocus();
-			return;
-		}
-		/*if(auf.getPfPass().getPassword().equals(obj)!=auf.getPfPassCon().getPassword()) {
-			JOptionPane.showMessageDialog(auf, "비밀번호가 일치하지 않습니다.");
-			auf.getPfPass().requestFocus();
-			return;
-		}*/
-		if(new String(auf.getTfName().getText()).equals("")) {
-			JOptionPane.showMessageDialog(auf, "이름을 입력하세요.");
-			auf.getTfName().requestFocus();
-			return;
-		}
-		if(new String(auf.getTfBirth().getText()).equals("")) {
-			JOptionPane.showMessageDialog(auf, "생년월일을 입력하세요.");
-			auf.getTfBirth().requestFocus();
-			return;
-		}
-		if(new String(auf.getTfAddr().getText()).equals("")) {
-			JOptionPane.showMessageDialog(auf, "주소를 입력하세요.");
-			auf.getTfAddr().requestFocus();
-			return;
-		}
-		if(new String(auf.getTfEmail().getText()).equals("")) {
-			JOptionPane.showMessageDialog(auf, "이메일을 입력하세요.");
-			auf.getTfEmail().requestFocus();
-			return;
-		}
-		if(new String(auf.getTfPhone().getText()).equals("")) {
-			JOptionPane.showMessageDialog(auf, "핸드폰번호를 입력하세요.");
-			auf.getTfPhone().requestFocus();
-			return;
-		}
-		if(new String(auf.getTfKakao().getText()).equals("")) {
-			JOptionPane.showMessageDialog(auf, "카카오아이디를 입력하세요.");
-			auf.getTfKakao().requestFocus();
-			return;
-		}
+		for (int i = 0; i < id.length(); i++) { 
+			chrInput = id.charAt(i); // 입력받은 텍스트에서 문자 하나하나 가져와서 체크
+			if (!((chrInput >= 0x61 && chrInput <= 0x7A)||(chrInput >=0x41 && chrInput <= 0x5A)||(chrInput >= 0x30 && chrInput <= 0x39))) {
+				JOptionPane.showMessageDialog(auf, "한글은 입력할수 없습니다.");
+				flag=false;   // 영문자도 아니고 숫자도 아님!
+				return true;
+			}//end if
+		}//end for
 		
+		if (chkId) {
+			JOptionPane.showMessageDialog(auf, id + "는(은) 이미 사용 중인 아이디 입니다.");
+			
+		} else if (!id.equals("")) {
+			JOptionPane.showMessageDialog(auf, id + "는(은) 사용 가능한 아이디 입니다.");
+			flag = true; // 밑에 입력안했을때의 if문을 타기위해 사용
+		} else {// 아이디 입력 하지 않았을때
+			JOptionPane.showMessageDialog(auf, "아이디가 입력되지 않았습니다.");
+		} // end if
+
+		return chkId;
+		
+	}// checkedId
+
+	public boolean checkedIdOption() throws SQLException {
+		u_dao = UserDAO_JR.getInstance();
+		String id = auf.getTfId().getText().trim();
+		char chrInput;
+
+		for (int i = 0; i < id.length(); i++) { 
+			chrInput = id.charAt(i); // 입력받은 텍스트에서 문자 하나하나 가져와서 체크
+			if (!((chrInput >= 0x61 && chrInput <= 0x7A)||(chrInput >=0x41 && chrInput <= 0x5A)||(chrInput >= 0x30 && chrInput <= 0x39))) {
+				JOptionPane.showMessageDialog(auf, "한글은 입력할수 없습니다.");
+				flag=false;   // 영문자도 아니고 숫자도 아님!
+			}//end if
+		}//end for
+
+		return true;
 	}
+
+	private void submitUser() {
+		u_dao = UserDAO_JR.getInstance();
+		auv = new AddUserVO();
+		
+		char chrInput;
+
+		JTextField tfId = auf.getTfId();
+		JTextField pfPass = auf.getPfPass();
+		JTextField pfPassCon = auf.getPfPassCon();
+		JTextField tfName = auf.getTfName();
+		JTextField tfBirth = auf.getTfBirth();
+		JTextField tfAddr = auf.getTfAddr();
+		JTextField tfEmail = auf.getTfEmail();
+		JTextField tfPhone = auf.getTfPhone();
+		JTextField tfKakao = auf.getTfKakao();
+
+		String id=tfId.getText().trim();
+		String pass=pfPass.getText().trim();
+		String passcon=pfPassCon.getText().trim();
+		String name=tfName.getText().trim();
+		String birth=tfBirth.getText().trim();
+		String addr=tfAddr.getText().trim();
+		String email=tfEmail.getText().trim();
+		String phone=tfPhone.getText().trim();
+		String kakao=tfKakao.getText().trim();
+
+		if(flag) {	
+			try {
+
+				if(id.equals("")) {
+					JOptionPane.showMessageDialog(auf, "아이디를 입력하세요.");
+					auf.getTfId().requestFocus();
+					return;
+				}//end if(id)
+
+				if(pass.equals("")) {
+					JOptionPane.showMessageDialog(auf, "비밀번호를 입력하세요.");
+					auf.getPfPass().requestFocus();
+					return;
+				}//end if(pass)
+
+				if(passcon.equals("")) {
+					JOptionPane.showMessageDialog(auf, "확인할 비밀번호를 입력하세요.");
+					auf.getPfPassCon().requestFocus();
+					return;
+				}//end if(passcon)
+
+				if(!pass.equals(passcon)) {
+					JOptionPane.showMessageDialog(auf, "비밀번호가 일치하지 않습니다. 확인해주세요.");
+					auf.getPfPass().requestFocus();
+					return;
+				}
+				if(name.equals("")) {
+					JOptionPane.showMessageDialog(auf, "이름을 입력하세요.");
+					auf.getTfName().requestFocus();
+					return;
+				}//end if(name)
+
+				if(birth.equals("")) {
+					JOptionPane.showMessageDialog(auf, "생년월일을 입력하세요.");
+					auf.getTfBirth().requestFocus();
+					return;
+				}//end if(birth)
+
+				for (int i = 0; i < birth.length(); i++) {
+					char c1 = birth.charAt(i);
+					if ((c1 < 48 || c1 > 57) || (birth.length() != 8)) {// // 생년월일 8자리 + 숫자로 입력하지 않았을때
+						JOptionPane.showMessageDialog(auf, "올바르지 않은 생년월일 입니다.");
+						return;
+
+					} // end if
+				} // end for
+
+				if(addr.equals("")) {
+					JOptionPane.showMessageDialog(auf, "주소를 입력하세요.");
+					auf.getTfAddr().requestFocus();
+					return;
+				}//end if(addr)
+
+				if(email.equals("")) {
+					JOptionPane.showMessageDialog(auf, "이메일을 입력하세요.");
+					auf.getTfEmail().requestFocus();
+					return;
+				}//end if(email)
+
+				if (email.indexOf("@") == -1 || email.indexOf(".") == -1) {
+					JOptionPane.showMessageDialog(auf, "올바르지 않은 이메일입니다.");
+					return;
+				} // end if
+
+				if(phone.equals("")) {
+					JOptionPane.showMessageDialog(auf, "번호를 입력하세요.");
+					auf.getTfPhone().requestFocus();
+					return;
+				}//end if(phone)
+
+				for (int i = 0; i < phone.length(); i++) {
+					char c1 = phone.charAt(i);
+					if ((c1 < 48 || c1 > 57) || (phone.length() != 11)) {// 폰번호가 숫자가 아니고 11자리가 아닌경우
+						JOptionPane.showMessageDialog(auf, "핸드폰 번호는 4자리 숫자만 입력해주세요");
+						return;
+					} // end if
+				} // end for
+
+				if(kakao.equals("")) {
+					JOptionPane.showMessageDialog(auf, "카카오 아이디를 입력하세요.");
+					auf.getTfKakao().requestFocus();
+					return;
+				}//end if(kakao)
+			
+				auv.setUser_id(id);
+				auv.setUser_pass(pass);
+				auv.setUser_pass(passcon);
+				auv.setName(name);
+				auv.setBirth_date(birth);
+				auv.setAddr(addr);
+				auv.setEmail(email);
+				auv.setPhone(phone);
+				auv.setKakao_id(kakao);
+
+				u_dao.insertUser(auv);
+				JOptionPane.showMessageDialog(auf, "가입을 환영합니다.");
+				auf.dispose();
+				auf.getAmf().dispose();
+				
+				new AuctionMainFrm();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}//end catch
+		}else {
+			JOptionPane.showMessageDialog(auf, "가입 조건 형식에 맞지 않습니다. 확인 후 가입하세요.");
+		}//end if
+	}//submitUser
+
+	public void Cancel() {
+		int cancelFlag = JOptionPane.showConfirmDialog(auf, "가입을 취소하시겠습니까?");
+		switch (cancelFlag) {
+		case JOptionPane.OK_OPTION:
+			auf.dispose();
+		}// end switch
+	}// checkCancel
 
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		if(ae.getSource() == auf.getBtnIdCheck()) {
 			
-		}
-		
-		if(ae.getSource() == auf.getBtnSubmit()) {
-			u_dao = UserDAO_JR.getInstance();
 			try {
-				u_dao.insertUser(ex);
+				overlapID();
 			} catch (SQLException e) {
 				e.printStackTrace();
-			}
-			
-			
-			System.out.println("등록완료");
+			}//end catch
 		}
-		
+	
+		if(ae.getSource() == auf.getBtnSubmit()) {
+				submitUser();
+		}//end if
+
 		if(ae.getSource() == auf.getBtnCancel()) {
-			auf.dispose();
-		}
+			Cancel();
+		}//end if
 	}//actionPerformed
-	
-	
 
 }//class
