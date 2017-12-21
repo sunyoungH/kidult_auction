@@ -72,10 +72,10 @@ public static final int BIDDING_LIST=3;
 			rowData[2]=auv.getName();
 			rowData[3]=auv.getPhone();
 			rowData[4]=auv.getKakao_id();
-			rowData[5]=auv.getBirth_date();
+			rowData[5]=auv.getBirth_date().substring(0, auv.getBirth_date().indexOf(" ")+1);
 			rowData[6]=auv.getEmail();
 			rowData[7]=auv.getAddr();
-			rowData[8]=auv.getUser_joindate();
+			rowData[8]=auv.getUser_joindate().substring(0, auv.getUser_joindate().indexOf(" ")+1);
 			
 			tempUserList.addRow(rowData);
 		}//end for
@@ -174,8 +174,8 @@ public static final int BIDDING_LIST=3;
 			rowData[3]=abv.getAuc_code();
 			rowData[4]=abv.getBid_price();
 			rowData[5]=abv.getStart_price();
-			rowData[6]=abv.getStart_date();
-			rowData[7]=abv.getBid_end_date();
+			rowData[6]=abv.getStart_date().substring(0, abv.getStart_date().indexOf(" ")+1);
+			rowData[7]=abv.getBid_end_date().substring(0, abv.getBid_end_date().indexOf(" ")+1);
 			
 			bidList.addRow(rowData);
 		}//end for
@@ -207,8 +207,8 @@ public static final int BIDDING_LIST=3;
 			rowData[3]=asbv.getAuc_code();
 			rowData[4]=asbv.getEnded_price();
 			rowData[5]=asbv.getStart_price();
-			rowData[6]=asbv.getStart_date();
-			rowData[7]=asbv.getEnded_date();
+			rowData[6]=asbv.getStart_date().substring(0, asbv.getStart_date().indexOf(" ")+1);
+			rowData[7]=asbv.getEnded_date().substring(0, asbv.getEnded_date().indexOf(" ")+1);
 			
 			sucList.addRow(rowData);
 		}//end for

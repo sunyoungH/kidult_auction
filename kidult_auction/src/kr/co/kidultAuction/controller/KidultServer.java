@@ -30,6 +30,7 @@ private ServerSocket server;
 		System.out.println("가동중");
 	}//kidultServer
 	
+	@Override
 	public void run() {		//파일이 읽는 메소드를 동기화 처리... 파일을 읽어들이는 일
 		
 		try {

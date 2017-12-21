@@ -127,7 +127,6 @@ public class AddTestEvt implements ActionListener{
 		
 		if(ae.getSource()==aiif.getBtnAdd()) {
 			System.out.println("µî·Ï");
-			new KidultServer();
 		}
 		
 		if(ae.getSource()==aiif.getBtnCancel()) {
