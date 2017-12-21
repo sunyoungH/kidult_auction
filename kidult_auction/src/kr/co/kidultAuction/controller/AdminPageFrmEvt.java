@@ -11,7 +11,9 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -28,6 +30,7 @@ import kr.co.kidultAuction.view.AuctionMainFrm;
 import kr.co.kidultAuction.view.ApproveFrm;
 import kr.co.kidultAuction.vo.AdminApproveVO;
 import kr.co.kidultAuction.vo.AdminBidVO;
+import kr.co.kidultAuction.vo.AdminOncomingBidVO;
 import kr.co.kidultAuction.vo.AdminPermitVO;
 import kr.co.kidultAuction.vo.AdminSucBidVO;
 import kr.co.kidultAuction.vo.AdminUserVO;
@@ -48,6 +51,7 @@ public static final int BIDDING_LIST=3;
 		viewPermitList();
 		viewBidList();
 		viewSucBidList(); 
+		endBid();
 	}//adminPageFrmEvt
 
 	
@@ -241,6 +245,35 @@ public static final int BIDDING_LIST=3;
 		
 	}
 	
+	
+	/**
+	 * 경매 자동 종료 메소드
+	 * @throws SQLException 
+	 * */
+	public boolean endBid() throws SQLException {
+		boolean flag=false;
+		AdminDAO a_dao=AdminDAO.getInstance();
+		List<AdminOncomingBidVO> dataList=a_dao.selectOncomingData();
+		AdminOncomingBidVO aobv=null;
+		SimpleDateFormat sdf=new SimpleDateFormat("yy-MM-dd");
+		String nowDate=sdf.format(new Date());
+		String expected_end_date="";
+		
+		for(int i=0; i<dataList.size(); i++) {
+			aobv=dataList.get(i);
+			expected_end_date=aobv.getExpected_end_date();
+		}//end for
+			if(expected_end_date!=null) {
+				expected_end_date=expected_end_date.substring(2, expected_end_date.indexOf(" "));
+				if(nowDate.equals(expected_end_date.substring(0, expected_end_date.indexOf(" ")))) {
+					//// static 변수에 auc_code를 저장 (AuctionMainPageFrm에 저장...)
+					/////insertEndBid DAO에 있는 데에 집어넣고 추가
+					/////
+					System.out.println("경매 종료 DB에 성공적으로 추가됐습니다.");
+				}//end if
+			}//end if
+		return flag;
+	}//endBid
 	
 	
 		

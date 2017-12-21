@@ -19,6 +19,7 @@ import kr.co.kidultAuction.view.AdminPageFrm;
 import kr.co.kidultAuction.view.AuctionMainFrm;
 import kr.co.kidultAuction.vo.AdminApproveVO;
 import kr.co.kidultAuction.vo.AdminBidVO;
+import kr.co.kidultAuction.vo.AdminOncomingBidVO;
 import kr.co.kidultAuction.vo.AdminItemPriceVO;
 import kr.co.kidultAuction.vo.AdminPermitVO;
 import kr.co.kidultAuction.vo.AdminSucBidVO;
@@ -456,7 +457,8 @@ public class AdminDAO {
 	
 	/**
 	 *  경매가 종료되면 ended_date로 insert되는 정보들
-	 *  경매 종료 처리 > 1. 자바내에서 sdf와 end_bid_price가 동일할때 insert처리?? 
+	 *  경매완료된 물품을 완료 테이블로 넣기 위해서 쓰는 method
+	 * 모든 parameter가 auc_code이므로 auc_code를 받으면 된다
 	 */
 	public boolean insertEndBid() throws SQLException{
 		boolean insertFlag=false;
@@ -476,9 +478,8 @@ public class AdminDAO {
 		.append(" from bid_item where auc_code=? order by bid_price desc)) ")
 		.append(" where r=1), ")
 		.append(" (select bid_price ")
-		.append(" from(select rownum , bid_price ")
-		.append(" from(select rownum , bid_price, user_id from bid_item where user_id!=? and rownum=1 order by bid_price desc) ")
-		.append(" where rownum=1)) ")
+		.append(" from(select rownum ,bid_price, user_id ")
+		.append(" from (select rownum , bid_price, user_id from bid_item where auc_code='L_0005' order by bid_price desc) where rownum=1)) ")
 		.append(" ); ");
 		
 		con=getconn();
@@ -487,7 +488,7 @@ public class AdminDAO {
 		pstmt.setString(2, AdminPageFrm.auc_code);
 		pstmt.setString(3, AdminPageFrm.auc_code);
 		pstmt.setString(4, AdminPageFrm.user_id);
-		rs=pstmt.executeQuery();
+//		rs=pstmt.executeQuery();
 		
 		while(rs.next()) {
 			insertFlag=true;
@@ -499,6 +500,29 @@ public class AdminDAO {
 		
 	}//selectSucBid
 	
+	/**
+	 * 경매 종료 처리를 위해 필요한 method
+	 * @throws SQLException 
+	 */
+	public List<AdminOncomingBidVO> selectOncomingData() throws SQLException {
+		List<AdminOncomingBidVO> list=new ArrayList<AdminOncomingBidVO>();
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
+		String selectData="select auc_code, start_date+period expected_end_date from auc_item ";
+		con=getconn();
+		pstmt=con.prepareStatement(selectData);
+		rs=pstmt.executeQuery();
+		
+		AdminOncomingBidVO aobv=null;
+		while(rs.next()) {
+			aobv=new AdminOncomingBidVO(rs.getString("auc_code"), rs.getString("expected_end_date"));
+			list.add(aobv);
+		}//end while
+		
+		return list;
+	}//selectOncomingData
 	
 	
 }//class
