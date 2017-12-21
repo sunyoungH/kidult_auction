@@ -19,24 +19,18 @@ public class AddUserFrmEvt implements ActionListener {
 	private UserDAO_JR u_dao;
 	private boolean flag=false;
 
-
 	public AddUserFrmEvt(AddUserFrm auf) {
 		this.auf=auf;
 	}//AddUserFrmEvt
-
-
 
 	private boolean chkPassEqual() { // 입력된 비밀번호확인과 비밀번호와 같은지 확인하는 매서드
 		boolean result = false;
 		return result;
 	}// chkPassEqual
 
-
 	public void addUser() throws IOException{
 		u_dao = UserDAO_JR.getInstance();
 		auv = new AddUserVO();
-
-
 	}//addUser
 
 	private boolean overlapID() throws SQLException { // 중복 id가 있는지와 한글 id입력을 확인할 매서드
@@ -110,7 +104,6 @@ public class AddUserFrmEvt implements ActionListener {
 		String email=tfEmail.getText().trim();
 		String phone=tfPhone.getText().trim();
 		String kakao=tfKakao.getText().trim();
-
 
 		if(flag) {	
 			try {
@@ -239,7 +232,6 @@ public class AddUserFrmEvt implements ActionListener {
 			}//end catch
 		}
 	
-
 		if(ae.getSource() == auf.getBtnSubmit()) {
 				submitUser();
 		}//end if
@@ -248,7 +240,5 @@ public class AddUserFrmEvt implements ActionListener {
 			Cancel();
 		}//end if
 	}//actionPerformed
-
-
 
 }//class

@@ -98,8 +98,6 @@ public class UserDAO_JR {
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 
-
-
 		try {
 			StringBuilder confirmP=new StringBuilder();
 			confirmP.append(" select user_id, user_pass from auc_user where user_id=? and user_pass=? ");

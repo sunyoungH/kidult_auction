@@ -179,7 +179,4 @@ public class AddUserFrm extends JDialog {
 		return amf;
 	}
 
-	
-	
-
 }// class
