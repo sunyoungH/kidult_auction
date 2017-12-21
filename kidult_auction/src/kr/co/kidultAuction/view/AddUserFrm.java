@@ -23,10 +23,12 @@ public class AddUserFrm extends JDialog {
 	private JTextField tfId, tfName, tfBirth, tfAddr, tfEmail, tfPhone, tfKakao;
 	private JPasswordField pfPass, pfPassCon;
 	private JButton btnIdCheck, btnSubmit, btnCancel;
+	private AuctionMainFrm amf;
 
 	public AddUserFrm(AuctionMainFrm amf) {
 		super(amf, "·Î±×ÀÎ", false);
 		setLayout(null);
+		this.amf = amf;
 
 		lblId = new JLabel("ID");
 		lblPass = new JLabel("Password");
@@ -171,6 +173,10 @@ public class AddUserFrm extends JDialog {
 
 	public JTextField getTfKakao() {
 		return tfKakao;
+	}
+
+	public AuctionMainFrm getAmf() {
+		return amf;
 	}
 
 	
