@@ -31,13 +31,13 @@ public class AuctionMainFrm extends JFrame {
 		setLayout(null);
 		
 		/*java.net.URL backUrl = getClass().getClassLoader().getResource();*/
-		ImageIcon back= new ImageIcon("C:/dev/git/kidult_auction/kidult_auction/src/kr/co/kidultAuction/img/backgroundMain.png");
-		ImageIcon listBtn = new ImageIcon("C:\\dev\\git\\kidult_auction\\kidult_auction\\src\\kr\\co\\kidultAuction\\img\\auctionListBtn.png");
-		ImageIcon addBtn = new ImageIcon("C:\\dev\\git\\kidult_auction\\kidult_auction\\src\\kr\\co\\kidultAuction\\img\\auctionItemAddBtn.png");
-		ImageIcon myPage = new ImageIcon("C:\\dev\\git\\kidult_auction\\kidult_auction\\src\\kr\\co\\kidultAuction\\img\\myPage.png");
-		ImageIcon exit = new ImageIcon("C:\\dev\\git\\kidult_auction\\kidult_auction\\src\\kr\\co\\kidultAuction\\img\\exit.png");
-		ImageIcon login = new ImageIcon("C:\\dev\\git\\kidult_auction\\kidult_auction\\src\\kr\\co\\kidultAuction\\img\\mainLogin.png");
-		ImageIcon join = new ImageIcon("C:\\dev\\git\\kidult_auction\\kidult_auction\\src\\kr\\co\\kidultAuction\\img\\mainJoin.png");
+		ImageIcon back= new ImageIcon("C:\\dev\\git\\kidult_auction_sub\\kidult_auction\\src\\kr\\co\\kidultAuction\\img\\backgroundMain.png");
+		ImageIcon listBtn = new ImageIcon("C:\\dev\\git\\kidult_auction_sub\\kidult_auction\\src\\kr\\co\\kidultAuction\\img\\auctionListBtn.png");
+		ImageIcon addBtn = new ImageIcon("C:\\dev\\git\\kidult_auction_sub\\kidult_auction\\src\\kr\\co\\kidultAuction\\img\\auctionItemAddBtn.png");
+		ImageIcon myPage = new ImageIcon("C:\\dev\\git\\kidult_auction_sub\\kidult_auction\\src\\kr\\co\\kidultAuction\\img\\myPage.png");
+		ImageIcon exit = new ImageIcon("C:\\dev\\git\\kidult_auction_sub\\kidult_auction\\src\\kr\\co\\kidultAuction\\img\\exit.png");
+		ImageIcon login = new ImageIcon("C:\\dev\\git\\kidult_auction_sub\\kidult_auction\\src\\kr\\co\\kidultAuction\\img\\mainLogin.png");
+		ImageIcon join = new ImageIcon("C:\\dev\\git\\kidult_auction_sub\\kidult_auction\\src\\kr\\co\\kidultAuction\\img\\mainJoin.png");
 		
 		//JPanel background = new JPanel();
 
