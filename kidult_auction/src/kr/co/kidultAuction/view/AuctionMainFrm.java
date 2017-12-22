@@ -97,14 +97,12 @@ public class AuctionMainFrm extends JFrame {
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		AuctionMainFrmEvt amfe= new AuctionMainFrmEvt(this);
-		btnExit.addActionListener(amfe);
-		
-		/*AuctionMainFrmEvt amfe=new AuctionMainFrmEvt(this);
 		btnAuctionList.addActionListener(amfe);
 		btnAddItem.addActionListener(amfe);
 		btnMyPage.addActionListener(amfe);
 		btnAddUser.addActionListener(amfe);
-		btnLogin.addActionListener(amfe);*/
+		btnLogin.addActionListener(amfe);
+		btnExit.addActionListener(amfe);
 	}// AuctionMainFrm
 
 	public JButton getBtnAuctionList() {
