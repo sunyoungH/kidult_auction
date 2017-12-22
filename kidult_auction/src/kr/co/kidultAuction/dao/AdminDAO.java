@@ -489,15 +489,15 @@ public class AdminDAO {
 		.append(" where r=1), ")
 		.append(" (select bid_price ")
 		.append(" from(select rownum ,bid_price, user_id ")
-		.append(" from (select rownum , bid_price, user_id from bid_item where auc_code='L_0005' order by bid_price desc) where rownum=1)) ")
-		.append(" ); ");
+		.append(" from (select rownum , bid_price, user_id from bid_item where auc_code=? order by bid_price desc) where rownum=1)) ")
+		.append(" ) ");
 		
 		con=getconn();
 		pstmt=con.prepareStatement(selectSuc.toString());
 		pstmt.setString(1, AdminPageFrm.auc_code);
 		pstmt.setString(2, AdminPageFrm.auc_code);
 		pstmt.setString(3, AdminPageFrm.auc_code);
-		pstmt.setString(4, AdminPageFrm.user_id);
+		pstmt.setString(4, AdminPageFrm.auc_code);
 		
 		while(pstmt.executeUpdate()!=0) {
 			insertFlag=true;

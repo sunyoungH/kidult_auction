@@ -6,7 +6,9 @@ import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RunAction {
 
@@ -39,6 +41,10 @@ public class RunAction {
 		System.out.println(leftTotal);
 		
 		
+		Map<String, String> map=new HashMap<>();
+		map.put("1", "hi");
+		map.put("1", "hello");
+		System.out.println(map.get("1"));
 		
 		
 		

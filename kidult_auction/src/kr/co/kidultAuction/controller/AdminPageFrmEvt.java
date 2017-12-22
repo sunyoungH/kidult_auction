@@ -14,7 +14,9 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.swing.JTabbedPane;
@@ -171,8 +173,8 @@ public class AdminPageFrmEvt extends MouseAdapter{
 		SimpleDateFormat sdf=new SimpleDateFormat("yy-mm-dd");
 		String nowDate=sdf.format(new Date());
 		String expected_end_date="";
-		
-		
+
+
 		for(int i=0; i<biddingList.size(); i++) {
 			abv=biddingList.get(i);
 			rowData=new Object[8];
@@ -187,7 +189,7 @@ public class AdminPageFrmEvt extends MouseAdapter{
 			rowData[7]=expected_end_date;
 
 			if(true) {
-	//		if(nowDate.equals(expected_end_date)) {
+				//		if(nowDate.equals(expected_end_date)) {
 				bidList.addRow(rowData);
 			}
 		}//end for
@@ -246,24 +248,32 @@ public class AdminPageFrmEvt extends MouseAdapter{
 		AdminOncomingBidVO aobv=null;
 		SimpleDateFormat sdf=new SimpleDateFormat("yy-MM-dd");
 		String nowDate=sdf.format(new Date());
-		String expected_end_date="";
+		String[] expected_end_date=new String[dataList.size()], auc_code=new String[dataList.size()];
+		Map<Integer, String> code_date=new HashMap<>();
 
 		if(dataList.size()!=0) {
 			for(int i=0; i<dataList.size(); i++) {
 				aobv=dataList.get(i);
-				expected_end_date=aobv.getExpected_end_date();
-			}//end for
-			expected_end_date=expected_end_date.substring(2, expected_end_date.indexOf(" "));
-			System.out.println(expected_end_date);
+				expected_end_date[i]=aobv.getExpected_end_date();
+				expected_end_date[i]=expected_end_date[i].substring(2, expected_end_date[i].indexOf(" "));
+				auc_code[i]=aobv.getAuc_code();
 
-			if(nowDate.equals(expected_end_date)) {
-				//// static 변수에 auc_code를 저장 (AuctionMainPageFrm에 저장...)
-				/////insertEndBid DAO에 있는 데에 집어넣고 추가
-				/////
-				System.out.println("경매 종료 DB에 성공적으로 추가됐습니다.");
-			}//end if
-			//		if("")
+				if("17-12-24".equals(expected_end_date[i])) {
+				code_date.put(i,auc_code[i]);
+				}//end if
+				
+				System.out.println(expected_end_date[i]);
+				System.out.println(auc_code[i]);
+			}//end for
+			
+
+//			if(nowDate.equals(expected_end_date)) {
 		}//end if
+		for(int j=0; j<code_date.size(); j++) {
+			AdminPageFrm.auc_code=code_date.get(j);
+			System.out.println(AdminPageFrm.auc_code);
+//			a_dao.insertEndBid();
+		}//end for
 		return flag;
 	}//endBid
 
