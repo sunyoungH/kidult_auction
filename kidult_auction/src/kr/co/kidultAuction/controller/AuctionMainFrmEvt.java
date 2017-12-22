@@ -70,9 +70,9 @@ public class AuctionMainFrmEvt implements ActionListener, Runnable{
 
 	@Override
 	public void run() {
-		SimpleDateFormat sdf=new SimpleDateFormat("HH");
-		String time=sdf.format(new Date());
-		AdminDAO a_dao=AdminDAO.getInstance();
+//		SimpleDateFormat sdf=new SimpleDateFormat("HH");
+//		String time=sdf.format(new Date());
+//		AdminDAO a_dao=AdminDAO.getInstance();
 //		try {
 //			boolean insertFlag=a_dao.insertEndBid();
 //		} catch (SQLException e1) {
@@ -90,4 +90,5 @@ public class AuctionMainFrmEvt implements ActionListener, Runnable{
 //		}
 //		}
 	}//run
+	
 }//class

@@ -8,6 +8,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
@@ -29,6 +30,7 @@ public class ApproveFrm extends JDialog {
 	private JTextField tfUserId, tfCategory, tfStatus, tfItemName, tfSPrice, tfPeriod;
 	private JTextArea taItemInfo;
 	private JButton btnCommit, btnReject;
+	private JScrollPane jsp;
 	
 	private JPanel jp;
 	
@@ -61,6 +63,7 @@ public class ApproveFrm extends JDialog {
 		
 		taItemInfo=new JTextArea();
 		taItemInfo.setBorder(new TitledBorder(""));
+		jsp=new JScrollPane(taItemInfo);
 		
 		btnCommit=new JButton("½ÂÀÎ¿Ï·á");
 		btnReject=new JButton("½ÂÀÎ°ÅºÎ");
@@ -87,7 +90,7 @@ public class ApproveFrm extends JDialog {
 		tfSPrice.setBounds(650,190,100,30);
 		tfPeriod.setBounds(650,230,100,30);
 		
-		taItemInfo.setBounds(550,300,200,100);
+		jsp.setBounds(550,300,200,100);
 		
 		btnCommit.setBounds(550,420,90,30);
 		btnReject.setBounds(660,420,90,30);
@@ -112,7 +115,7 @@ public class ApproveFrm extends JDialog {
 		add(tfSPrice);
 		add(tfPeriod);
 		
-		add(taItemInfo);
+		add(jsp);
 		
 		add(btnCommit);
 		add(btnReject);

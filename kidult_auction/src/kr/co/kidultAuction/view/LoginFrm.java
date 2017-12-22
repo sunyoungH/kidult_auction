@@ -24,7 +24,7 @@ public class LoginFrm extends JDialog{
 	private JButton btnAdmin, btnLogin, btnCancel;
 	
 	public LoginFrm(AuctionMainFrm amf) {
-		super(amf,"로그인");
+		super(amf,"로그인",true);
 		setLayout(null);
 		
 		lblId=new JLabel("ID");

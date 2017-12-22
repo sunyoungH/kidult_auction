@@ -89,7 +89,6 @@ public class AllTimeBidFrm extends JDialog{
 			
 			dtmAllBid.addRow(rowData);
 		}//end for
-
 		
 	}//viewBidding
 	

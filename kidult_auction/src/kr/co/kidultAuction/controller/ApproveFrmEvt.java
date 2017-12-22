@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 import kr.co.kidultAuction.dao.AdminDAO;
@@ -55,6 +56,12 @@ public class ApproveFrmEvt implements ActionListener{
 		af.getTfSPrice().setText(String.valueOf(aav.getStart_price()));
 		af.getTfPeriod().setText(aav.getPeriod()+"¿œ");
 		af.getTaItemInfo().setText(aav.getDetail_info());
+		
+		String path="C:/dev/git/kidult_auction/kidult_auction/src/kr/co/kidultAuction/img/";
+		af.getLblImgFront().setIcon(new ImageIcon(path+aav.getFront_img()));
+		af.getLblImgRight().setIcon(new ImageIcon(path+aav.getRight_img()));
+		af.getLblImgLeft().setIcon(new ImageIcon(path+aav.getLeft_img()));
+		af.getLblImgBack().setIcon(new ImageIcon(path+"back_img__171221_14501.PNG"));
 		
 		AdminPageFrm.start_price=aav.getStart_price();
 	}//addApprove
