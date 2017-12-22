@@ -11,7 +11,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import kr.co.kidultAuction.controller.AddAuctionItemFrmEvt;
-import kr.co.kidultAuction.controller.MyPageFrmEvt;
 
 @SuppressWarnings("serial")
 public class AddAuctionItemFrm extends JDialog {

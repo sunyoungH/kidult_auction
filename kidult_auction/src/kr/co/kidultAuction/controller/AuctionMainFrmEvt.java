@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.swing.JOptionPane;
+
 import kr.co.kidultAuction.dao.AdminDAO;
 import kr.co.kidultAuction.view.AddAuctionItemFrm;
 import kr.co.kidultAuction.view.AddUserFrm;
@@ -63,6 +65,14 @@ public class AuctionMainFrmEvt implements ActionListener, Runnable{
 		
 		if(ae.getSource()==amf.getBtnMyPage()) {
 			new MyPageFrm(amf);
+		}//end if
+		
+		if(ae.getSource()==amf.getBtnExit()) {
+			switch (JOptionPane.showConfirmDialog(amf, "종료하시겠습니까?")) {
+			case JOptionPane.OK_OPTION:
+				amf.dispose();
+				break;
+			}
 		}//end if
 		
 		
