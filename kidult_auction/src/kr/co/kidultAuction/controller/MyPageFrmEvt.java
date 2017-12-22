@@ -1,5 +1,6 @@
 package kr.co.kidultAuction.controller;
 
+import java.awt.Color;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
+import javax.swing.JTable;
 
 import kr.co.kidultAuction.dao.UserDAO;
 import kr.co.kidultAuction.view.AuctionMainFrm;
@@ -51,15 +53,20 @@ public class MyPageFrmEvt implements ActionListener {
 		JPasswordField jp = new JPasswordField(10);
 		JLabel lb = new JLabel("비밀번호를 입력하세요");
 		btn1 = new JButton("입력");
+		btn1.setBackground(new Color(0xD0E5FF));
+		JTable jt= new JTable();
+		jt.setBackground(new Color(0xFFFBF6));
 
 		p.setLayout(null);
 		p.setBounds(770, 400, 255, 200);
 		lb.setBounds(56, 30, 180, 30);
 		jp.setBounds(50, 70, 150, 30);
 		btn1.setBounds(90, 115, 60, 30);
+		jt.setBounds(0,0,255,200);
 		p.add(jp);
 		p.add(btn1);
 		p.add(lb);
+		p.add(jt);
 		p.setVisible(true);
 
 		btn1.addActionListener(new ActionListener() {

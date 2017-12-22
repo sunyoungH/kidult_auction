@@ -1,5 +1,6 @@
 package kr.co.kidultAuction.view;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.sql.SQLException;
@@ -110,6 +111,10 @@ public class ListOfAuctionsFrm extends JDialog {
 		jpsearch.add(cbCategory);
 		jpsearch.add(btnSearch);
 		
+        JPanel jp1=new JPanel();
+		
+		jp1.setBackground(new Color(0xFFFBF6));
+		
 		setLayout(null);
 		
 		
@@ -117,8 +122,10 @@ public class ListOfAuctionsFrm extends JDialog {
 		
 		jpsearch.setBounds(200, 10, 200, 40);
 		jspAuction.setBounds(10, 56, 565, 797);
+		jp1.setBounds(0,0,600,900);
 		add(jpsearch);
 		add(jspAuction);
+		add(jp1);
 		
 		//이벤트 등록
 		ListOfAuctionsEvt loae=new ListOfAuctionsEvt(this);

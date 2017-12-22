@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
@@ -26,6 +27,7 @@ public class UserEditFrm extends JDialog {
 	private JTextField tfName, tfBirth, tfAddr, tfEmail, tfPhone, tfId, tfKakao;
 	private JPasswordField pfPass, pfPassCon;
 	private JButton btnSubmit, btnCancel;
+	private JPanel jp;
 
 	public UserEditFrm(AuctionMainFrm amf) throws SQLException {
 		super(amf, "회원정보수정");
@@ -56,6 +58,13 @@ public class UserEditFrm extends JDialog {
 
 		btnSubmit = new JButton("변경하기");
 		btnCancel = new JButton("취소");
+		
+		jp=new JPanel();
+		
+		jp.setBackground(new Color(0xFFFBF6));
+		
+		btnSubmit.setBackground(new Color(0xD0E5FF));
+		btnCancel.setBackground(new Color(0xD0E5FF));
 
 		// 배치
 
@@ -82,6 +91,8 @@ public class UserEditFrm extends JDialog {
 
 		btnSubmit.setBounds(100, 430, 90, 30);
 		btnCancel.setBounds(230, 430, 90, 30);
+		
+		jp.setBounds(0,0,430,550);
 
 		Font infofont = new Font("Dialog", Font.PLAIN | Font.BOLD, 10);
 		lblBirthinfo.setFont(infofont);
@@ -111,6 +122,8 @@ public class UserEditFrm extends JDialog {
 
 		add(btnSubmit);
 		add(btnCancel);
+		
+		add(jp);
 
 		// 이벤트처리
 		UserEditFrmEvt uefe = new UserEditFrmEvt(this);

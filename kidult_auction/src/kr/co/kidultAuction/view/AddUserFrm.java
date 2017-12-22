@@ -1,10 +1,12 @@
 package kr.co.kidultAuction.view;
 
+import java.awt.Color;
 import java.awt.Font;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
@@ -26,7 +28,7 @@ public class AddUserFrm extends JDialog {
 	private AuctionMainFrm amf;
 
 	public AddUserFrm(AuctionMainFrm amf) {
-		super(amf, "로그인", false);
+		super(amf, "회원가입", false);
 		setLayout(null);
 		this.amf = amf;
 
@@ -55,6 +57,14 @@ public class AddUserFrm extends JDialog {
 		btnIdCheck = new JButton("중복확인");
 		btnSubmit = new JButton("회원가입");
 		btnCancel = new JButton("취소");
+		
+        JPanel jp=new JPanel();
+		
+		jp.setBackground(new Color(0xFFFBF6));
+		
+		btnIdCheck.setBackground(new Color(0xD0E5FF));
+		btnSubmit.setBackground(new Color(0xD0E5FF));
+		btnCancel.setBackground(new Color(0xD0E5FF));
 
 		// 배치
 
@@ -83,6 +93,8 @@ public class AddUserFrm extends JDialog {
 		btnIdCheck.setBounds(270, 40, 88, 25);
 		btnSubmit.setBounds(100, 430, 90, 30);
 		btnCancel.setBounds(230, 430, 90, 30);
+		
+		jp.setBounds(0,0,430,550);
 
 		Font infofont = new Font("Dialog", Font.PLAIN | Font.BOLD, 10);
 		lblBirthinfo.setFont(infofont);
@@ -115,6 +127,8 @@ public class AddUserFrm extends JDialog {
 		add(btnIdCheck);
 		add(btnSubmit);
 		add(btnCancel);
+		
+		add(jp);
 		
 		AddUserFrmEvt aufe= new AddUserFrmEvt(this);
 		btnIdCheck.addActionListener(aufe);

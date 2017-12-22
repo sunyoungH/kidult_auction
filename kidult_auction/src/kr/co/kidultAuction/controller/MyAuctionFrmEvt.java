@@ -164,7 +164,14 @@ public class MyAuctionFrmEvt extends MouseAdapter {
 				
 			}
 			
-		}//큰 스위치
+		}//end switch
+		
+		switch (tempTab.getSelectedIndex()) {
+		case BidList:
+			
+			
+		
+		}
 
 	}
 
