@@ -15,7 +15,9 @@ import java.util.Properties;
 import com.sun.corba.se.spi.orbutil.fsm.Guard.Result;
 
 import kr.co.kidultAuction.controller.AdminPageFrmEvt;
+import kr.co.kidultAuction.controller.ApproveFrmEvt;
 import kr.co.kidultAuction.view.AdminPageFrm;
+import kr.co.kidultAuction.view.ApproveFrm;
 import kr.co.kidultAuction.view.AuctionMainFrm;
 import kr.co.kidultAuction.vo.AdminApproveVO;
 import kr.co.kidultAuction.vo.AdminBidVO;
@@ -197,6 +199,134 @@ public class AdminDAO {
 		return list;
 	}//selectPermitList
 	
+	
+	/**
+	 * Ω¬¿Œ, Ω¬¿Œ∞≈∫Œ√¢ (Approve)
+	 * */
+	public List<AdminApproveVO> selectApprove() throws SQLException {
+		List<AdminApproveVO> list=new ArrayList<AdminApproveVO>();
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
+		try {
+			StringBuilder selectItem=new StringBuilder();
+			selectItem
+			.append(" select user_id, category, status, item_name, period, detail_info, front_img, left_img, right_img, back_img, start_price ")
+			.append(" from auc_item where auc_code=?  ");
+			
+			con=getconn();
+			pstmt=con.prepareStatement(selectItem.toString());
+			pstmt.setString(1, AdminPageFrm.auc_code);
+			
+			rs=pstmt.executeQuery();
+			
+			AdminApproveVO aav=null;
+			while(rs.next()) {
+				aav=new AdminApproveVO(rs.getString("user_id"), rs.getString("category"), rs.getString("status"), rs.getString("item_name"), 
+						rs.getString("period"), rs.getString("detail_info"), rs.getString("front_img"), rs.getString("left_img"), 
+						rs.getString("right_img"), rs.getString("back_img"), rs.getInt("start_price"));
+				list.add(aav);
+			}//end while
+		}finally {
+			dbClose(con, pstmt, rs);
+		}
+		return list;
+	}//selectApprove
+	
+	/**
+	 * Ω¬¿Œ (ApproveFrmEvt)
+	 * @throws SQLException 
+	 * */
+	public boolean updateApproveItem() throws SQLException {
+		boolean flag=false;
+		int rsFlag=0;
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		
+		try {
+			StringBuilder updateApprove=new StringBuilder();
+			updateApprove
+			.append(" update auc_item")
+			.append(" set permit_date=sysdate, permit='Y', start_date=to_date(sysdate+1,'yy-mm-dd') ")
+			.append(" where auc_code=?");
+			
+			con=getconn();
+			pstmt=con.prepareStatement(updateApprove.toString());
+			pstmt.setString(1, AdminPageFrm.auc_code);
+			rsFlag=pstmt.executeUpdate();
+			
+			if(rsFlag!=0) {
+				flag=true;
+			}//end if
+		}finally {
+			dbClose(con, pstmt, null);
+		}
+		return flag;
+	}//updateApproveItem
+	
+	/**
+	 * Ω¬¿Œµ«∏Èº≠ , ¿‘¬˚ ∞°µ•¿Ã≈Õ √ﬂ∞°µ !!!!!
+	 * @throws SQLException 
+	 * */
+	public boolean insertBidUserData() throws SQLException {
+		boolean flag=false;
+		int rsFlag=0;
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		
+		try {
+			StringBuilder insertBidData=new StringBuilder();
+			insertBidData
+			.append(" insert into bid_item(bid_num, bid_price, bid_date, auc_code, user_id)")
+			.append(" values(seq_bid.nextval,?,sysdate, ? , 'null') ");
+			
+			con=getconn();
+			pstmt=con.prepareStatement(insertBidData.toString());
+			pstmt.setInt(1, AdminPageFrm.start_price);
+			pstmt.setString(2, AdminPageFrm.auc_code);
+			rsFlag=pstmt.executeUpdate();
+			
+			if(rsFlag!=0) {
+				flag=true;
+			}//end if
+		}finally {
+			dbClose(con, pstmt, null);
+		}
+		return flag;
+	}//updateApproveItem
+	
+	/**
+	 * ∞≈∫Œ 
+	 * @throws SQLException 
+	 */
+	public boolean rejectItem(RejectVO rv) throws SQLException {
+		boolean rejectFlag=false;
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		
+		try {
+		StringBuilder addReject=new StringBuilder();
+		addReject
+		.append(" insert into reject_item(reject_reason, auc_code, admin_id) values(?,?,?) ");
+		
+		con=getconn();
+		pstmt=con.prepareStatement(addReject.toString());
+		pstmt.setString(1, rv.getReject_reason());
+		pstmt.setString(2, rv.getAuc_code());
+		pstmt.setString(3, rv.getAdmin_id());
+		
+		if(pstmt.executeUpdate()!=0) {
+			rejectFlag=true;
+		}//end if
+		}finally {
+			dbClose(con, pstmt, null);
+		}
+		
+		return rejectFlag;
+	}//rejectItem
+
+	
 	/**
 	 Ω¬¿Œ øœ∑· ∏Ò∑œ ('Y')
 	 */
@@ -242,12 +372,11 @@ public class AdminDAO {
 		try {
 		StringBuilder selectBid=new StringBuilder();
 		selectBid
-		.append(" select rownum r, user_id, item_name, auc_code, bid_price, start_price, to_date(start_date,'yy-mm-dd') start_date, to_date(start_date+period, 'yy-mm-dd') bid_end_date ")
-		.append(" from(select rownum, au.user_id user_id, ai.item_name item_name, ai.auc_code auc_code, bi.bid_price bid_price, ")
-		.append(" ai.start_price start_price, ai.start_date start_date, ai.period period ")
+		.append(" select au.user_id user_id, ai.item_name item_name, ai.auc_code auc_code, bi.bid_price bid_price, ai.start_price start_price,  ")
+		.append(" ai.start_date start_date, to_date(start_date+period, 'yy-mm-dd') bid_end_date ")
 		.append(" from auc_user au, auc_item ai, bid_item bi ")
-		.append(" where au.user_id=ai.user_id and bi.auc_code=ai.auc_code ") 
-		.append(" order by bid_price desc) where rownum=1 ");
+		.append(" where au.user_id=ai.user_id and bi.auc_code=ai.auc_code and ai.start_date is not null ")
+		.append(" order by bid_price desc ");
 		
 		con=getconn();
 		pstmt=con.prepareStatement(selectBid.toString());
@@ -298,131 +427,6 @@ public class AdminDAO {
 		}
 		return list;
 	}//selectSucBid
-
-	/**
-	 * Ω¬¿Œ, Ω¬¿Œ∞≈∫Œ√¢ (Approve)
-	 * */
-	public List<AdminApproveVO> selectApprove() throws SQLException {
-		List<AdminApproveVO> list=new ArrayList<AdminApproveVO>();
-		Connection con=null;
-		PreparedStatement pstmt=null;
-		ResultSet rs=null;
-		
-		try {
-		StringBuilder selectItem=new StringBuilder();
-		selectItem
-		.append(" select user_id, category, status, item_name, period, detail_info, front_img, left_img, right_img, back_img, start_price ")
-		.append(" from auc_item where auc_code=?  ");
-		
-		con=getconn();
-		pstmt=con.prepareStatement(selectItem.toString());
-		pstmt.setString(1, AdminPageFrm.auc_code);
-		
-		rs=pstmt.executeQuery();
-		
-		AdminApproveVO aav=null;
-		while(rs.next()) {
-			aav=new AdminApproveVO(rs.getString("user_id"), rs.getString("category"), rs.getString("status"), rs.getString("item_name"), 
-					rs.getString("period"), rs.getString("detail_info"), rs.getString("front_img"), rs.getString("left_img"), 
-					rs.getString("right_img"), rs.getString("back_img"), rs.getInt("start_price"));
-			list.add(aav);
-		}//end while
-		}finally {
-			dbClose(con, pstmt, rs);
-		}
-		return list;
-	}//selectApprove
-	
-	/**
-	 * Ω¬¿Œ (ApproveFrmEvt)
-	 * @throws SQLException 
-	 * */
-	public boolean updateApproveItem() throws SQLException {
-		boolean flag=false;
-		int rsFlag=0;
-		Connection con=null;
-		PreparedStatement pstmt=null;
-		
-		try {
-		StringBuilder updateApprove=new StringBuilder();
-		updateApprove
-		.append(" update auc_item")
-		.append(" set permit_date=sysdate, permit='Y', start_date=to_date(sysdate+1,'yy-mm-dd') ")
-		.append(" where auc_code=?");
-		
-		con=getconn();
-		pstmt=con.prepareStatement(updateApprove.toString());
-		pstmt.setString(1, AdminPageFrm.auc_code);
-		rsFlag=pstmt.executeUpdate();
-		
-		if(rsFlag!=0) {
-			flag=true;
-		}//end if
-		}finally {
-			dbClose(con, pstmt, null);
-		}
-		return flag;
-	}//updateApproveItem
-	
-	/**
-	 * Ω¬¿Œµ«∏Èº≠ , ¿‘¬˚ ∞°µ•¿Ã≈Õ √ﬂ∞°µ !!!!!
-	 * @throws SQLException 
-	 * */
-	public boolean insertBidUserData() throws SQLException {
-		boolean flag=false;
-		int rsFlag=0;
-		Connection con=null;
-		PreparedStatement pstmt=null;
-		
-		try {
-			StringBuilder insertBidData=new StringBuilder();
-			insertBidData
-			.append(" insert into bid_item(bid_num, bid_price, bid_date, auc_code, user_id)")
-			.append(" values(seq_bid.nextval,5000,sysdate, ? , ?) ");
-			
-			con=getconn();
-			pstmt=con.prepareStatement(insertBidData.toString());
-			pstmt.setString(1, AdminPageFrm.auc_code);
-			pstmt.setString(2, AdminPageFrm.user_id);
-			rsFlag=pstmt.executeUpdate();
-			
-			if(rsFlag!=0) {
-				flag=true;
-			}//end if
-		}finally {
-			dbClose(con, pstmt, null);
-		}
-		return flag;
-	}//updateApproveItem
-	
-	/**
-	 * ∞≈∫Œ 
-	 * @throws SQLException 
-	 */
-	public boolean rejectItem(RejectVO rv) throws SQLException {
-		boolean rejectFlag=false;
-		Connection con=null;
-		PreparedStatement pstmt=null;
-		ResultSet rs=null;
-		
-		StringBuilder addReject=new StringBuilder();
-		addReject
-		.append(" insert into reject_item(reject_reason, auc_code, admin_id) values(?,?,?) ");
-		
-		con=getconn();
-		pstmt=con.prepareStatement(addReject.toString());
-		pstmt.setString(1, rv.getReject_reason());
-		pstmt.setString(2, rv.getAuc_code());
-		pstmt.setString(3, rv.getAdmin_id());
-		
-		rs=pstmt.executeQuery();
-		
-		if(rs.next()) {
-			rejectFlag=true;
-		}//end if
-		
-		return rejectFlag;
-	}//rejectItem
 	
 	/**
 	 * AllTimeBid
@@ -434,6 +438,7 @@ public class AdminDAO {
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		
+		try {
 		StringBuilder selectBid=new StringBuilder();
 		selectBid
 		.append("select ai.auc_code, bi.user_id, bi.bid_price, bi.bid_date")
@@ -451,6 +456,10 @@ public class AdminDAO {
 			aipv=new AdminItemPriceVO(rs.getString("user_id"), rs.getString("bid_date"), rs.getInt("bid_price"));
 			list.add(aipv);
 		}//end while
+		}finally { 
+			dbClose(con, pstmt, null);
+		}//end finally
+		
 		return list;
 	}//selectATBidList
 	
@@ -464,7 +473,6 @@ public class AdminDAO {
 		boolean insertFlag=false;
 		Connection con=null;
 		PreparedStatement pstmt=null;
-		ResultSet rs=null;
 		
 		try {
 		StringBuilder selectSuc=new StringBuilder();
@@ -488,14 +496,13 @@ public class AdminDAO {
 		pstmt.setString(2, AdminPageFrm.auc_code);
 		pstmt.setString(3, AdminPageFrm.auc_code);
 		pstmt.setString(4, AdminPageFrm.user_id);
-//		rs=pstmt.executeQuery();
 		
-		while(rs.next()) {
+		while(pstmt.executeUpdate()!=0) {
 			insertFlag=true;
 		}//end while
 		}finally {
-			dbClose(con, pstmt, rs);
-		}
+			dbClose(con, pstmt, null);
+		}//end finally
 		return insertFlag;
 		
 	}//selectSucBid

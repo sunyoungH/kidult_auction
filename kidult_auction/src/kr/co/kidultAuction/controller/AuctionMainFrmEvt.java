@@ -73,21 +73,21 @@ public class AuctionMainFrmEvt implements ActionListener, Runnable{
 		SimpleDateFormat sdf=new SimpleDateFormat("HH");
 		String time=sdf.format(new Date());
 		AdminDAO a_dao=AdminDAO.getInstance();
-		try {
-			boolean insertFlag=a_dao.insertEndBid();
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		while(true) {
-			try {
-			insertEndBid.sleep(1000*20);
-			a_dao.insertBidUserData();
-			System.out.println(time);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		}
+//		try {
+//			boolean insertFlag=a_dao.insertEndBid();
+//		} catch (SQLException e1) {
+//			e1.printStackTrace();
+//		}
+//		while(true) {
+//			try {
+//			insertEndBid.sleep(1000*20);
+//			a_dao.insertBidUserData();
+//			System.out.println(time);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		}
 	}//run
 }//class

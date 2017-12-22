@@ -23,6 +23,7 @@ public class AdminPageFrm extends JDialog{
 	private AuctionMainFrm amf;
 	public static String auc_code="";
 	public static String user_id="";
+	public static int start_price=0;
 
 	private JTabbedPane jtpTab;
 	private DefaultTableModel userList,watingList,completeList,bidList,sucBidList;

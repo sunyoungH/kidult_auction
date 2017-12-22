@@ -20,12 +20,10 @@ public class ApproveFrmEvt implements ActionListener{
 	public static final int DOUBLE_CLICK=2;
 	public static final int WAITING_LIST=1;
 	private ApproveFrm af;
-	private AdminApproveVO aav;
 
 	public ApproveFrmEvt(ApproveFrm af) throws SQLException {
 		this.af=af;
 		addApprove();
-
 	}//PermitFrmEvt
 
 	/***
@@ -57,6 +55,8 @@ public class ApproveFrmEvt implements ActionListener{
 		af.getTfSPrice().setText(String.valueOf(aav.getStart_price()));
 		af.getTfPeriod().setText(aav.getPeriod()+"¿œ");
 		af.getTaItemInfo().setText(aav.getDetail_info());
+		
+		AdminPageFrm.start_price=aav.getStart_price();
 	}//addApprove
 	
 	/***
@@ -93,4 +93,6 @@ public class ApproveFrmEvt implements ActionListener{
 			af.dispose();
 		}//end if
 	}//actionPerformed
+
+	
 }//class

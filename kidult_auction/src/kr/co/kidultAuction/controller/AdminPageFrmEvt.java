@@ -51,7 +51,7 @@ public static final int BIDDING_LIST=3;
 		viewPermitList();
 		viewBidList();
 		viewSucBidList(); 
-		endBid();
+//		endBid();
 	}//adminPageFrmEvt
 
 	
@@ -165,9 +165,13 @@ public static final int BIDDING_LIST=3;
 		
 		AdminDAO a_dao=AdminDAO.getInstance();
 		List<AdminBidVO> biddingList=a_dao.selectBidList();
-		
 		Object[] rowData=null;
 		AdminBidVO abv=null;
+		
+		SimpleDateFormat sdf=new SimpleDateFormat("yy-mm-dd");
+		String nowDate=sdf.format(new Date());
+		String expected_end_date="";
+		int ij=1;
 		
 		for(int i=0; i<biddingList.size(); i++) {
 			abv=biddingList.get(i);
@@ -179,11 +183,14 @@ public static final int BIDDING_LIST=3;
 			rowData[4]=abv.getBid_price();
 			rowData[5]=abv.getStart_price();
 			rowData[6]=abv.getStart_date().substring(0, abv.getStart_date().indexOf(" ")+1);
-			rowData[7]=abv.getBid_end_date().substring(0, abv.getBid_end_date().indexOf(" ")+1);
+			expected_end_date=abv.getBid_end_date().substring(0, abv.getBid_end_date().indexOf(" ")+1);
+			rowData[7]=expected_end_date;
 			
-			bidList.addRow(rowData);
 		}//end for
-		
+//		if(nowDate.equals(expected_end_date)) {
+		if(ij==1) {
+			bidList.addRow(rowData);
+		}//end if
 	}//viewBidList
 	
 	/**
@@ -197,7 +204,6 @@ public static final int BIDDING_LIST=3;
 		
 		AdminDAO a_dao=AdminDAO.getInstance();
 		List<AdminSucBidVO> sucBidList=a_dao.selectSucBid();
-		System.out.println(sucBidList.get(0));
 		
 		Object[] rowData=null;
 		AdminSucBidVO asbv=null;
@@ -250,6 +256,7 @@ public static final int BIDDING_LIST=3;
 	 * 경매 자동 종료 메소드
 	 * @throws SQLException 
 	 * */
+	/*
 	public boolean endBid() throws SQLException {
 		boolean flag=false;
 		AdminDAO a_dao=AdminDAO.getInstance();
@@ -274,7 +281,7 @@ public static final int BIDDING_LIST=3;
 			}//end if
 		return flag;
 	}//endBid
-	
+	*/
 	
 		
 	@Override
