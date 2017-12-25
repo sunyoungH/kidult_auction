@@ -12,13 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import com.sun.corba.se.spi.orbutil.fsm.Guard.Result;
 
-import kr.co.kidultAuction.controller.AdminPageFrmEvt;
-import kr.co.kidultAuction.controller.ApproveFrmEvt;
 import kr.co.kidultAuction.view.AdminPageFrm;
-import kr.co.kidultAuction.view.ApproveFrm;
-import kr.co.kidultAuction.view.AuctionMainFrm;
 import kr.co.kidultAuction.vo.AdminApproveVO;
 import kr.co.kidultAuction.vo.AdminBidVO;
 import kr.co.kidultAuction.vo.AdminOncomingBidVO;
@@ -30,7 +25,6 @@ import kr.co.kidultAuction.vo.LoginVO;
 import kr.co.kidultAuction.vo.RejectVO;
 
 public class AdminDAO {
-	private AdminPageFrmEvt apfe;
 	private static AdminDAO a_dao;
 	
 	private AdminDAO() {
@@ -419,6 +413,7 @@ public class AdminDAO {
 		
 		AdminSucBidVO asbv=null;
 		while(rs.next()) {
+			System.out.println("bidding........");
 			asbv=new AdminSucBidVO(rs.getString("user_id"), rs.getString("item_name"), rs.getString("auc_code"), rs.getString("start_date"), 
 					rs.getString("ended_date"), rs.getInt("ended_price"), rs.getInt("start_price"));
 			list.add(asbv);
@@ -471,10 +466,12 @@ public class AdminDAO {
 	 *  경매완료된 물품을 완료 테이블로 넣기 위해서 쓰는 method
 	 * 모든 parameter가 auc_code이므로 auc_code를 받으면 된다
 	 */
-	public boolean insertEndBid() throws SQLException{
+	public boolean insertEndBid(String auc_code) throws SQLException{
 		boolean insertFlag=false;
+		int cnt=0;
 		Connection con=null;
 		PreparedStatement pstmt=null;
+		ResultSet rs=null;
 		
 		try {
 		StringBuilder selectSuc=new StringBuilder();
@@ -489,21 +486,26 @@ public class AdminDAO {
 		.append(" where r=1), ")
 		.append(" (select bid_price ")
 		.append(" from(select rownum ,bid_price, user_id ")
-		.append(" from (select rownum , bid_price, user_id from bid_item where auc_code=? order by bid_price desc) where rownum=1)) ")
-		.append(" ) ");
+		.append(" from (select rownum , bid_price, user_id from bid_item where auc_code=? order by bid_price desc) where rownum=1))) ");
 		
 		con=getconn();
+		con.setAutoCommit(false);
 		pstmt=con.prepareStatement(selectSuc.toString());
-		pstmt.setString(1, AdminPageFrm.auc_code);
-		pstmt.setString(2, AdminPageFrm.auc_code);
-		pstmt.setString(3, AdminPageFrm.auc_code);
-		pstmt.setString(4, AdminPageFrm.auc_code);
+		pstmt.setString(1, auc_code);
+		pstmt.setString(2, auc_code);
+		pstmt.setString(3, auc_code);
+		pstmt.setString(4, auc_code);
+		cnt=pstmt.executeUpdate();
 		
-		while(pstmt.executeUpdate()!=0) {
+		
+		if(cnt>0) {
 			insertFlag=true;
-		}//end while
+		}
+//		con.commit();
+//		con.setAutoCommit(true);
+			
 		}finally {
-			dbClose(con, pstmt, null);
+			dbClose(con, pstmt, rs);
 		}//end finally
 		return insertFlag;
 		

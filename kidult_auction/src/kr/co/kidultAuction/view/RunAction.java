@@ -41,12 +41,6 @@ public class RunAction {
 		System.out.println(leftTotal);
 		
 		
-		Map<String, String> map=new HashMap<>();
-		map.put("1", "hi");
-		map.put("1", "hello");
-		System.out.println(map.get("1"));
-		
-		
 		
 	}//main
 

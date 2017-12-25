@@ -53,7 +53,6 @@ public class AdminPageFrmEvt extends MouseAdapter{
 		viewPermitList();
 		viewBidList();
 		viewSucBidList(); 
-		endBid();
 	}//adminPageFrmEvt
 
 
@@ -207,7 +206,6 @@ public class AdminPageFrmEvt extends MouseAdapter{
 
 		AdminDAO a_dao=AdminDAO.getInstance();
 		List<AdminSucBidVO> sucBidList=a_dao.selectSucBid();
-
 		Object[] rowData=null;
 		AdminSucBidVO asbv=null;
 
@@ -227,57 +225,6 @@ public class AdminPageFrmEvt extends MouseAdapter{
 		}//end for
 
 	}//viewSucBid
-
-	/**
-	 * getImgIcon  승인, 승인거부 창에 있는 이미지 네장 불러오는 method
-	 * */
-	public void getImgIcon() {
-
-	}
-
-
-	/**
-	 * 경매 자동 종료 메소드
-	 * @throws SQLException 
-	 * */
-
-	public boolean endBid() throws SQLException {
-		boolean flag=false;
-		AdminDAO a_dao=AdminDAO.getInstance();
-		List<AdminOncomingBidVO> dataList=a_dao.selectOncomingData();
-		AdminOncomingBidVO aobv=null;
-		SimpleDateFormat sdf=new SimpleDateFormat("yy-MM-dd");
-		String nowDate=sdf.format(new Date());
-		String[] expected_end_date=new String[dataList.size()], auc_code=new String[dataList.size()];
-		Map<Integer, String> code_date=new HashMap<>();
-
-		if(dataList.size()!=0) {
-			for(int i=0; i<dataList.size(); i++) {
-				aobv=dataList.get(i);
-				expected_end_date[i]=aobv.getExpected_end_date();
-				expected_end_date[i]=expected_end_date[i].substring(2, expected_end_date[i].indexOf(" "));
-				auc_code[i]=aobv.getAuc_code();
-
-				if("17-12-24".equals(expected_end_date[i])) {
-				code_date.put(i,auc_code[i]);
-				}//end if
-				
-				System.out.println(expected_end_date[i]);
-				System.out.println(auc_code[i]);
-			}//end for
-			
-
-//			if(nowDate.equals(expected_end_date)) {
-		}//end if
-		for(int j=0; j<code_date.size(); j++) {
-			AdminPageFrm.auc_code=code_date.get(j);
-			System.out.println(AdminPageFrm.auc_code);
-//			a_dao.insertEndBid();
-		}//end for
-		return flag;
-	}//endBid
-
-
 
 	@Override
 	public void mouseClicked(MouseEvent me) {
