@@ -67,7 +67,7 @@ private AuctionMainFrm amf;
 			if(a_dao.selectUserLogin(lv)) {
 				System.out.println("사용자 로그인 성공!");
 				JOptionPane.showMessageDialog(null, "사용자 로그인 성공!");
-				lf.getAmf().getBtnLogin().setIcon(new ImageIcon("C:\\dev\\git\\kidult_auction\\kidult_auction\\src\\kr\\co\\kidultAuction\\img\\logout.jpg"));
+				lf.getAmf().getBtnLogin().setIcon(new ImageIcon(getClass().getClassLoader().getResource("kidultAuction_img/logout.png")));
 			AuctionMainFrm.User_id=lf.getTfId().getText().trim();
 				lf.dispose();
 			}else {
