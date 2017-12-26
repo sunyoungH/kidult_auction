@@ -129,7 +129,7 @@ public class MyAuctionFrm extends JDialog {
 		jtRecieveItem.setRowHeight(50);
 		// 컬럼 이동막기
 		jtRecieveItem.getTableHeader().setReorderingAllowed(false);
-		
+
 		JScrollPane jspAuc = new JScrollPane(jtAucItem);
 		JScrollPane jspSend = new JScrollPane(jtSendItem);
 		JScrollPane jspRecieve = new JScrollPane(jtRecieveItem);
@@ -138,18 +138,18 @@ public class MyAuctionFrm extends JDialog {
 		jtpTab.add("등록한 경매", jspAuc);
 		jtpTab.addTab("보낼물건", jspSend);
 		jtpTab.addTab("받을물건", jspRecieve);
-		
+
 		jtpTab.setBackground(new Color(0xFFFFBF));
-		
+
 		jtpTab.setBounds(0, 0, 795, 500);
-		
-        JPanel jp=new JPanel();
-		
+
+		JPanel jp = new JPanel();
+
 		jp.setBackground(new Color(0xFFFBF6));
-		
-		jp.setBounds(0,0,800,500);
-		
-		//가운데 정렬
+
+		jp.setBounds(0, 0, 800, 500);
+
+		// 가운데 정렬
 		DefaultTableCellRenderer center = new DefaultTableCellRenderer();
 
 		center.setHorizontalAlignment(SwingConstants.CENTER);
@@ -162,13 +162,13 @@ public class MyAuctionFrm extends JDialog {
 		}
 		/////////////////////////////////////////////////////////////////////
 		TableColumnModel tcmSend = jtSendItem.getColumnModel();
-		
+
 		for (int i = 0; i < tcmSend.getColumnCount(); i++) {
 			tcmSend.getColumn(i).setCellRenderer(center);
 		}
 		/////////////////////////////////////////////////////////////////////
 		TableColumnModel tcmRecieve = jtRecieveItem.getColumnModel();
-		
+
 		for (int i = 0; i < tcmRecieve.getColumnCount(); i++) {
 			tcmRecieve.getColumn(i).setCellRenderer(center);
 		}
@@ -176,16 +176,16 @@ public class MyAuctionFrm extends JDialog {
 		add(jtpTab);
 		add(jp);
 
-		setBounds(550, 200, 800, 500);
-		setVisible(true);
-		setResizable(false);
-		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-
 		MyAuctionFrmEvt mafe = new MyAuctionFrmEvt(this);
 		jtAucItem.addMouseListener(mafe);
 		jtSendItem.addMouseListener(mafe);
 		jtRecieveItem.addMouseListener(mafe);
 		jtpTab.addMouseListener(mafe);
+
+		setBounds(550, 200, 800, 500);
+		setVisible(true);
+		setResizable(false);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
 	}// MyAuctionFrm
 

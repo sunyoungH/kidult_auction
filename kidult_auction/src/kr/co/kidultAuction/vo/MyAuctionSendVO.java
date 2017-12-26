@@ -2,18 +2,18 @@ package kr.co.kidultAuction.vo;
 
 public class MyAuctionSendVO {
 	
-	private String item_name,add_date, ended_date, kakao_id, send_status;
+	private String item_name, start_date, ended_date, kakao_id, send_status;
 	private int start_price, bid_price;
 	
 	public MyAuctionSendVO() {
 		super();
 	}
 
-	public MyAuctionSendVO(String item_name, String add_date, String ended_date, String kakao_id, String send_status,
+	public MyAuctionSendVO(String item_name, String start_date, String ended_date, String kakao_id, String send_status,
 			int start_price, int bid_price) {
 		super();
 		this.item_name = item_name;
-		this.add_date = add_date;
+		this.start_date = start_date;
 		this.ended_date = ended_date;
 		this.kakao_id = kakao_id;
 		this.send_status = send_status;
@@ -29,12 +29,12 @@ public class MyAuctionSendVO {
 		this.item_name = item_name;
 	}
 
-	public String getAdd_date() {
-		return add_date;
+	public String getStart_date() {
+		return start_date;
 	}
 
-	public void setAdd_date(String add_date) {
-		this.add_date = add_date;
+	public void setStart_date(String start_date) {
+		this.start_date = start_date;
 	}
 
 	public String getEnded_date() {
@@ -79,7 +79,7 @@ public class MyAuctionSendVO {
 
 	@Override
 	public String toString() {
-		return "MyAuctionSendVO [item_name=" + item_name + ", add_date=" + add_date + ", ended_date=" + ended_date
+		return "MyAuctionSendVO [item_name=" + item_name + ", start_date=" + start_date + ", ended_date=" + ended_date
 				+ ", kakao_id=" + kakao_id + ", send_status=" + send_status + ", start_price=" + start_price
 				+ ", bid_price=" + bid_price + "]";
 	}

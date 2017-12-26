@@ -34,8 +34,8 @@ public class RunAction {
 		int leftMinute=60-Integer.parseInt(nowSec.substring(3,5));
 		int leftSec=60-Integer.parseInt(nowSec.substring(6));
 		
-		System.out.println(leftHour+"/"+leftMinute+"/"+leftSec);
-		
+		System.out.println(leftHour + "/" + leftMinute + "/" + leftSec);
+
 		int leftTotal=0;
 		leftTotal=leftHour*1000*60*60 + leftMinute*1000*60 + leftSec*1000;
 		System.out.println(leftTotal);

@@ -271,16 +271,21 @@ public class UserDAO_MH {
 			
 			try {
 			StringBuilder AuctionSend=new StringBuilder();
-			AuctionSend.append(" select a.item_name, a.category, a.period, a.add_date, a.permit, a.start_price, r.reject_reason");
-			AuctionSend.append(" from auc_item a, reject_item r  where a.auc_code=r.auc_code and user_id=?");
+			AuctionSend.append("  select ai.item_name, ai.start_price, ai.start_date, bi.bid_price, ei.send_status,ei.ended_date, ")
+			.append("  (select  kakao_id from auc_user where user_id=(select user_id from bid_item where bid_price=(select max(bid_price) from bid_item where auc_code=ai.auc_code) and   auc_code=ai.auc_code)  )  as kakao_id ,ai.auc_code ")
+			.append(" from auc_user au, auc_item ai, bid_item bi, ended_item ei ")
+			.append("   where (ai.user_id=au.user_id  and bi.auc_code=ai.auc_code and ")
+			.append("ei.bid_num=(select  bid_num from bid_item where bid_price=(select max(bid_price) from bid_item where auc_code=ai.auc_code) and  auc_code=ai.auc_code )) ")
+			.append("  and au.user_id=?  and ai.permit='Y' and bi.bid_price=(select max(bid_price) from bid_item where auc_code=ai.auc_code )   ");
 			
+		
 			con=getconn();
 			pstmt=con.prepareStatement(AuctionSend.toString());
 			pstmt.setString(1, AuctionMainFrm.User_id );
 			rs=pstmt.executeQuery();
 			
 			 while (rs.next()) {
-				 masv = new MyAuctionSendVO(rs.getString("item_name"), rs.getString("add_date"), rs.getString("ended_date"),
+				 masv = new MyAuctionSendVO(rs.getString("item_name"), rs.getString("start_date"), rs.getString("ended_date"),
 	                             rs.getString("kakao_id"), rs.getString("send_status"), rs.getInt("start_price") ,rs.getInt("bid_price"));
 				 
 	             list.add(masv); 
@@ -301,25 +306,25 @@ public class UserDAO_MH {
 		Connection con=null;
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
-		MyAuctionReceiveVO masv = null;
 		
 		try {
 		StringBuilder AuctionReceive=new StringBuilder();
-		AuctionReceive.append(" select a.item_name, a.category, a.period, a.add_date, a.permit, a.start_price, r.reject_reason");
-		AuctionReceive.append(" from auc_item a, reject_item r  where a.auc_code=r.auc_code and user_id=?");
+		AuctionReceive.append(" select  ai.item_name, ai.start_price, ai.start_date, bi.bid_price, ei.ended_date, ei.send_status, ( select kakao_id from auc_user where user_id=(select user_id from auc_item where auc_code=ai.auc_code)) as kakao_id ")
+		.append(" from  auc_item ai, bid_item bi, ended_item ei , auc_user au " )
+		.append(" where  au.user_id=? and ( au.user_id=bi.user_id and bi.bid_num=ei.bid_num and bi.auc_code=ai.auc_code) ");
 		
 		con=getconn();
 		pstmt=con.prepareStatement(AuctionReceive.toString());
 		pstmt.setString(1, AuctionMainFrm.User_id );
 		rs=pstmt.executeQuery();
 		
+		MyAuctionReceiveVO marv = null;
 		 while (rs.next()) {
-			 masv = new MyAuctionReceiveVO(rs.getString("item_name"), rs.getString("add_date"), rs.getString("ended_date"),
+			 marv = new MyAuctionReceiveVO(rs.getString("item_name"), rs.getString("start_date"), rs.getString("ended_date"),
                              rs.getString("kakao_id"), rs.getString("send_status"), rs.getInt("start_price") ,rs.getInt("bid_price"));
 			 
-             list.add(masv); 
+             list.add(marv); 
      } // end while
-
 		}finally {
 			dbClose(con, pstmt, rs);
 		}//end finally
