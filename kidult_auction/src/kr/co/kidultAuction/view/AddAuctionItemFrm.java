@@ -11,35 +11,36 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import kr.co.kidultAuction.controller.AddAuctionItemFrmEvt;
+import kr.co.kidultAuction.controller.MyPageFrmEvt;
 
 @SuppressWarnings("serial")
 public class AddAuctionItemFrm extends JDialog {
 	
-	private JLabel jlbItemImg, jlbCategory, jlbItemName, jlbItemStatus, jlbStartPrice, jlbAuctionPeriod, jlbItemInfo,
-			jlbWon;
-	private JTextField jtfItemName, jtfStartPrice;
+	private JLabel lbItemImg, lbCategory, lbItemName, lbItemStatus, lbStartPrice, lbAuctionPeriod, lbItemInfo,
+			lbWon;
+	private JTextField tfItemName, tfStartPrice;
 	private DefaultComboBoxModel<String> dcbmCategory, dcbmStatus, dcbmPeriod;
 	private JComboBox<String> jcbCategory, jcbStatus, jcbPeriod;
 	private JButton btnAddImg, btnPermit, btnCancel;
-	private JTextArea jtaItemInfo;
+	private JTextArea taItemInfo;
 
 	public AddAuctionItemFrm(AuctionMainFrm amf) {
-		super(amf,"경매 등록");
+		super(amf,"경매 등록",true); 
 		
 		ImageIcon itemImg = new ImageIcon(
-				"C:/dev/workspace/kidult_auction/src/kr/co/kidultAuction/img/addImg.png");
+				"C:/dev/git/kidult_auction/kidult_auction/src/kr/co/kidultAuction/img/addImg.png");
 
-		jlbItemImg = new JLabel(itemImg);
-		jlbCategory = new JLabel("카테고리 선택");
-		jlbItemName = new JLabel("경매 물품명");
-		jlbItemStatus = new JLabel("물품 상태");
-		jlbStartPrice = new JLabel("경매 시작 가격");
-		jlbAuctionPeriod = new JLabel("경매 시간");
-		jlbWon = new JLabel("원");
-		jlbItemInfo = new JLabel("물품 소개");
+		lbItemImg = new JLabel(itemImg);
+		lbCategory = new JLabel("카테고리 선택");
+		lbItemName = new JLabel("경매 물품명");
+		lbItemStatus = new JLabel("물품 상태");
+		lbStartPrice = new JLabel("경매 시작 가격");
+		lbAuctionPeriod = new JLabel("경매 시간");
+		lbWon = new JLabel("원");
+		lbItemInfo = new JLabel("물품 소개");
 
-		jtfItemName = new JTextField();
-		jtfStartPrice = new JTextField();
+		tfItemName = new JTextField();
+		tfStartPrice = new JTextField();
 
 		dcbmCategory = new DefaultComboBoxModel<>();
 		String[] categoryType = { "카테고리 선택", "레고", "프라모델", "피규어", "기타" };
@@ -62,9 +63,9 @@ public class AddAuctionItemFrm extends JDialog {
 		} // end for
 		jcbPeriod = new JComboBox<String>(dcbmPeriod);
 
-		jtaItemInfo = new JTextArea();
+		taItemInfo = new JTextArea();
 
-		JScrollPane jspItemInfo = new JScrollPane(jtaItemInfo);
+		JScrollPane jspItemInfo = new JScrollPane(taItemInfo);
 
 		btnAddImg = new JButton("이미지 등록");
 		btnPermit = new JButton("승인 신청");
@@ -75,17 +76,17 @@ public class AddAuctionItemFrm extends JDialog {
 		setLayout(null);
 		setBounds(500, 200, 600, 600);
 
-		jlbItemImg.setBounds(20, 20, 225, 225);
-		jlbCategory.setBounds(275, 30, 90, 30);
-		jlbItemName.setBounds(275, 75, 90, 30);
-		jlbItemStatus.setBounds(275, 120, 90, 30);
-		jlbStartPrice.setBounds(275, 165, 90, 30);
-		jlbAuctionPeriod.setBounds(275, 210, 90, 30);
-		jlbWon.setBounds(552, 165, 30, 30);
-		jlbItemInfo.setBounds(20, 280, 60, 30);
+		lbItemImg.setBounds(20, 20, 225, 225);
+		lbCategory.setBounds(275, 30, 90, 30);
+		lbItemName.setBounds(275, 75, 90, 30);
+		lbItemStatus.setBounds(275, 120, 90, 30);
+		lbStartPrice.setBounds(275, 165, 90, 30);
+		lbAuctionPeriod.setBounds(275, 210, 90, 30);
+		lbWon.setBounds(552, 165, 30, 30);
+		lbItemInfo.setBounds(20, 280, 60, 30);
 
-		jtfItemName.setBounds(400, 75, 150, 30);
-		jtfStartPrice.setBounds(400, 165, 150, 30);
+		tfItemName.setBounds(400, 75, 150, 30);
+		tfStartPrice.setBounds(400, 165, 150, 30);
 
 		jcbCategory.setBounds(400, 30, 150, 30);
 		jcbStatus.setBounds(400, 120, 150, 30);
@@ -96,21 +97,21 @@ public class AddAuctionItemFrm extends JDialog {
 		jspItemInfo.setBounds(20, 310, 545, 200);
 
 		btnPermit.setBounds(400, 520, 90, 30);
-		btnCancel.setBounds(500, 520, 60, 30); 
+		btnCancel.setBounds(500, 520, 60, 30);
 
 		/////////////////////////////////////////////////
 
-		add(jlbItemImg);
-		add(jlbCategory);
-		add(jlbItemName);
-		add(jlbItemStatus);
-		add(jlbStartPrice);
-		add(jlbAuctionPeriod);
-		add(jlbWon);
-		add(jlbItemInfo);
+		add(lbItemImg);
+		add(lbCategory);
+		add(lbItemName);
+		add(lbItemStatus);
+		add(lbStartPrice);
+		add(lbAuctionPeriod);
+		add(lbWon);
+		add(lbItemInfo);
 
-		add(jtfItemName);
-		add(jtfStartPrice);
+		add(tfItemName);
+		add(tfStartPrice);
 
 		add(jcbCategory);
 		add(jcbStatus);
@@ -125,12 +126,15 @@ public class AddAuctionItemFrm extends JDialog {
 
 		///////////////////////////////////////////////////
 
-		setVisible(true);
-		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		AddAuctionItemFrmEvt aaife=new AddAuctionItemFrmEvt(this);
 		btnAddImg.addActionListener(aaife);
 		btnCancel.addActionListener(aaife);
 		btnPermit.addActionListener(aaife);
+		
+		
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setVisible(true);
+		setResizable(false);
 		
 	}// addAuctionItemFrm
 
@@ -143,9 +147,44 @@ public class AddAuctionItemFrm extends JDialog {
 	}
 
 	public JButton getBtnCancel() {
-		return btnCancel;
+		return btnCancel; 
 	}
 
+	public JLabel getLbItemImg() {
+		return lbItemImg;
+	}
+	/*-----------------------------------------------------------------------------------------*/	
+
+	public JTextField getTfItemName() {
+		return tfItemName;
+	}
+
+	public JTextField getTfStartPrice() {
+		return tfStartPrice;
+	}
+
+	public JComboBox<String> getJcbCategory() {
+		return jcbCategory;
+	}
+
+	public JComboBox<String> getJcbStatus() {
+		return jcbStatus;
+	}
+
+	public JComboBox<String> getJcbPeriod() {
+		return jcbPeriod;
+	}
+
+	public JTextArea getTaItemInfo() {
+		return taItemInfo;
+	}
+
+
+	
+	
+
+	
+	
 	
 	
 	

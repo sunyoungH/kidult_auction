@@ -21,11 +21,11 @@ public class UserDAO_JR {
 	private static UserDAO_JR u_dao; 
 	private AddUserVO auv;
 
-	//기본 생성자
+/*	//기본 생성자
 	private UserDAO_JR() {
 
 	}//userDAO
-
+*/
 	//getInstance
 	public static UserDAO_JR getInstance() {
 		if(u_dao==null) {

@@ -90,7 +90,7 @@ public class AddUserFrmEvt implements ActionListener {
 		JTextField pfPassCon = auf.getPfPassCon();
 		JTextField tfName = auf.getTfName();
 		JTextField tfBirth = auf.getTfBirth();
-		JTextField tfAddr = auf.getTfAddr();
+		JTextField tfAddr = auf.getTfADddr();
 		JTextField tfEmail = auf.getTfEmail();
 		JTextField tfPhone = auf.getTfPhone();
 		JTextField tfKakao = auf.getTfKakao();

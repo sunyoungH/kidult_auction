@@ -55,8 +55,11 @@ public class AuctionMainFrmEvt implements ActionListener, Runnable{
 			}
 		}//end if
 		
+		String ac = ae.getActionCommand();
+		amf.getBtnLogin().setText(ac);
+		
 		if(ae.getSource()==amf.getBtnLogin()) {
-			new LoginFrm(amf);
+			new LoginFrm(amf);			
 		}//end if
 		
 		if(ae.getSource()==amf.getBtnMyPage()) {

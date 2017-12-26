@@ -1,14 +1,21 @@
 package kr.co.kidultAuction.controller;
 
 import java.awt.FileDialog;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.Socket;
+import java.util.Calendar;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -19,138 +26,176 @@ import kr.co.kidultAuction.view.AddItemImageFrm;
 public class AddItemImageFrmEvt implements ActionListener{
 	
 	private AddItemImageFrm aiif;
-	
+	private AddAuctionItemFrm aaif;
 	private File writeFile, writeThumbFile;
 	
-	private ImageIcon icon;
+	static ImageIcon icon, finalIcon;
 	
-	public AddItemImageFrmEvt(AddItemImageFrm aiif) {
+	private Socket client;
+	
+	boolean frontFlag;
+	boolean leftFlag;
+	boolean rightFlag;
+	boolean backFlag;
+	
+	 static ImageIcon frontIcon;
+	 static ImageIcon backIcon;
+	 static ImageIcon leftIcon;
+	 static ImageIcon rightIcon;
+	
+	static String path, fileName;
+	
+	
+	
+	public AddItemImageFrmEvt(AddItemImageFrm aiif, AddAuctionItemFrm aaif) {
 		this.aiif=aiif;
+		this.aaif=aaif;
 	}//AddItemImageFrmEvt
 	
 	
 	
 	private void imgSelect() throws IOException {
+		
+		frontFlag=false;
+		leftFlag=false;
+		rightFlag=false;
+		backFlag=false;
 		FileDialog fdImg = new FileDialog(aiif, "사진 선택하기 ", FileDialog.LOAD);
 		fdImg.setVisible(true);
 
-		String path = fdImg.getDirectory();
-		String file = fdImg.getFile();
+		path = fdImg.getDirectory();
+		fileName = fdImg.getFile();
 
-		if (file != null) {// 선택한 파일이 있음
+		if (fileName != null) {// 선택한 파일이 있음
 			// 이미지 파일만 선택하도록 확장자(jpg,gif,png)비교
-			String[] arrFile = file.split("[.]");
+			String[] arrFile = fileName.split("[.]");
 			String ext = arrFile[arrFile.length - 1];
-			if (!"jpg,gif,png".contains(ext)) {
-				JOptionPane.showMessageDialog(aiif, "도시락이미지는 jpg,gif,png만 가능합니다.");
+			if (!"jpg,gif,png,JPG,GIF,PNG".contains(ext)) {
+				JOptionPane.showMessageDialog(aiif, "이미지는 jpg,gif,png만 가능합니다.");
 				return;
 			} // end if
+			
+			
+			
+			/*----------------------------------------------------------------------------------------------------*/
 
-			String runDir = System.getProperty("user.dir");
-			File readFile = new File(path + file);
-			writeFile = new File(runDir + "/src/kr/co/kidultAuction/img/" + file); // 같은이름으로 파일 못올리게
+//			int dataSize=0;
+//			byte[] data=new byte[512];
+//			File file=new File(path+"/"+fileName);
+//			FileInputStream fis=new FileInputStream(file);
+//			int binaryLen=0;
+//			
+//			while((binaryLen=fis.read(data))>0) {
+//				dataSize++;
+//			}//end while
+//			
+//			fis.close();
+//			client=new Socket("211.63.89.135", 5500);
+//			DataOutputStream dos=new DataOutputStream(client.getOutputStream());
+//			dos.writeUTF(fileName);
+//			dos.writeInt(dataSize);
+//			fis=new FileInputStream(file);
+//			
+//			while(dataSize>0) {
+//				binaryLen=fis.read(data);
+//				dos.write(data, 0, binaryLen);
+//				dataSize--;
+//			}//end while
+//			
+//			dos.flush();
+//			System.out.println(fileName+" => 전송완료");
+//			fis.close();
+//			client.close();
 			
-			if (writeFile.exists()) {// 파일이 복사되는 폴더에 같은 이름의 파일이 존재한다면 파일명을 변경하도록 설정한다.
-				JOptionPane.showMessageDialog(aiif, "동일이름의 도시락 이미지가 존재합니다. \n다른이름으로 변경하여 이미지를 등록해주세요");
-				return;
-			} // end if
+			icon=new ImageIcon(path+fileName);
 			
-			FileInputStream fis = null;
-			FileOutputStream fos = null;
-			byte[] readData=new byte[512];
-			int temp=0;
+			/*----------------------------------------------------------------------------------------------------*/
+			//여기서는 주소 값만 받아온다음에 AddAuctionItemFrm 에서 확인을 눌렀을 때 img package 안으로 값이 전달 되도록 하게 하고 
 			
-			//파일에서 읽어 들이는 스트림
-			fis=new FileInputStream(readFile);
-			//목적지에 파일을 생성하는 스트림
-			fos=new FileOutputStream(writeFile);
-			while ((temp=fis.read(readData))!=-1) {
-				//파일에서 읽어들인 내용을 파일로 보낸다
-				fos.write(readData, 0, temp);
-			}//end while
-			fos.flush();//분출 하지 않으면 파일이 제대로 생성되지 않는다
-			if(fis !=null) {
-				fis.close();
-			}//end if
-			if(fos !=null) {
-				fos.close();
-			}//end if
-			readData=null;
+
 			
-			fis=new FileInputStream(readFile);
-			fos=new FileOutputStream(writeFile);
-			readData=new byte[512];
-			while((temp=fis.read(readData))!=-1) {
-				fos.write(readData, 0, temp);
-			}//end while
-			fos.flush();
-			
-			JLabel lblTemp = null;
-			
-			
-			
-			
-			 icon=new ImageIcon(writeFile.getAbsolutePath());
-			//lblTemp.setIcon(icon);
-			System.out.println( icon);
-			JOptionPane.showMessageDialog(aiif, "이미지가 정상적으로 등록되었음");
-			
-			
+						
+//			 icon=new ImageIcon(writeFile.getAbsolutePath());
+			 Image resizeImg = icon.getImage();  //ImageIcon을 Image로 변환.
+			 Image finishImg = resizeImg.getScaledInstance(225, 225, java.awt.Image.SCALE_SMOOTH);
+			 finalIcon = new ImageIcon(finishImg); //Image로 ImageIcon 생성
+
+			 JOptionPane.showMessageDialog(aiif, "이미지가 정상적으로 등록되었음");
+			 
 		}//end if
+		
 	}//imgSelect
-
+	
+	
+	
+	
+	
+	
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		if(ae.getSource()==aiif.getBtnFront()) {
 			try {
+				frontFlag=true;
 				imgSelect();
-				System.out.println( icon);
-				aiif.getLbFrontImg().setIcon(icon);
+				frontIcon=icon;
+				aiif.getLbFrontImg().setIcon(finalIcon);
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(aiif, "이미지가 정상적으로 등록되지 않음");
 				e.printStackTrace();
-			}
-		}
+			}//end catch
+		}//end if
 		
 		if(ae.getSource()==aiif.getBtnBack()) {
 			try {
-					imgSelect();
-				aiif.getLbBackImg().setIcon(icon);
+				backFlag=true;
+				imgSelect();
+				 backIcon=icon;
+				aiif.getLbBackImg().setIcon(finalIcon);
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(aiif, "이미지가 정상적으로 등록되지 않음");
 				e.printStackTrace();
-			}
-		}
+			}//end catch
+		}//end if
 		
 		if(ae.getSource()==aiif.getBtnLeft()) {
 			try {
+				leftFlag=true;
 				imgSelect();
-				aiif.getLbLeftImg().setIcon(icon);
+				leftIcon=icon;
+				aiif.getLbLeftImg().setIcon(finalIcon);
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(aiif, "이미지가 정상적으로 등록되지 않음");
 				e.printStackTrace();
-			} 
-		}
+			}//end catch
+		}//end if
 		
 		if(ae.getSource()==aiif.getBtnRight()) {
 			try {
+				rightFlag=true;
 				imgSelect();
-				aiif.getLbRightImg().setIcon(icon);
+				rightIcon=icon;
+				aiif.getLbRightImg().setIcon(finalIcon);
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(aiif, "이미지가 정상적으로 등록되지 않음");
 				e.printStackTrace();
-			}
-		}
+			}//end catch
+		}//end if
 		
 		if(ae.getSource()==aiif.getBtnAdd()) {
-			System.out.println("등록");
-		}
+			ImageIcon  deliveryIcon= (ImageIcon)aiif.getLbFrontImg().getIcon();
+			aaif.getLbItemImg().setIcon(deliveryIcon);
+			aiif.dispose(); 
+			
+		}//end if
 		
 		if(ae.getSource()==aiif.getBtnCancel()) {
 			aiif.dispose();
-		}
+		}//end if
 		
 		
 	}//actionPerformed
 
-}
+
+	
+	
+}//class

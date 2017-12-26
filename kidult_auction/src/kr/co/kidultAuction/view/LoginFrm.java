@@ -25,11 +25,13 @@ public class LoginFrm extends JDialog{
 	private JTextField tfId;
 	private JPasswordField pfPass;
 	private JButton btnAdmin, btnLogin, btnCancel;
+	private AuctionMainFrm amf;
 	
 	public LoginFrm(AuctionMainFrm amf) {
 		super(amf,"·Î±×ÀÎ");
 		setLayout(null);
 		
+		this.amf=amf;
 		lblId=new JLabel("ID");
 		lblPass=new JLabel("Password");
 		
@@ -94,6 +96,12 @@ public class LoginFrm extends JDialog{
          setVisible(true);
          setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 	}//LoginFrm
+
+	
+	public AuctionMainFrm getAmf() {
+		return amf;
+	}
+
 
 	public JTextField getTfId() {
 		return tfId;

@@ -1,6 +1,7 @@
 package kr.co.kidultAuction.view;
 
 import java.awt.Color;
+import java.awt.Dialog;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -17,15 +18,17 @@ public class AddItemImageFrm extends JDialog {
 	private JButton btnFront, btnBack, btnLeft, btnRight, btnAdd, btnCancel;
 	private JPanel jpBackground;
 	
-	public AddItemImageFrm() {
+	public AddItemImageFrm(AddAuctionItemFrm aaif) {
+		super(aaif,"이미지등록",true);
+		
 		
 		ImageIcon itemImg = new ImageIcon(
-				"C:/dev/workspace/kidult_auction/src/kr/co/kidultAuction/img/addImg.png");
-		ImageIcon itemAdd = new ImageIcon("C:/dev/workspace/kidult_auction/src/kr/co/kidultAuction/img/addImgBtn.JPG");
-		ImageIcon itemCancel = new ImageIcon("C:/dev/workspace/kidult_auction/src/kr/co/kidultAuction/img/cancel.JPG");
-		ImageIcon imgRegister = new ImageIcon("C:/dev/workspace/kidult_auction/src/kr/co/kidultAuction/img/img_register.JPG");
+				"C:/dev/git/kidult_auction/kidult_auction/src/kr/co/kidultAuction/img/addImg.png");
+		ImageIcon itemAdd = new ImageIcon("C:/dev/git/kidult_auction/kidult_auction/src/kr/co/kidultAuction/img/addImgBtn.JPG");
+		ImageIcon itemCancel = new ImageIcon("C:/dev/git/kidult_auction/kidult_auction/src/kr/co/kidultAuction/img/cancel.JPG");
+		ImageIcon imgRegister = new ImageIcon("C:/dev/git/kidult_auction/kidult_auction/src/kr/co/kidultAuction/img/img_register.JPG");
 		
-		jpBackground = new JPanel(); 
+		jpBackground = new JPanel();
 		jpBackground.setBackground(Color.white);
 		
 		lbFrontImg = new JLabel(itemImg);
@@ -94,15 +97,16 @@ public class AddItemImageFrm extends JDialog {
 		
 		add(jpBackground);
 		
-		setVisible(true);
-		
-		AddItemImageFrmEvt aiife=new AddItemImageFrmEvt(this);
+		AddItemImageFrmEvt aiife=new AddItemImageFrmEvt(this,aaif);
 		btnAdd.addActionListener(aiife);
 		btnBack.addActionListener(aiife);
 		btnCancel.addActionListener(aiife);
 		btnFront.addActionListener(aiife);
 		btnLeft.addActionListener(aiife);
 		btnRight.addActionListener(aiife);
+		
+		setVisible(true);
+		setResizable(false);
 		
 	}//addItemImageFrm
 

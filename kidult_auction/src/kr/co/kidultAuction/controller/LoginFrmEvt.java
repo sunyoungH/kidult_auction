@@ -5,10 +5,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 import kr.co.kidultAuction.dao.AdminDAO;
 import kr.co.kidultAuction.dao.UserDAO;
+import kr.co.kidultAuction.dao.UserDAO_JR;
 import kr.co.kidultAuction.view.AdminPageFrm;
 import kr.co.kidultAuction.view.AuctionMainFrm;
 import kr.co.kidultAuction.view.LoginFrm;
@@ -44,7 +46,7 @@ private AuctionMainFrm amf;
 				lf.dispose();
 				new AdminPageFrm(amf);
 			}else {
-				System.out.println("로그인 실패 아이디,비번확인");
+				JOptionPane.showMessageDialog(lf,"로그인 실패 아이디,비번확인");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -65,10 +67,11 @@ private AuctionMainFrm amf;
 			if(a_dao.selectUserLogin(lv)) {
 				System.out.println("사용자 로그인 성공!");
 				JOptionPane.showMessageDialog(null, "사용자 로그인 성공!");
+				lf.getAmf().getBtnLogin().setIcon(new ImageIcon("C:\\dev\\git\\kidult_auction\\kidult_auction\\src\\kr\\co\\kidultAuction\\img\\logout.jpg"));
 			AuctionMainFrm.User_id=lf.getTfId().getText().trim();
 				lf.dispose();
 			}else {
-				System.out.println("사용자 실패");
+				JOptionPane.showMessageDialog(lf,"로그인 실패 아이디,비번확인");
 			}
 		} catch (HeadlessException e) {
 			e.printStackTrace();
@@ -76,6 +79,7 @@ private AuctionMainFrm amf;
 			e.printStackTrace();
 		}//end else
 	}//userLogin
+		
 	
 	@Override
 	public void actionPerformed(ActionEvent ae) {
@@ -85,6 +89,10 @@ private AuctionMainFrm amf;
 		
 		if(ae.getSource()==lf.getBtnLogin()) {
 			userLogin();
+		}//end if
+		
+		if(ae.getSource()==lf.getBtnCancel()) {
+			lf.dispose();
 		}//end if
 		
 	}//actionPerformed
