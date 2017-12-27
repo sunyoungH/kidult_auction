@@ -21,11 +21,11 @@ public class UserDAO_JR {
 	private static UserDAO_JR u_dao; 
 	private AddUserVO auv;
 
-/*	//기본 생성자
+	/*	//기본 생성자
 	private UserDAO_JR() {
 
 	}//userDAO
-*/
+	 */
 	//getInstance
 	public static UserDAO_JR getInstance() {
 		if(u_dao==null) {
@@ -165,7 +165,7 @@ public class UserDAO_JR {
 			chkId.append(" select user_id from auc_user where user_id=?");
 
 			con=getconn();
-			
+
 			pstmt=con.prepareStatement(chkId.toString());
 
 			pstmt.setString(1, id);
@@ -182,7 +182,7 @@ public class UserDAO_JR {
 		return flag;
 
 	}//checkId
-	
+
 	public boolean checkedIdOption(String id)throws SQLException{
 		boolean flag = false;
 
@@ -195,7 +195,7 @@ public class UserDAO_JR {
 			chkIdOption.append(" select user_id from auc_user where user_id=?");
 
 			con=getconn();
-			
+
 			pstmt=con.prepareStatement(chkIdOption.toString());
 
 			pstmt.setString(1, id);
@@ -210,6 +210,36 @@ public class UserDAO_JR {
 			dbClose(con, pstmt, rs);
 		}//end finally
 		return flag;
+	}
+
+	public boolean kakaoCheck(String kakao_id)throws SQLException {
+		boolean flag = false;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			StringBuilder chkKakao=new StringBuilder();
+			chkKakao.append(" select kakao_id from auc_user where kakao_id=?");
+
+			con=getconn();
+
+			pstmt=con.prepareStatement(chkKakao.toString());
+
+			pstmt.setString(1, kakao_id);
+
+			rs=pstmt.executeQuery();
+
+			while(rs.next()) {
+				flag=true;
+			}//end while
+
+		}finally {
+			dbClose(con, pstmt, rs);
+		}//end finally
+		return flag;
+
 	}
 
 	//모든 회원 조회
@@ -242,4 +272,6 @@ public class UserDAO_JR {
 		}//end finally
 		return list;
 	}//selectUserInfo
+
+
 }

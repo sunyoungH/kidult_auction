@@ -24,7 +24,7 @@ public class AddUserFrm extends JDialog {
 			lblPhoneinfo;
 	private JTextField tfId, tfName, tfBirth, tfAddr, tfEmail, tfPhone, tfKakao;
 	private JPasswordField pfPass, pfPassCon;
-	private JButton btnIdCheck, btnSubmit, btnCancel;
+	private JButton btnIdCheck, btnKkoCheck, btnSubmit, btnCancel;
 	private AuctionMainFrm amf;
 
 	public AddUserFrm(AuctionMainFrm amf) {
@@ -55,6 +55,7 @@ public class AddUserFrm extends JDialog {
 		tfKakao = new JTextField();
 
 		btnIdCheck = new JButton("중복확인");
+		btnKkoCheck = new JButton("중복확인");
 		btnSubmit = new JButton("회원가입");
 		btnCancel = new JButton("취소");
 		
@@ -91,6 +92,7 @@ public class AddUserFrm extends JDialog {
 		tfKakao.setBounds(170, 360, 90, 25);
 
 		btnIdCheck.setBounds(270, 40, 88, 25);
+		btnKkoCheck.setBounds(270, 360, 88, 25);
 		btnSubmit.setBounds(100, 430, 90, 30);
 		btnCancel.setBounds(230, 430, 90, 30);
 		
@@ -125,6 +127,7 @@ public class AddUserFrm extends JDialog {
 		add(tfKakao);
 
 		add(btnIdCheck);
+		add(btnKkoCheck);
 		add(btnSubmit);
 		add(btnCancel);
 		
@@ -132,6 +135,7 @@ public class AddUserFrm extends JDialog {
 		
 		AddUserFrmEvt aufe= new AddUserFrmEvt(this);
 		btnIdCheck.addActionListener(aufe);
+		btnKkoCheck.addActionListener(aufe);
 		btnSubmit.addActionListener(aufe);
 		btnCancel.addActionListener(aufe);
 
@@ -143,6 +147,10 @@ public class AddUserFrm extends JDialog {
 
 	public JButton getBtnIdCheck() {
 		return btnIdCheck;
+	}
+
+	public JButton getBtnKkoCheck() {
+		return btnKkoCheck;
 	}
 
 	public JButton getBtnSubmit() {

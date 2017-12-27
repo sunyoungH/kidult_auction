@@ -1,5 +1,6 @@
 package kr.co.kidultAuction.controller;
 
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -62,7 +63,39 @@ public class AddUserFrmEvt implements ActionListener {
 		return chkId;
 		
 	}// checkedId
+	
+	private boolean overlapKakao() throws SQLException { // 중복 kakao_id가 있는지와 한글 id입력을 확인할 매서드
+		u_dao = UserDAO_JR.getInstance();		
+		String kakao_id = auf.getTfKakao().getText().trim();
+		char chrInput;
+		// 아이디 중복 체크
+		boolean chkKakao = u_dao.kakaoCheck(kakao_id);
+		
+		for (int i = 0; i < kakao_id.length(); i++) { 
+			chrInput = kakao_id.charAt(i); // 입력받은 텍스트에서 문자 하나하나 가져와서 체크
+			if (!((chrInput >= 0x61 && chrInput <= 0x7A)||(chrInput >=0x41 && chrInput <= 0x5A)||(chrInput >= 0x30 && chrInput <= 0x39))) {
+				JOptionPane.showMessageDialog(auf, "한글은 입력할수 없습니다.");
+				flag=false;   // 영문자도 아니고 숫자도 아님!
+				return true;
+			}//end if
+		}//end for
+		
+		if (chkKakao) {
+			JOptionPane.showMessageDialog(auf, kakao_id + "는(은) 이미 사용 중인 아이디 입니다.");
+			
+		} else if (!kakao_id.equals("")) {
+			JOptionPane.showMessageDialog(auf, kakao_id + "는(은) 가입 가능한 아이디 입니다.");
+			flag = true; // 밑에 입력안했을때의 if문을 타기위해 사용
+		} else {// 아이디 입력 하지 않았을때
+			JOptionPane.showMessageDialog(auf, "아이디가 입력되지 않았습니다.");
+		} // end if
 
+		return chkKakao;
+		
+	}// checkedId
+
+
+	//id입력시 한글입력 방지
 	public boolean checkedIdOption() throws SQLException {
 		u_dao = UserDAO_JR.getInstance();
 		String id = auf.getTfId().getText().trim();
@@ -83,14 +116,13 @@ public class AddUserFrmEvt implements ActionListener {
 		u_dao = UserDAO_JR.getInstance();
 		auv = new AddUserVO();
 		
-		char chrInput;
 
 		JTextField tfId = auf.getTfId();
 		JTextField pfPass = auf.getPfPass();
 		JTextField pfPassCon = auf.getPfPassCon();
 		JTextField tfName = auf.getTfName();
 		JTextField tfBirth = auf.getTfBirth();
-		JTextField tfAddr = auf.getTfADddr();
+		JTextField tfAddr = auf.getTfAddr();
 		JTextField tfEmail = auf.getTfEmail();
 		JTextField tfPhone = auf.getTfPhone();
 		JTextField tfKakao = auf.getTfKakao();
@@ -108,12 +140,12 @@ public class AddUserFrmEvt implements ActionListener {
 		if(flag) {	
 			try {
 
-				if(id.equals("")) {
+/*				if(id.equals("")) {
 					JOptionPane.showMessageDialog(auf, "아이디를 입력하세요.");
 					auf.getTfId().requestFocus();
 					return;
 				}//end if(id)
-
+*/
 				if(pass.equals("")) {
 					JOptionPane.showMessageDialog(auf, "비밀번호를 입력하세요.");
 					auf.getPfPass().requestFocus();
@@ -178,7 +210,7 @@ public class AddUserFrmEvt implements ActionListener {
 				for (int i = 0; i < phone.length(); i++) {
 					char c1 = phone.charAt(i);
 					if ((c1 < 48 || c1 > 57) || (phone.length() != 11)) {// 폰번호가 숫자가 아니고 11자리가 아닌경우
-						JOptionPane.showMessageDialog(auf, "핸드폰 번호는 4자리 숫자만 입력해주세요");
+						JOptionPane.showMessageDialog(auf, "핸드폰 번호는 '-'을 제외한 11자리 숫자만 입력해주세요");
 						return;
 					} // end if
 				} // end for
@@ -209,7 +241,12 @@ public class AddUserFrmEvt implements ActionListener {
 				e.printStackTrace();
 			}//end catch
 		}else {
+			if(!flag) {
+				
+					JOptionPane.showMessageDialog(auf, "아이디 중복체크 하세요.");
+			}else {				
 			JOptionPane.showMessageDialog(auf, "가입 조건 형식에 맞지 않습니다. 확인 후 가입하세요.");
+			}
 		}//end if
 	}//submitUser
 
@@ -223,14 +260,21 @@ public class AddUserFrmEvt implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent ae) {
-		if(ae.getSource() == auf.getBtnIdCheck()) {
-			
+		if(ae.getSource() == auf.getBtnIdCheck()) {	
 			try {
 				overlapID();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}//end catch
-		}
+		}//end if
+		
+		if(ae.getSource() == auf.getBtnKkoCheck()) {
+			try {
+				overlapKakao();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}//end catch
+		}//end if
 	
 		if(ae.getSource() == auf.getBtnSubmit()) {
 				submitUser();
