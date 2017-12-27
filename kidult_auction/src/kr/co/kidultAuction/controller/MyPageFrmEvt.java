@@ -42,6 +42,10 @@ public class MyPageFrmEvt implements ActionListener {
 		if (ae.getSource() == mpf.getBtnEdit()) {
 			passMsg();
 		} // end if
+		
+		if(ae.getSource()==mpf.getBtnExit()) {
+			mpf.dispose();
+		}
 
 	}// actonPerformed
 

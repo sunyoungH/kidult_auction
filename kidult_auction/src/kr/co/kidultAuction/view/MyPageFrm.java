@@ -15,7 +15,7 @@ import kr.co.kidultAuction.controller.MyPageFrmEvt;
 
 @SuppressWarnings("serial")
 public class MyPageFrm extends JDialog {
-	private JButton btnMyAuction, btnEdit;
+	private JButton btnMyAuction, btnEdit, btnExit;
 	private JPanel jp;
 	
 	
@@ -62,22 +62,39 @@ public class MyPageFrm extends JDialog {
                     		 
                     	 } 
                      };
+                     java.net.URL url3 = 
+                    		 getClass().getClassLoader().getResource("kidultAuction_img/exit.png"); // "패키지명/사진명"
+                     ImageIcon icon3 = new ImageIcon(url3);
+                     
+                     JPanel  jp3 = new JPanel() {
+                    	 public void paintComponent(Graphics g) {
+                    		 g.drawImage(icon3.getImage(), 0, 0, null);
+                    		 setOpaque(false);
+                    		 super.paintComponent(g);
+                    		 
+                    	 } 
+                     };
                      
              		btnMyAuction=new JButton(icon1);
             		btnEdit=new JButton(icon2);
+            		btnExit=new  JButton(icon3);
 		
 		setLayout(null);
 		btnMyAuction.setBounds(50,70,130,100);
 		btnEdit.setBounds(200,70,130,100);
+		btnExit.setBounds(430,10,50,50);
 		 jp.setBounds(0, 0, 500, 300);
 		 jp1.setBounds(0, 0, 130, 100);
 		 jp2.setBounds(270, 70, 130, 100);
+		 jp3.setBounds(430, 10, 50, 50);
 		
 		add(btnMyAuction);
 		add(btnEdit);
+		add(btnExit);
 		add(jp);
 		add(jp1);
 		add(jp2);
+		add(jp3);
 	
 		setBounds(650,330,500,310);
 		setVisible(true);
@@ -87,6 +104,7 @@ public class MyPageFrm extends JDialog {
 		MyPageFrmEvt mpfe=new MyPageFrmEvt(this);
 		btnMyAuction.addActionListener(mpfe);
 		btnEdit.addActionListener(mpfe);
+		btnExit.addActionListener(mpfe);
 		
 	}//MyPageFrm
 
@@ -105,6 +123,15 @@ public class MyPageFrm extends JDialog {
 
 	public void setBtnEdit(JButton btnEdit) {
 		this.btnEdit = btnEdit;
+	}
+
+
+	public JButton getBtnExit() {
+		return btnExit;
+	}
+
+	public void setBtnExit(JButton btnExit) {
+		this.btnExit = btnExit;
 	}
 	
 }

@@ -24,6 +24,7 @@ public class AuctionMainFrm extends JFrame {
 	private JLabel lblMainName;
 	public static String User_id = "";
 	public static String Admin_id = "";
+	public static String ended_num="";
 	private boolean flag = false;
 
 	public AuctionMainFrm() {

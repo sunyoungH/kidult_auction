@@ -18,6 +18,7 @@ import kr.co.kidultAuction.vo.LoginVO;
 import kr.co.kidultAuction.vo.MyAuctionAddVO;
 import kr.co.kidultAuction.vo.MyAuctionReceiveVO;
 import kr.co.kidultAuction.vo.MyAuctionSendVO;
+import kr.co.kidultAuction.vo.SendStatusVO;
 import kr.co.kidultAuction.vo.UserEditVO;
 import kr.co.kidultAuction.vo.UserShowVO;
 
@@ -330,6 +331,28 @@ public class UserDAO_MH {
 		}//end finally
 		return list;
 	}//AuctionSend
+	
+	public void sendStatus(SendStatusVO ssv) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+
+			StringBuilder send = new StringBuilder();
+			send.append(" update ended_item ") 
+				  .append(" set send_status='발송완료' ")
+				  .append(" where ended_num=? ");
+			
+			con=getconn();
+			pstmt = con.prepareStatement(send.toString());
+			pstmt.setString(1, AuctionMainFrm.ended_num);
+			pstmt.executeUpdate();
+			
+		}finally {
+			dbClose(con, pstmt, null);
+
+		}		
+	}//sendStatus
 	  
 	  
 	}//class

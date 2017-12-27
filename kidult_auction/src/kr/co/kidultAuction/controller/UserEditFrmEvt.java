@@ -25,6 +25,9 @@ public class UserEditFrmEvt implements ActionListener {
 		UserEditFrmEvt();
 	}
 
+	/**
+	 * 수정 전 정보 불러오기
+	 */
 	public void UserEditFrmEvt() throws SQLException {
 
 		UserDAO u_dao = UserDAO.getInstance();
@@ -48,6 +51,9 @@ public class UserEditFrmEvt implements ActionListener {
 
 	}// UserEditFrmEvt
 
+	/**
+	 * 수정 작업
+	 */
 	private void updateUser() throws SQLException {
 		u_dao1 = UserDAO_MH.getInstance();
 		uev = new UserEditVO();
@@ -84,7 +90,7 @@ public class UserEditFrmEvt implements ActionListener {
 			return;
 		}
 		if ("".equals(name)) {
-			JOptionPane.showMessageDialog(uef, "비밀번호를 입력해 주세요");
+			JOptionPane.showMessageDialog(uef, "이름을 입력해 주세요");
 			return;
 		}
 		if ("".equals(birth)) {

@@ -26,7 +26,7 @@ import kr.co.kidultAuction.vo.AdminOncomingBidVO;
 public class AuctionMainFrmEvt implements ActionListener, Runnable {
 	private AuctionMainFrm amf;
 	private Thread insertEndThread;
-	// private boolean flag = false;
+	private boolean flag = false;
 
 	public AuctionMainFrmEvt(AuctionMainFrm amf) {
 		this.amf = amf;
@@ -55,12 +55,13 @@ public class AuctionMainFrmEvt implements ActionListener, Runnable {
 				e.printStackTrace();
 			}
 		} // end if
-
+        
 		if (ae.getSource() == amf.getBtnLogin()) {
 			LoginFrm lf = new LoginFrm(amf);
 			if (lf.isFlag()) {
 				amf.getBtnLogin().setIcon(new ImageIcon(getClass().getClassLoader().getResource("kidultAuction_img/mainLogin.png")));
 				// amf.getBtnLogin().setText("·Î±×ÀÎ");
+				flag=true;
 			}
 		} // end if
 

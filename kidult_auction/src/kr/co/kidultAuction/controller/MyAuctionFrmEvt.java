@@ -18,6 +18,7 @@ import kr.co.kidultAuction.vo.LoginVO;
 import kr.co.kidultAuction.vo.MyAuctionAddVO;
 import kr.co.kidultAuction.vo.MyAuctionReceiveVO;
 import kr.co.kidultAuction.vo.MyAuctionSendVO;
+import kr.co.kidultAuction.vo.SendStatusVO;
 
 public class MyAuctionFrmEvt extends MouseAdapter {
 	private AuctionMainFrm amf;
@@ -125,15 +126,8 @@ public class MyAuctionFrmEvt extends MouseAdapter {
 		/* JOptionPane.showConfirmDialog(maf, marv.getReceive_status()); */
 
 	}
-
-	@Override
-	public void mouseClicked(MouseEvent me) {
+	public void panel() throws SQLException{
 		JTabbedPane tempTab = maf.getJtpTab();
-		JTable jtauc = maf.getJtAucItem();
-		JTable tempSend = maf.getJtSendItem();
-		int a = 0;
-		a = tempSend.getSelectedRow();
-
 		switch (tempTab.getSelectedIndex()) {
 		case 0:
 			break;
@@ -152,7 +146,24 @@ public class MyAuctionFrmEvt extends MouseAdapter {
 			}
 			break;
 		}// end switch
-			// 탭선택 판별
+	}//panel()
+
+	@Override
+	public void mouseClicked(MouseEvent me) {
+		JTabbedPane tempTab = maf.getJtpTab();
+		JTable jtauc = maf.getJtAucItem();
+		JTable tempSend = maf.getJtSendItem();
+		int a = 0;
+		a = tempSend.getSelectedRow();
+		
+		//탭선택
+		try {
+			panel();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
+			// 탭거부사유
 		switch (tempTab.getSelectedIndex()) {
 		case AddedList:
 
@@ -185,14 +196,20 @@ public class MyAuctionFrmEvt extends MouseAdapter {
 			switch (me.getClickCount()) {
 			case SucBidList:
 				UserDAO_MH u_dao = UserDAO_MH.getInstance();
+				SendStatusVO ssv=new SendStatusVO();
+				
+					dtmTemp.setValueAt("발송완료", a, 7);
+					
+					ssv.setSend_status("발송완료");
+					
 				try {
-					List<MyAuctionSendVO> sendList = u_dao.selectMyAuctionSend();
-					dtmTemp.setValueAt("발송준비완료", a, 7);
+					u_dao.sendStatus(ssv);
+					System.out.println("바꿈");
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
 
-				System.out.println(AuctionMainFrm.User_id);
+				System.out.println(AuctionMainFrm.ended_num);
 
 			}// end switch
 		}
