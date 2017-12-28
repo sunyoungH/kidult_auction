@@ -246,7 +246,7 @@ public class AddUserFrmEvt implements ActionListener {
 			} // end catch
 		} // end if
 
-		if (ae.getSource() == auf.getBtnKkoCheck()) {
+		if (ae.getSource() == auf.getBtnKakaoCheck()) {
 			try {
 				if (overlapKakao()) {
 					JOptionPane.showMessageDialog(auf, kakao_id + "는(은) 이미 사용 중인 카카오아이디 입니다.");

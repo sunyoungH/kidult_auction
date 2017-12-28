@@ -3,6 +3,7 @@ package kr.co.kidultAuction.view;
 import java.awt.Color;
 import java.awt.Font;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -21,20 +22,27 @@ import kr.co.kidultAuction.controller.AddUserFrmEvt;
 public class AddUserFrm extends JDialog {
 
 	private JLabel lblId, lblPass, lblPassCon, lblName, lblBirth, lblAddr, lblEmail, lblPhone, lblKakao, lblBirthinfo,
-			lblPhoneinfo;
+			lblPhoneinfo, lblMushroom, lblMario, lblUnder;
 	private JTextField tfId, tfName, tfBirth, tfAddr, tfEmail, tfPhone, tfKakao;
 	private JPasswordField pfPass, pfPassCon;
-	private JButton btnIdCheck, btnKkoCheck, btnSubmit, btnCancel;
+	private JButton btnIdCheck, btnKakaoCheck, btnSubmit, btnCancel;
 	private AuctionMainFrm amf;
 
 	public AddUserFrm(AuctionMainFrm amf) {
 		super(amf, "회원가입", false);
 		setLayout(null);
 		this.amf = amf;
+		
+		String path = System.getProperty("user.dir");
+		System.out.println(path);
+		ImageIcon Lava = new ImageIcon(path+"\\src\\kr\\co\\kidultAuction\\img\\mushroomMario.png");
+		ImageIcon Mario = new ImageIcon(path+"\\src\\kr\\co\\kidultAuction\\img\\marioJoin.png");
+		ImageIcon underBar = new ImageIcon(path+"\\src\\kr\\co\\kidultAuction\\img\\underJoin.png");
 
 		lblId = new JLabel("ID");
 		lblPass = new JLabel("Password");
 		lblPassCon = new JLabel("Password  확인");
+		lblMushroom = new JLabel(Lava);
 		lblName = new JLabel("이름");
 		lblBirth = new JLabel("생년월일");
 		lblAddr = new JLabel("주소");
@@ -43,6 +51,8 @@ public class AddUserFrm extends JDialog {
 		lblKakao = new JLabel("카카오톡ID");
 		lblBirthinfo = new JLabel("ex) 19951110");
 		lblPhoneinfo = new JLabel("'-'을 제외하고 쓰시오");
+		lblMario = new JLabel(Mario);
+		lblUnder = new JLabel(underBar);
 
 		tfId = new JTextField();
 		pfPass = new JPasswordField();
@@ -55,7 +65,7 @@ public class AddUserFrm extends JDialog {
 		tfKakao = new JTextField();
 
 		btnIdCheck = new JButton("중복확인");
-		btnKkoCheck = new JButton("중복확인");
+		btnKakaoCheck = new JButton("중복확인");
 		btnSubmit = new JButton("회원가입");
 		btnCancel = new JButton("취소");
 		
@@ -64,6 +74,7 @@ public class AddUserFrm extends JDialog {
 		jp.setBackground(new Color(0xFFFBF6));
 		
 		btnIdCheck.setBackground(new Color(0xD0E5FF));
+		btnKakaoCheck.setBackground(new Color(0xD0E5FF));
 		btnSubmit.setBackground(new Color(0xD0E5FF));
 		btnCancel.setBackground(new Color(0xD0E5FF));
 
@@ -72,12 +83,15 @@ public class AddUserFrm extends JDialog {
 		lblId.setBounds(83, 40, 80, 30);
 		lblPass.setBounds(60, 80, 100, 30);
 		lblPassCon.setBounds(50, 120, 100, 30);
+		lblMushroom.setBounds(290, 95, 88, 90);
 		lblName.setBounds(75, 160, 80, 30);
 		lblBirth.setBounds(65, 200, 80, 30);
 		lblAddr.setBounds(75, 240, 80, 30);
 		lblEmail.setBounds(70, 280, 80, 30);
 		lblPhone.setBounds(70, 320, 80, 30);
 		lblKakao.setBounds(58, 360, 80, 30);
+		lblMario.setBounds(10, 390, 80, 75);
+		lblUnder.setBounds(0, 450, 430, 80);
 		lblBirthinfo.setBounds(260, 200, 80, 30);
 		lblPhoneinfo.setBounds(265, 320, 120, 30);
 
@@ -92,7 +106,7 @@ public class AddUserFrm extends JDialog {
 		tfKakao.setBounds(170, 360, 90, 25);
 
 		btnIdCheck.setBounds(270, 40, 88, 25);
-		btnKkoCheck.setBounds(270, 360, 88, 25);
+		btnKakaoCheck.setBounds(270, 360, 88, 25);
 		btnSubmit.setBounds(100, 430, 90, 30);
 		btnCancel.setBounds(230, 430, 90, 30);
 		
@@ -107,12 +121,15 @@ public class AddUserFrm extends JDialog {
 		add(lblId);
 		add(lblPass);
 		add(lblPassCon);
+		add(lblMushroom);
 		add(lblName);
 		add(lblBirth);
 		add(lblAddr);
 		add(lblEmail);
 		add(lblPhone);
 		add(lblKakao);
+		add(lblMario);
+		add(lblUnder);
 		add(lblBirthinfo);
 		add(lblPhoneinfo);
 
@@ -127,7 +144,7 @@ public class AddUserFrm extends JDialog {
 		add(tfKakao);
 
 		add(btnIdCheck);
-		add(btnKkoCheck);
+		add(btnKakaoCheck);
 		add(btnSubmit);
 		add(btnCancel);
 		
@@ -135,7 +152,7 @@ public class AddUserFrm extends JDialog {
 		
 		AddUserFrmEvt aufe= new AddUserFrmEvt(this);
 		btnIdCheck.addActionListener(aufe);
-		btnKkoCheck.addActionListener(aufe);
+		btnKakaoCheck.addActionListener(aufe);
 		btnSubmit.addActionListener(aufe);
 		btnCancel.addActionListener(aufe);
 
@@ -149,8 +166,8 @@ public class AddUserFrm extends JDialog {
 		return btnIdCheck;
 	}
 
-	public JButton getBtnKkoCheck() {
-		return btnKkoCheck;
+	public JButton getBtnKakaoCheck() {
+		return btnKakaoCheck;
 	}
 
 	public JButton getBtnSubmit() {
