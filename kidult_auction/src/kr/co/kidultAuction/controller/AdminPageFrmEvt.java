@@ -169,9 +169,10 @@ public class AdminPageFrmEvt extends MouseAdapter{
 		Object[] rowData=null;
 		AdminBidVO abv=null;
 
-		SimpleDateFormat sdf=new SimpleDateFormat("yy-mm-dd");
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 		String nowDate=sdf.format(new Date());
 		String expected_end_date="";
+		String start_date="";
 
 
 		for(int i=0; i<biddingList.size(); i++) {
@@ -183,16 +184,20 @@ public class AdminPageFrmEvt extends MouseAdapter{
 			rowData[3]=abv.getAuc_code();
 			rowData[4]=abv.getTop_price();
 			rowData[5]=abv.getStart_price();
-			rowData[6]=abv.getStart_date().substring(0, abv.getStart_date().indexOf(" ")+1);
-			expected_end_date=abv.getBid_end_date().substring(0, abv.getBid_end_date().indexOf(" ")+1);
+			start_date=abv.getStart_date().substring(0, abv.getStart_date().indexOf(" "));
+			rowData[6]=start_date;
+			expected_end_date=abv.getBid_end_date().substring(0, abv.getBid_end_date().indexOf(" "));
 			rowData[7]=expected_end_date;
 
-			if(true) {
-				//		if(nowDate.equals(expected_end_date)) {
+					
+ 			if((nowDate.compareTo(start_date)>-1) && (nowDate.compareTo(expected_end_date)<1 )) {
+					System.out.println(expected_end_date);
+					System.out.println(nowDate);
+					System.out.println(nowDate.compareTo(expected_end_date));
 				bidList.addRow(rowData);
 			}
 		}//end for
-		/// 경매시작시간(승인날짜 +1일 자정 =expected_date)이 됐을 때, 입찰 목록을 조회 가능하게 하겠습니다.
+		/// 경매시작시간(승인날짜 +1일 자정 =expected_date)과 끝나는 날짜 사이면, 입찰 목록을 조회
 	}//viewBidList
 
 	/**

@@ -30,7 +30,7 @@ public class RunAction {
 		sdf_date=new SimpleDateFormat("HH:mm:ss");
 		String nowSec=sdf_date.format(new Date());
 		System.out.println(nowSec);
-		int leftHour=24-Integer.parseInt(nowSec.substring(0, 2));
+		int leftHour=24-Integer.parseInt(nowSec.substring(0, 2));	
 		int leftMinute=60-Integer.parseInt(nowSec.substring(3,5));
 		int leftSec=60-Integer.parseInt(nowSec.substring(6));
 		

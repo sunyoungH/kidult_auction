@@ -23,19 +23,17 @@ import kr.co.kidultAuction.view.MyAuctionFrm;
 import kr.co.kidultAuction.view.MyPageFrm;
 import kr.co.kidultAuction.vo.AdminOncomingBidVO;
 
-public class AuctionMainFrmEvt implements ActionListener, Runnable {
+public class AuctionMainFrmEvt implements ActionListener {
 	private AuctionMainFrm amf;
-	private Thread insertEndThread;
 	private boolean flag = false;
 
 	public AuctionMainFrmEvt(AuctionMainFrm amf) {
-		this.amf = amf;
-		if (insertEndThread != null) {
-			System.out.println("경매종료 thread 가동중");
-			return;
-		} // end if
-		insertEndThread = new Thread(this);
-		insertEndThread.start();
+		this.amf=amf;
+		try {
+			endBid();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}// auctionmainFrmEvt
 
 	@Override
@@ -79,22 +77,9 @@ public class AuctionMainFrmEvt implements ActionListener, Runnable {
 
 	}// actionPerformed
 
-	@Override
-	public void run() {
-		while (true) {
-			try {
-
-				insertEndThread.sleep(1000 * 20);
-
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-	}// run
 
 	/**
 	 * 경매 자동 종료 메소드
-	 * 
 	 * @throws SQLException
 	 */
 
@@ -134,11 +119,4 @@ public class AuctionMainFrmEvt implements ActionListener, Runnable {
 		} // end for
 	}// endBid
 
-	// public boolean isFlag() {
-	// return flag;
-	// }
-	//
-	// public void setFlag(boolean flag) {
-	// this.flag = flag;
-	// }
 }// class
