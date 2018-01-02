@@ -164,7 +164,7 @@ public class MyAuctionFrmEvt extends MouseAdapter {
 							RejectVO rv = u_dao.reject(auc_code);
 
 							StringBuilder rejectData = new StringBuilder();
-							rejectData.append(rv.getReject_date() + " 일에 거부 되었습니다. \n 거부사유 : " + rv.getReject_reason());
+							rejectData.append(rv.getReject_date().substring(0, rv.getReject_date().indexOf(" ")+1) + " 일에 거부 되었습니다. \n 거부사유 : " + rv.getReject_reason());
 
 							JOptionPane.showMessageDialog(maf, rejectData.toString(), "거부사유", 0, null);
 						} catch (SQLException e) {

@@ -286,7 +286,7 @@ public class UserDAO_MH {
 			rs=pstmt.executeQuery();
 			
 			if (rs.next()) {
-				rv = new RejectVO(rs.getString("auc_code"),rs.getString("reject_reason"), rs.getString("reject_date"));
+				rv = new RejectVO(rs.getString("reject_reason"),rs.getString("reject_date"),rs.getString("auc_code"));
 			} // end while
 			
 		}finally {
