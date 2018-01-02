@@ -25,10 +25,9 @@ public class MyAuctionFrmEvt extends MouseAdapter {
 	private AuctionMainFrm amf;
 	private MyAuctionFrm maf;
 
-	public static final int AddedList = 0;
-	public static final int BidList = 1;
+	public static final int AddedList = 2;
+	public static final int BidList = 2;
 	public static final int SucBidList = 2;
-	public static final int DOUBLE_CLICK = 3;
 	List<MyAuctionSendVO> sendList;
 	List<RejectVO> reject;
 
@@ -37,7 +36,7 @@ public class MyAuctionFrmEvt extends MouseAdapter {
 		System.out.println("아이디" + AuctionMainFrm.User_id);
 		setAddedList();
 	}
-
+	List<MyAuctionAddVO> addList;
 	/**
 	 * 등록한 경매
 	 */
@@ -46,7 +45,7 @@ public class MyAuctionFrmEvt extends MouseAdapter {
 		tempAddList.setRowCount(0);
 
 		UserDAO_MH u_dao = UserDAO_MH.getInstance();
-		List<MyAuctionAddVO> addList = u_dao.selectMyAuctionAdd();
+		 addList = u_dao.selectMyAuctionAdd();
 
 		Object[] rowData = null;
 		MyAuctionAddVO maav = null;
@@ -155,39 +154,25 @@ public class MyAuctionFrmEvt extends MouseAdapter {
 		
 		if( me.getClickCount() == 2 ) {
 			if(me.getSource()== maf.getJtAucItem()) {//등록한 경매
-				System.out.println("등록 경매 클릭 행수 "+ rowNum);
 				
-				switch (me.getClickCount()) {
-				case AddedList:
-
+				String value=(String) tempTable.getValueAt(rowNum, 6);
+				if( value.equals("N") ) {
 						UserDAO_MH u_dao = UserDAO_MH.getInstance();
-						String auc_code=reject.get(maf.getJtAucItem().getSelectedRow()).getAuc_code();
-						System.out.println(auc_code);
+						String auc_code=addList.get(rowNum).getAuc_code();
+						
 						try {
-							u_dao.reject(auc_code);
-						} catch (SQLException e1) {
-							e1.printStackTrace();
-						}
-						try {
-							List<RejectVO> aucList = u_dao.reject(auc_code);
-							RejectVO rv = null;
-							String reject = "", reject_time = "";
-							for (int i = 0; i < aucList.size(); i++) {
-								rv = aucList.get(i);
-								reject = rv.getReject_reason();
-								reject_time = rv.getReject_date().substring(0, rv.getReject_date().indexOf(" ") + 1);
-							} // end for
+							RejectVO rv = u_dao.reject(auc_code);
 
 							StringBuilder rejectData = new StringBuilder();
-							rejectData.append(reject_time + "일에 거부 되었습니다. \n 거부사유 : " + reject);
+							rejectData.append(rv.getReject_date() + " 일에 거부 되었습니다. \n 거부사유 : " + rv.getReject_reason());
 
 							JOptionPane.showMessageDialog(maf, rejectData.toString(), "거부사유", 0, null);
 						} catch (SQLException e) {
 							e.printStackTrace();
 						}
 						System.out.println(AuctionMainFrm.User_id);
-					}
-				}// end switch
+				}//end if
+			}//end if
 			
 			if(me.getSource()== maf.getJtSendItem()) {//보낼 물건
 				 

@@ -2,7 +2,7 @@ package kr.co.kidultAuction.vo;
 
 public class MyAuctionAddVO {
 	
-	private String item_name, category, period, add_date, permit;
+	private String item_name, category, period, add_date, permit,auc_code;
 	private int start_price;
 
 	
@@ -12,13 +12,14 @@ public class MyAuctionAddVO {
 
 
 	public MyAuctionAddVO(String item_name, String category, String period, String add_date, String permit,
-			int start_price) {
+			String auc_code, int start_price) {
 		super();
 		this.item_name = item_name;
 		this.category = category;
 		this.period = period;
 		this.add_date = add_date;
 		this.permit = permit;
+		this.auc_code = auc_code;
 		this.start_price = start_price;
 	}
 
@@ -73,6 +74,16 @@ public class MyAuctionAddVO {
 	}
 
 
+	public String getAuc_code() {
+		return auc_code;
+	}
+
+
+	public void setAuc_code(String auc_code) {
+		this.auc_code = auc_code;
+	}
+
+
 	public int getStart_price() {
 		return start_price;
 	}
@@ -86,7 +97,8 @@ public class MyAuctionAddVO {
 	@Override
 	public String toString() {
 		return "MyAuctionAddVO [item_name=" + item_name + ", category=" + category + ", period=" + period
-				+ ", add_date=" + add_date + ", permit=" + permit + ", start_price=" + start_price + "]";
+				+ ", add_date=" + add_date + ", permit=" + permit + ", auc_code=" + auc_code + ", start_price="
+				+ start_price + "]";
 	}
 
 

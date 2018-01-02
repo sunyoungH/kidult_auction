@@ -249,7 +249,7 @@ public class UserDAO_MH {
 			MyAuctionAddVO maav = null;
 			 while (rs.next()) {
 				 maav = new MyAuctionAddVO(rs.getString("item_name"), rs.getString("category"), rs.getString("period"),
-	                             rs.getString("add_date"), rs.getString("permit"),rs.getInt("start_price")) ;
+	                             rs.getString("add_date"), rs.getString("permit"),rs.getString("auc_code"),rs.getInt("start_price")) ;
 //				 maav = new MyAuctionAddVO(rs.getString("item_name"), rs.getString("category"), rs.getString("period"),
 //						 rs.getString("add_date"), rs.getString("permit"),rs.getString("reject_reason"),rs.getString("reject_date"),rs.getInt("start_price")) ;
 				 
@@ -265,8 +265,8 @@ public class UserDAO_MH {
 	/**
 	 * 거부사유
 	 */
-	public List<RejectVO> reject(String auc_code) throws SQLException{
-		List<RejectVO> list=new ArrayList<RejectVO>();
+	public RejectVO reject(String auc_code) throws SQLException{
+		RejectVO rv=null;
 		
 		Connection con=null;
 		PreparedStatement pstmt=null;
@@ -275,25 +275,24 @@ public class UserDAO_MH {
 		
 		try {
 			StringBuilder reject=new StringBuilder();
-			reject.append(" select  r.reject_reason, r.reject_date ")
+			reject.append(" select  r.reject_reason, r.reject_date, a.auc_code ")
 					.append(" from  reject_item r, auc_item a ")
 					.append(" where a.auc_code=r.auc_code and a.auc_code=? ");
 			
 			con=getconn();
 			pstmt=con.prepareStatement(reject.toString());
 			pstmt.setString(1, auc_code);
+			System.out.println(auc_code);
 			rs=pstmt.executeQuery();
 			
-			RejectVO rv = null;
-			while (rs.next()) {
-				rv = new RejectVO(rs.getString("reject_reason"), rs.getString("reject_date"),rs.getString("auc_code"));
-				list.add(rv); 
+			if (rs.next()) {
+				rv = new RejectVO(rs.getString("auc_code"),rs.getString("reject_reason"), rs.getString("reject_date"));
 			} // end while
 			
 		}finally {
 			dbClose(con, pstmt, rs);
 		}//end finally
-		return list;
+		return rv;
 	}//selectMyAuctionAdd
 	
 	  /**
