@@ -65,7 +65,7 @@ public class AllTimeBidFrm extends JDialog{
 				
 				add(jspAllBid);
 				
-				setBounds(0, 0, 400, 500);
+				setBounds(550, 220, 400, 500);
 				setVisible(true);
 				setResizable(false);
 				

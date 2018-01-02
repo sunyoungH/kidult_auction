@@ -244,7 +244,7 @@ public class AdminPageFrm extends JDialog{
 //		jtsucBidList.addMouseListener(ape);//JTap의 이벤트
 //		jtpTab.addMouseListener(ape);//JTap의 이벤트
 		
-		setBounds(100,100,810,500);
+		setBounds(420,220,810,500);
 		setVisible(true);
 		setResizable(false);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);

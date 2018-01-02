@@ -38,13 +38,13 @@ public class ApproveFrm extends JDialog {
 		super(apf,"승인대기 상세정보",true);
 		setLayout(null);
 		
-		lblImgRight = new JLabel("오이미지");
+		lblImgRight = new JLabel("우측이미지");
 		lblImgRight.setBorder(new TitledBorder(""));
-		lblImgLeft = new JLabel("왼이미지");
+		lblImgLeft = new JLabel("좌측이미지");
 		lblImgLeft.setBorder(new TitledBorder(""));
-		lblImgFront = new JLabel("앞이미지");
+		lblImgFront = new JLabel("전면 이미지");
 		lblImgFront.setBorder(new TitledBorder(""));
-		lblImgBack = new JLabel("뒤이미지");
+		lblImgBack = new JLabel("후면 이미지");
 		lblImgBack.setBorder(new TitledBorder(""));
 		lblUserId = new JLabel("판매자ID");
 		lblCategory = new JLabel("카테고리");
