@@ -18,6 +18,7 @@ import kr.co.kidultAuction.vo.LoginVO;
 import kr.co.kidultAuction.vo.MyAuctionAddVO;
 import kr.co.kidultAuction.vo.MyAuctionReceiveVO;
 import kr.co.kidultAuction.vo.MyAuctionSendVO;
+import kr.co.kidultAuction.vo.RejectVO;
 import kr.co.kidultAuction.vo.SendStatusVO;
 
 public class MyAuctionFrmEvt extends MouseAdapter {
@@ -28,6 +29,8 @@ public class MyAuctionFrmEvt extends MouseAdapter {
 	public static final int BidList = 1;
 	public static final int SucBidList = 2;
 	public static final int DOUBLE_CLICK = 3;
+	List<MyAuctionSendVO> sendList;
+	List<RejectVO> reject;
 
 	public MyAuctionFrmEvt(MyAuctionFrm maf) throws SQLException {
 		this.maf = maf;
@@ -64,21 +67,26 @@ public class MyAuctionFrmEvt extends MouseAdapter {
 			tempAddList.addRow(rowData);
 		} // end for
 	}// setAddedList
+	
+	
 
 	/**
 	 * 보낼물건
 	 */
+	
 	public void setBidList() throws SQLException {
 		DefaultTableModel tempSendList = maf.getSendItem();
-		tempSendList.setRowCount(0);
+		
 
 		UserDAO_MH u_dao = UserDAO_MH.getInstance();
-		List<MyAuctionSendVO> sendList = u_dao.selectMyAuctionSend();
-
+		 sendList = u_dao.selectMyAuctionSend();
+		 
+		 tempSendList.setRowCount(0);	
+		 
 		Object[] rowData = null;
 		MyAuctionSendVO maav = null;
-
 		for (int i = 0; i < sendList.size(); i++) {
+			
 			maav = sendList.get(i);
 			rowData = new Object[8];
 			rowData[0] = new Integer(i + 1);
@@ -90,10 +98,11 @@ public class MyAuctionFrmEvt extends MouseAdapter {
 			rowData[6] = maav.getKakao_id();
 			rowData[7] = maav.getSend_status();
 
-			tempSendList.addRow(rowData);
+			tempSendList.addRow( rowData);
 		} // end for
+		
 		/* JOptionPane.showConfirmDialog(maf, maav.getSend_status()); */
-
+//		tempSendList.setRowCount( sendList.size());
 	}// setBidList
 
 	/**
@@ -126,93 +135,100 @@ public class MyAuctionFrmEvt extends MouseAdapter {
 		/* JOptionPane.showConfirmDialog(maf, marv.getReceive_status()); */
 
 	}
-	public void panel() throws SQLException{
-		JTabbedPane tempTab = maf.getJtpTab();
-		switch (tempTab.getSelectedIndex()) {
+	public void panel(int taIndex) throws SQLException{
+		switch (taIndex) {
 		case 0:
+			setAddedList();
 			break;
 		case 1:
-			try {
 				setBidList();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 			break;
 		case 2:
-			try {
 				setSucBidList();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 			break;
 		}// end switch
 	}//panel()
 
+	public void doubleClick( MouseEvent me)throws ClassCastException {
+		JTable tempTable=(JTable)me.getSource();
+		int rowNum=tempTable.getSelectedRow();
+		
+		if( me.getClickCount() == 2 ) {
+			if(me.getSource()== maf.getJtAucItem()) {//등록한 경매
+				System.out.println("등록 경매 클릭 행수 "+ rowNum);
+				
+				switch (me.getClickCount()) {
+				case AddedList:
+
+						UserDAO_MH u_dao = UserDAO_MH.getInstance();
+						String auc_code=reject.get(maf.getJtAucItem().getSelectedRow()).getAuc_code();
+						System.out.println(auc_code);
+						try {
+							u_dao.reject(auc_code);
+						} catch (SQLException e1) {
+							e1.printStackTrace();
+						}
+						try {
+							List<RejectVO> aucList = u_dao.reject(auc_code);
+							RejectVO rv = null;
+							String reject = "", reject_time = "";
+							for (int i = 0; i < aucList.size(); i++) {
+								rv = aucList.get(i);
+								reject = rv.getReject_reason();
+								reject_time = rv.getReject_date().substring(0, rv.getReject_date().indexOf(" ") + 1);
+							} // end for
+
+							StringBuilder rejectData = new StringBuilder();
+							rejectData.append(reject_time + "일에 거부 되었습니다. \n 거부사유 : " + reject);
+
+							JOptionPane.showMessageDialog(maf, rejectData.toString(), "거부사유", 0, null);
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+						System.out.println(AuctionMainFrm.User_id);
+					}
+				}// end switch
+			
+			if(me.getSource()== maf.getJtSendItem()) {//보낼 물건
+				 
+				switch (me.getClickCount()) {
+				case SucBidList:
+					UserDAO_MH u_dao = UserDAO_MH.getInstance();
+					try {
+					int ended_num=sendList.get(rowNum).getEnded_num();
+						u_dao.sendStatus(ended_num);
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+
+				}// end switch
+				
+			}//end if
+			
+			
+			if(me.getSource()== maf.getJtRecieveItem()) {//받을 물건
+				System.out.println("받을 클릭 행수 "+ rowNum);
+				
+				
+				
+			}//end if
+			
+		}//end if
+	}
+	
 	@Override
 	public void mouseClicked(MouseEvent me) {
 		JTabbedPane tempTab = maf.getJtpTab();
-		JTable jtauc = maf.getJtAucItem();
-		JTable tempSend = maf.getJtSendItem();
-		int a = 0;
-		a = tempSend.getSelectedRow();
-		
-		//탭선택
 		try {
-			panel();
-		} catch (SQLException e1) {
-			e1.printStackTrace();
+			doubleClick(me);
+		}catch(ClassCastException cnfe) {
 		}
-		
-			// 탭거부사유
-		switch (tempTab.getSelectedIndex()) {
-		case AddedList:
-
-			if (me.getClickCount() == 2) {
-				UserDAO_MH u_dao = UserDAO_MH.getInstance();
-				try {
-					List<MyAuctionAddVO> aucList = u_dao.selectMyAuctionAdd();
-					MyAuctionAddVO maav = null;
-					String reject = "", reject_time = "";
-					for (int i = 0; i < aucList.size(); i++) {
-						maav = aucList.get(i);
-						reject = maav.getReject_reason();
-						reject_time = maav.getReject_date().substring(0, maav.getReject_date().indexOf(" ") + 1);
-					} // end for
-
-					StringBuilder rejectData = new StringBuilder();
-					rejectData.append(reject_time + "일에 거부 되었습니다. \n 거부사유 : " + reject);
-
-					JOptionPane.showMessageDialog(maf, rejectData.toString(), "거부사유", 0, null);
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-				System.out.println(AuctionMainFrm.User_id);
-			}
-		}// end switch
-
-		if (me.getSource() == tempSend) {
-			DefaultTableModel dtmTemp = maf.getSendItem();
-
-			switch (me.getClickCount()) {
-			case SucBidList:
-				UserDAO_MH u_dao = UserDAO_MH.getInstance();
-				SendStatusVO ssv=new SendStatusVO();
-				
-					dtmTemp.setValueAt("발송완료", a, 7);
-					
-					ssv.setSend_status("발송완료");
-					
-				try {
-					u_dao.sendStatus(ssv);
-					System.out.println("바꿈");
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-
-				System.out.println(AuctionMainFrm.ended_num);
-
-			}// end switch
-		}
+		//탭 클릭시 내용 조회 
+		try {
+			panel(tempTab.getSelectedIndex());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}//end catch
 	}
 
 }// class

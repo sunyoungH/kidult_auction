@@ -2,7 +2,7 @@ package kr.co.kidultAuction.vo;
 
 public class MyAuctionAddVO {
 	
-	private String item_name, category, period, add_date, permit, reject_reason, reject_date;
+	private String item_name, category, period, add_date, permit;
 	private int start_price;
 
 	
@@ -12,15 +12,13 @@ public class MyAuctionAddVO {
 
 
 	public MyAuctionAddVO(String item_name, String category, String period, String add_date, String permit,
-			String reject_reason, String reject_date, int start_price) {
+			int start_price) {
 		super();
 		this.item_name = item_name;
 		this.category = category;
 		this.period = period;
 		this.add_date = add_date;
 		this.permit = permit;
-		this.reject_reason = reject_reason;
-		this.reject_date = reject_date;
 		this.start_price = start_price;
 	}
 
@@ -75,26 +73,6 @@ public class MyAuctionAddVO {
 	}
 
 
-	public String getReject_reason() {
-		return reject_reason;
-	}
-
-
-	public void setReject_reason(String reject_reason) {
-		this.reject_reason = reject_reason;
-	}
-
-
-	public String getReject_date() {
-		return reject_date;
-	}
-
-
-	public void setReject_date(String reject_date) {
-		this.reject_date = reject_date;
-	}
-
-
 	public int getStart_price() {
 		return start_price;
 	}
@@ -108,8 +86,7 @@ public class MyAuctionAddVO {
 	@Override
 	public String toString() {
 		return "MyAuctionAddVO [item_name=" + item_name + ", category=" + category + ", period=" + period
-				+ ", add_date=" + add_date + ", permit=" + permit + ", reject_reason=" + reject_reason
-				+ ", reject_date=" + reject_date + ", start_price=" + start_price + "]";
+				+ ", add_date=" + add_date + ", permit=" + permit + ", start_price=" + start_price + "]";
 	}
 
 

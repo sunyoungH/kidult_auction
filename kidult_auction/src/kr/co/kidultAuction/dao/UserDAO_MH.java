@@ -18,6 +18,7 @@ import kr.co.kidultAuction.vo.LoginVO;
 import kr.co.kidultAuction.vo.MyAuctionAddVO;
 import kr.co.kidultAuction.vo.MyAuctionReceiveVO;
 import kr.co.kidultAuction.vo.MyAuctionSendVO;
+import kr.co.kidultAuction.vo.RejectVO;
 import kr.co.kidultAuction.vo.SendStatusVO;
 import kr.co.kidultAuction.vo.UserEditVO;
 import kr.co.kidultAuction.vo.UserShowVO;
@@ -237,8 +238,8 @@ public class UserDAO_MH {
 			
 			try {
 			StringBuilder AuctionAdd=new StringBuilder();
-			AuctionAdd.append(" select a.item_name, a.category, a.period, a.add_date, a.permit, a.start_price, r.reject_reason, r.reject_date ")
-			.append(" from auc_item a, reject_item r  where a.auc_code=r.auc_code and user_id=? ");
+			AuctionAdd.append(" select a.item_name, a.category, a.period, a.add_date, a.permit, a.auc_code, a.start_price ")
+			.append(" from auc_item a where user_id=?");
 			
 			con=getconn();
 			pstmt=con.prepareStatement(AuctionAdd.toString());
@@ -248,7 +249,9 @@ public class UserDAO_MH {
 			MyAuctionAddVO maav = null;
 			 while (rs.next()) {
 				 maav = new MyAuctionAddVO(rs.getString("item_name"), rs.getString("category"), rs.getString("period"),
-	                             rs.getString("add_date"), rs.getString("permit"),rs.getString("reject_reason"),rs.getString("reject_date"),rs.getInt("start_price")) ;
+	                             rs.getString("add_date"), rs.getString("permit"),rs.getInt("start_price")) ;
+//				 maav = new MyAuctionAddVO(rs.getString("item_name"), rs.getString("category"), rs.getString("period"),
+//						 rs.getString("add_date"), rs.getString("permit"),rs.getString("reject_reason"),rs.getString("reject_date"),rs.getInt("start_price")) ;
 				 
 	             list.add(maav); 
 	     } // end while
@@ -259,6 +262,40 @@ public class UserDAO_MH {
 			return list;
 		}//selectMyAuctionAdd
 	  
+	/**
+	 * 거부사유
+	 */
+	public List<RejectVO> reject(String auc_code) throws SQLException{
+		List<RejectVO> list=new ArrayList<RejectVO>();
+		
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
+		
+		try {
+			StringBuilder reject=new StringBuilder();
+			reject.append(" select  r.reject_reason, r.reject_date ")
+					.append(" from  reject_item r, auc_item a ")
+					.append(" where a.auc_code=r.auc_code and a.auc_code=? ");
+			
+			con=getconn();
+			pstmt=con.prepareStatement(reject.toString());
+			pstmt.setString(1, auc_code);
+			rs=pstmt.executeQuery();
+			
+			RejectVO rv = null;
+			while (rs.next()) {
+				rv = new RejectVO(rs.getString("reject_reason"), rs.getString("reject_date"),rs.getString("auc_code"));
+				list.add(rv); 
+			} // end while
+			
+		}finally {
+			dbClose(con, pstmt, rs);
+		}//end finally
+		return list;
+	}//selectMyAuctionAdd
+	
 	  /**
 	   * 보낼물건
 	 */
@@ -272,7 +309,7 @@ public class UserDAO_MH {
 			
 			try {
 			StringBuilder AuctionSend=new StringBuilder();
-			AuctionSend.append("  select ai.item_name, ai.start_price, ai.start_date, bi.bid_price, ei.send_status,ei.ended_date, ")
+			AuctionSend.append("  select ai.item_name, ai.start_price, ai.start_date, bi.bid_price, ei.send_status,ei.ended_date,ei.ended_num, ")
 			.append("  (select  kakao_id from auc_user where user_id=(select user_id from bid_item where bid_price=(select max(bid_price) from bid_item where auc_code=ai.auc_code) and   auc_code=ai.auc_code)  )  as kakao_id ,ai.auc_code ")
 			.append(" from auc_user au, auc_item ai, bid_item bi, ended_item ei ")
 			.append("   where (ai.user_id=au.user_id  and bi.auc_code=ai.auc_code and ")
@@ -287,8 +324,7 @@ public class UserDAO_MH {
 			
 			 while (rs.next()) {
 				 masv = new MyAuctionSendVO(rs.getString("item_name"), rs.getString("start_date"), rs.getString("ended_date"),
-	                             rs.getString("kakao_id"), rs.getString("send_status"), rs.getInt("start_price") ,rs.getInt("bid_price"));
-				 
+	                             rs.getString("kakao_id"), rs.getString("send_status"), rs.getInt("start_price") ,rs.getInt("bid_price"),rs.getInt("ended_num"));
 	             list.add(masv); 
 	     } // end while
 
@@ -332,7 +368,7 @@ public class UserDAO_MH {
 		return list;
 	}//AuctionSend
 	
-	public void sendStatus(SendStatusVO ssv) throws SQLException {
+	public void sendStatus(int ended_num) throws SQLException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 
@@ -345,7 +381,7 @@ public class UserDAO_MH {
 			
 			con=getconn();
 			pstmt = con.prepareStatement(send.toString());
-			pstmt.setString(1, AuctionMainFrm.ended_num);
+			pstmt.setInt(1, ended_num);
 			pstmt.executeUpdate();
 			
 		}finally {

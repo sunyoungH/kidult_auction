@@ -177,10 +177,10 @@ public class MyAuctionFrm extends JDialog {
 		add(jp);
 
 		MyAuctionFrmEvt mafe = new MyAuctionFrmEvt(this);
+		jtpTab.addMouseListener(mafe);
 		jtAucItem.addMouseListener(mafe);
 		jtSendItem.addMouseListener(mafe);
 		jtRecieveItem.addMouseListener(mafe);
-		jtpTab.addMouseListener(mafe);
 
 		setBounds(550, 200, 800, 500);
 		setVisible(true);

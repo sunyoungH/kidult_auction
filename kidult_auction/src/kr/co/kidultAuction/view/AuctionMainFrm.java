@@ -138,4 +138,13 @@ public class AuctionMainFrm extends JFrame {
 		return User_id;
 	}
 
+	public static String getEnded_num() {
+		return ended_num;
+	}
+
+	public static void setEnded_num(String ended_num) {
+		AuctionMainFrm.ended_num = ended_num;
+	}
+	
+
 }// class
