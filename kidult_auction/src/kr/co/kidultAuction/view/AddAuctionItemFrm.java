@@ -1,11 +1,14 @@
 package kr.co.kidultAuction.view;
 
+import java.awt.Color;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -27,8 +30,11 @@ public class AddAuctionItemFrm extends JDialog {
 	public AddAuctionItemFrm(AuctionMainFrm amf) {
 		super(amf,"경매 등록",true); 
 		
+		String path = System.getProperty("user.dir");
+		System.out.println(path);
+		
 		ImageIcon itemImg = new ImageIcon(
-				"C:/dev/git/kidult_auction/kidult_auction/src/kr/co/kidultAuction/img/addImg.png");
+				path+"/src/kr/co/kidultAuction/img/addImg.png");
 
 		lbItemImg = new JLabel(itemImg);
 		lbCategory = new JLabel("카테고리 선택");
@@ -70,6 +76,9 @@ public class AddAuctionItemFrm extends JDialog {
 		btnAddImg = new JButton("이미지 등록");
 		btnPermit = new JButton("승인 신청");
 		btnCancel = new JButton("취소");
+		
+		JPanel jp=new JPanel();	
+		jp.setBackground(new Color(0xFFFBF6));
 
 		///////////////////////////////////////////////////
 
@@ -98,6 +107,8 @@ public class AddAuctionItemFrm extends JDialog {
 
 		btnPermit.setBounds(400, 520, 90, 30);
 		btnCancel.setBounds(500, 520, 60, 30);
+		
+		jp.setBounds(0, 0, 600, 600);
 
 		/////////////////////////////////////////////////
 
@@ -123,6 +134,8 @@ public class AddAuctionItemFrm extends JDialog {
 
 		add(btnPermit);
 		add(btnCancel);
+		
+		add(jp);
 
 		///////////////////////////////////////////////////
 

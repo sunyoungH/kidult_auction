@@ -1,7 +1,6 @@
 package kr.co.kidultAuction.view;
 
 import java.awt.Color;
-import java.awt.Dialog;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -13,6 +12,7 @@ import javax.swing.border.TitledBorder;
 import kr.co.kidultAuction.controller.AddAuctionItemFrmEvt;
 import kr.co.kidultAuction.controller.AddItemImageFrmEvt;
 
+@SuppressWarnings("serial")
 public class AddItemImageFrm extends JDialog {
 	private JLabel lbFront, lbBack, lbLeft, lbRight, lbFrontImg, lbBackImg, lbLeftImg, lbRightImg;
 	private JButton btnFront, btnBack, btnLeft, btnRight, btnAdd, btnCancel;
@@ -21,15 +21,17 @@ public class AddItemImageFrm extends JDialog {
 	public AddItemImageFrm(AddAuctionItemFrm aaif) {
 		super(aaif,"이미지등록",true);
 		
-		
+		String path = System.getProperty("user.dir");
+		System.out.println(path);
+				
 		ImageIcon itemImg = new ImageIcon(
-				"C:/dev/git/kidult_auction/kidult_auction/src/kr/co/kidultAuction/img/addImg.png");
-		ImageIcon itemAdd = new ImageIcon("C:/dev/git/kidult_auction/kidult_auction/src/kr/co/kidultAuction/img/addImgBtn.JPG");
-		ImageIcon itemCancel = new ImageIcon("C:/dev/git/kidult_auction/kidult_auction/src/kr/co/kidultAuction/img/cancel.JPG");
-		ImageIcon imgRegister = new ImageIcon("C:/dev/git/kidult_auction/kidult_auction/src/kr/co/kidultAuction/img/img_register.JPG");
+				path+"/src/kr/co/kidultAuction/img/addImg.png");
+		ImageIcon itemAdd = new ImageIcon(path+"/src/kr/co/kidultAuction/img/addImgBtn.JPG");
+		ImageIcon itemCancel = new ImageIcon(path+"/src/kr/co/kidultAuction/img/cancel.JPG");
+		ImageIcon imgRegister = new ImageIcon(path+"/src/kr/co/kidultAuction/img/img_register.JPG");
 		
 		jpBackground = new JPanel();
-		jpBackground.setBackground(Color.white);
+		jpBackground.setBackground(new Color(0xFFFBF6));
 		
 		lbFrontImg = new JLabel(itemImg);
 		lbFrontImg.setBorder(new TitledBorder(""));
