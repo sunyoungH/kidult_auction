@@ -14,6 +14,7 @@ import java.util.Properties;
 
 
 import kr.co.kidultAuction.view.AdminPageFrm;
+import kr.co.kidultAuction.vo.AddBidVO;
 import kr.co.kidultAuction.vo.AdminApproveVO;
 import kr.co.kidultAuction.vo.AdminBidVO;
 import kr.co.kidultAuction.vo.AdminOncomingBidVO;
@@ -521,6 +522,7 @@ public class AdminDAO {
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		
+		try {
 		String selectData="select auc_code, start_date+period expected_end_date from auc_item where permit='Y'";
 		con=getconn();
 		pstmt=con.prepareStatement(selectData);
@@ -531,9 +533,12 @@ public class AdminDAO {
 			aobv=new AdminOncomingBidVO(rs.getString("auc_code"), rs.getString("expected_end_date"));
 			list.add(aobv);
 		}//end while
-		
+		}finally {
+			dbClose(con, pstmt, rs);
+		}
 		return list;
 	}//selectOncomingData
 	
+
 	
 }//class
