@@ -10,8 +10,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import kr.co.kidultAuction.dao.UserDAO_MH;
-import kr.co.kidultAuction.view.AdminPageFrm;
+import kr.co.kidultAuction.dao.UserDAO;
 import kr.co.kidultAuction.view.AuctionMainFrm;
 import kr.co.kidultAuction.view.MyAuctionFrm;
 import kr.co.kidultAuction.vo.LoginVO;
@@ -19,7 +18,6 @@ import kr.co.kidultAuction.vo.MyAuctionAddVO;
 import kr.co.kidultAuction.vo.MyAuctionReceiveVO;
 import kr.co.kidultAuction.vo.MyAuctionSendVO;
 import kr.co.kidultAuction.vo.RejectVO;
-import kr.co.kidultAuction.vo.SendStatusVO;
 
 public class MyAuctionFrmEvt extends MouseAdapter {
 	private AuctionMainFrm amf;
@@ -33,10 +31,10 @@ public class MyAuctionFrmEvt extends MouseAdapter {
 
 	public MyAuctionFrmEvt(MyAuctionFrm maf) throws SQLException {
 		this.maf = maf;
-		System.out.println("아이디" + AuctionMainFrm.User_id);
 		setAddedList();
 	}
 	List<MyAuctionAddVO> addList;
+	
 	/**
 	 * 등록한 경매
 	 */
@@ -44,7 +42,7 @@ public class MyAuctionFrmEvt extends MouseAdapter {
 		DefaultTableModel tempAddList = maf.getDtmAucItem();
 		tempAddList.setRowCount(0);
 
-		UserDAO_MH u_dao = UserDAO_MH.getInstance();
+		UserDAO u_dao = UserDAO.getInstance();
 		 addList = u_dao.selectMyAuctionAdd();
 
 		Object[] rowData = null;
@@ -77,7 +75,7 @@ public class MyAuctionFrmEvt extends MouseAdapter {
 		DefaultTableModel tempSendList = maf.getSendItem();
 		
 
-		UserDAO_MH u_dao = UserDAO_MH.getInstance();
+		UserDAO u_dao = UserDAO.getInstance();
 		 sendList = u_dao.selectMyAuctionSend();
 		 
 		 tempSendList.setRowCount(0);	
@@ -100,8 +98,6 @@ public class MyAuctionFrmEvt extends MouseAdapter {
 			tempSendList.addRow( rowData);
 		} // end for
 		
-		/* JOptionPane.showConfirmDialog(maf, maav.getSend_status()); */
-//		tempSendList.setRowCount( sendList.size());
 	}// setBidList
 
 	/**
@@ -111,7 +107,7 @@ public class MyAuctionFrmEvt extends MouseAdapter {
 		DefaultTableModel tempReceiveList = maf.getRecieveItem();
 		tempReceiveList.setRowCount(0);
 
-		UserDAO_MH u_dao = UserDAO_MH.getInstance();
+		UserDAO u_dao = UserDAO.getInstance();
 		List<MyAuctionReceiveVO> ReceiveList = u_dao.selectMyAuctionReceive();
 
 		Object[] rowData = null;
@@ -131,7 +127,6 @@ public class MyAuctionFrmEvt extends MouseAdapter {
 
 			tempReceiveList.addRow(rowData);
 		} // end for
-		/* JOptionPane.showConfirmDialog(maf, marv.getReceive_status()); */
 
 	}
 	public void panel(int taIndex) throws SQLException{
@@ -157,7 +152,7 @@ public class MyAuctionFrmEvt extends MouseAdapter {
 				
 				String value=(String) tempTable.getValueAt(rowNum, 6);
 				if( value.equals("N") ) {
-						UserDAO_MH u_dao = UserDAO_MH.getInstance();
+						UserDAO u_dao = UserDAO.getInstance();
 						String auc_code=addList.get(rowNum).getAuc_code();
 						
 						try {
@@ -170,7 +165,6 @@ public class MyAuctionFrmEvt extends MouseAdapter {
 						} catch (SQLException e) {
 							e.printStackTrace();
 						}
-						System.out.println(AuctionMainFrm.User_id);
 				}//end if
 			}//end if
 			
@@ -178,7 +172,7 @@ public class MyAuctionFrmEvt extends MouseAdapter {
 				 
 				switch (me.getClickCount()) {
 				case SucBidList:
-					UserDAO_MH u_dao = UserDAO_MH.getInstance();
+					UserDAO u_dao = UserDAO.getInstance();
 					try {
 					int ended_num=sendList.get(rowNum).getEnded_num();
 						u_dao.sendStatus(ended_num);
@@ -192,8 +186,6 @@ public class MyAuctionFrmEvt extends MouseAdapter {
 			
 			
 			if(me.getSource()== maf.getJtRecieveItem()) {//받을 물건
-				System.out.println("받을 클릭 행수 "+ rowNum);
-				
 				
 				
 			}//end if

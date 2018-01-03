@@ -64,7 +64,11 @@ public class AuctionMainFrmEvt implements ActionListener {
 		} // end if
 
 		if (ae.getSource() == amf.getBtnMyPage()) {
+//			if() {
 			new MyPageFrm(amf);
+//			}else {
+//				JOptionPane.showMessageDialog(null, "로그인 해주세요");
+//			}
 		} // end if
 
 		if (ae.getSource() == amf.getBtnExit()) {

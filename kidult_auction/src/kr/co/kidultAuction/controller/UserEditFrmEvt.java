@@ -10,14 +10,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import kr.co.kidultAuction.dao.UserDAO;
-import kr.co.kidultAuction.dao.UserDAO_MH;
 import kr.co.kidultAuction.view.UserEditFrm;
 import kr.co.kidultAuction.vo.UserEditVO;
 import kr.co.kidultAuction.vo.UserShowVO;
 
 public class UserEditFrmEvt implements ActionListener {
 	private UserEditFrm uef;
-	private UserDAO_MH u_dao1;
+	private UserDAO u_dao1;
 	private UserEditVO uev;
 
 	public UserEditFrmEvt(UserEditFrm uef) throws SQLException {
@@ -55,7 +54,7 @@ public class UserEditFrmEvt implements ActionListener {
 	 * 수정 작업
 	 */
 	private void updateUser() throws SQLException {
-		u_dao1 = UserDAO_MH.getInstance();
+		u_dao1 = UserDAO.getInstance();
 		uev = new UserEditVO();
 		JTextField tfPfPass = uef.getPfPass();
 		JTextField tfPfPassCon = uef.getPfPassCon();
@@ -129,15 +128,12 @@ public class UserEditFrmEvt implements ActionListener {
 		if (ae.getSource() == uef.getBtnSubmit()) {
 			try {
 				updateUser();
-				System.out.println("변경되었음");
 			} catch (SQLException e) {
-				System.out.println("변경 안되었음");
 				e.printStackTrace();
 			}
 		} // end if
 		if (ae.getSource() == uef.getBtnCancel()) {
 			uef.dispose();
-			System.out.println("닫기");
 		} // end if
 
 	}// actonPerformed

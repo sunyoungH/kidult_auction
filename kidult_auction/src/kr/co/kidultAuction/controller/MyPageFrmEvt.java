@@ -33,9 +33,8 @@ public class MyPageFrmEvt implements ActionListener {
 		if (ae.getSource() == mpf.getBtnMyAuction()) {
 			try {
 				new MyAuctionFrm(amf);
-				System.out.println("마이옥션");
 			} catch (SQLException e) {
-				JOptionPane.showMessageDialog(null, "응 sql 잘못해쪄");
+				JOptionPane.showMessageDialog(null, "sql잘못");
 			}
 		} // end if
 
@@ -80,13 +79,11 @@ public class MyPageFrmEvt implements ActionListener {
 				LoginVO lv = new LoginVO();
 				lv.setUser_id(AuctionMainFrm.User_id);
 				lv.setUser_pass(t.trim());
-				System.out.println(lv.getUser_pass());
 
 				UserDAO u_dao = UserDAO.getInstance();
 
 				try {
 					if (u_dao.confirmPass(lv)) {
-						System.out.println("비밀번호 OK");
 						new UserEditFrm(amf);
 						p.dispose();
 					} else {

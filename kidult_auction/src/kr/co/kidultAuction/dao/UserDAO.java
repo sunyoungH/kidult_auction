@@ -15,6 +15,10 @@ import java.util.Properties;
 import kr.co.kidultAuction.view.AuctionMainFrm;
 import kr.co.kidultAuction.vo.AddUserVO;
 import kr.co.kidultAuction.vo.LoginVO;
+import kr.co.kidultAuction.vo.MyAuctionAddVO;
+import kr.co.kidultAuction.vo.MyAuctionReceiveVO;
+import kr.co.kidultAuction.vo.MyAuctionSendVO;
+import kr.co.kidultAuction.vo.RejectVO;
 import kr.co.kidultAuction.vo.UserEditVO;
 import kr.co.kidultAuction.vo.UserShowVO;
 
@@ -149,7 +153,7 @@ public class UserDAO {
 		 while (rs.next()) {
              usv = new UserShowVO(rs.getString("user_id"), rs.getString("name"), rs.getString("birth_date"), rs.getString("addr"),
                              rs.getString("email"), rs.getString("phone"), rs.getString("kakao_id"));
-             list.add(usv);  //에버노트 11월 3일꺼 참조하자!!!!!
+             list.add(usv); 
      } // end while
 
 		}finally {
@@ -157,5 +161,207 @@ public class UserDAO {
 		}//end finally
 		return list;
 	}//selectUserInfo
+	
+	  public boolean updateUser( UserEditVO uev) throws SQLException{
+		    boolean returnValue = false;
+		    Connection con=null;
+	        PreparedStatement pstmt = null;
+	        
+	      try {
+	        con=getconn();
+	        
+	        StringBuffer sql = new StringBuffer();
+	        sql.append(" update auc_user ");
+	        sql.append(" set user_pass=?,name=?,birth_date=to_date(? ,'yyyy-mm-dd'),addr=?,email=?,phone=?");
+	        sql.append(" where user_id=?");
+	                   
+	        pstmt = con.prepareStatement(sql.toString());
+	        
+	        pstmt.setString(1,uev.getUser_pass());
+	        pstmt.setString(2,uev.getName());
+	        pstmt.setString(3,uev.getBirth_date());
+	        pstmt.setString(4,uev.getAddr());
+	        pstmt.setString(5,uev.getEmail());
+	        pstmt.setString(6,uev.getPhone());
+	        pstmt.setString(7,AuctionMainFrm.User_id );
+	        
+	        
+	        //정상적으로 insert를 하면 1을 리턴
+	        int count = pstmt.executeUpdate(); 
+	        if(count >0){
+	            returnValue = true;
+	        }
+	    
+	      }finally {
+	        dbClose(con, pstmt, null);
+	      }//end finally
+	      // 정상적인 레코드 수정이면 true를 출력
+	        return returnValue; 
+	      
+	    }   
+	  
+	  /**
+	   * 등록한 경매
+	 */
+	public List<MyAuctionAddVO> selectMyAuctionAdd() throws SQLException{
+			List<MyAuctionAddVO> list=new ArrayList<MyAuctionAddVO>();
+			
+			Connection con=null;
+			PreparedStatement pstmt=null;
+			ResultSet rs=null;
+			
+			
+			try {
+			StringBuilder AuctionAdd=new StringBuilder();
+			AuctionAdd.append(" select a.item_name, a.category, a.period, a.add_date, a.permit, a.auc_code, a.start_price ")
+			.append(" from auc_item a where user_id=?");
+			
+			con=getconn();
+			pstmt=con.prepareStatement(AuctionAdd.toString());
+			pstmt.setString(1, AuctionMainFrm.User_id );
+			rs=pstmt.executeQuery();
+			
+			MyAuctionAddVO maav = null;
+			 while (rs.next()) {
+				 maav = new MyAuctionAddVO(rs.getString("item_name"), rs.getString("category"), rs.getString("period"),
+	                             rs.getString("add_date"), rs.getString("permit"),rs.getString("auc_code"),rs.getInt("start_price")) ;
+//				 maav = new MyAuctionAddVO(rs.getString("item_name"), rs.getString("category"), rs.getString("period"),
+//						 rs.getString("add_date"), rs.getString("permit"),rs.getString("reject_reason"),rs.getString("reject_date"),rs.getInt("start_price")) ;
+				 
+	             list.add(maav); 
+	     } // end while
+
+			}finally {
+				dbClose(con, pstmt, rs);
+			}//end finally
+			return list;
+		}//selectMyAuctionAdd
+	  
+	/**
+	 * 거부사유
+	 */
+	public RejectVO reject(String auc_code) throws SQLException{
+		RejectVO rv=null;
+		
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
+		
+		try {
+			StringBuilder reject=new StringBuilder();
+			reject.append(" select  r.reject_reason, r.reject_date, a.auc_code ")
+					.append(" from  reject_item r, auc_item a ")
+					.append(" where a.auc_code=r.auc_code and a.auc_code=? ");
+			
+			con=getconn();
+			pstmt=con.prepareStatement(reject.toString());
+			pstmt.setString(1, auc_code);
+			System.out.println(auc_code);
+			rs=pstmt.executeQuery();
+			
+			if (rs.next()) {
+				rv = new RejectVO(rs.getString("reject_reason"),rs.getString("reject_date"),rs.getString("auc_code"));
+			} // end while
+			
+		}finally {
+			dbClose(con, pstmt, rs);
+		}//end finally
+		return rv;
+	}//selectMyAuctionAdd
+	
+	  /**
+	   * 보낼물건
+	 */
+	public List<MyAuctionSendVO> selectMyAuctionSend() throws SQLException{
+			List<MyAuctionSendVO> list=new ArrayList<MyAuctionSendVO>();
+			
+			Connection con=null;
+			PreparedStatement pstmt=null;
+			ResultSet rs=null;
+			MyAuctionSendVO masv = null;
+			
+			try {
+			StringBuilder AuctionSend=new StringBuilder();
+			AuctionSend.append("  select ai.item_name, ai.start_price, ai.start_date, bi.bid_price, ei.send_status,ei.ended_date,ei.ended_num, ")
+			.append("  (select  kakao_id from auc_user where user_id=(select user_id from bid_item where bid_price=(select max(bid_price) from bid_item where auc_code=ai.auc_code) and   auc_code=ai.auc_code)  )  as kakao_id ,ai.auc_code ")
+			.append(" from auc_user au, auc_item ai, bid_item bi, ended_item ei ")
+			.append("   where (ai.user_id=au.user_id  and bi.auc_code=ai.auc_code and ")
+			.append("ei.bid_num=(select  bid_num from bid_item where bid_price=(select max(bid_price) from bid_item where auc_code=ai.auc_code) and  auc_code=ai.auc_code )) ")
+			.append("  and au.user_id=?  and ai.permit='Y' and bi.bid_price=(select max(bid_price) from bid_item where auc_code=ai.auc_code )   ");
+			
+		
+			con=getconn();
+			pstmt=con.prepareStatement(AuctionSend.toString());
+			pstmt.setString(1, AuctionMainFrm.User_id );
+			rs=pstmt.executeQuery();
+			
+			 while (rs.next()) {
+				 masv = new MyAuctionSendVO(rs.getString("item_name"), rs.getString("start_date"), rs.getString("ended_date"),
+	                             rs.getString("kakao_id"), rs.getString("send_status"), rs.getInt("start_price") ,rs.getInt("bid_price"),rs.getInt("ended_num"));
+	             list.add(masv); 
+	     } // end while
+
+			}finally {
+				dbClose(con, pstmt, rs);
+			}//end finally
+			return list;
+		}//AuctionSend
+	  
+	/**
+	 * 받을 물건
+	 */
+	public List<MyAuctionReceiveVO> selectMyAuctionReceive() throws SQLException{
+		List<MyAuctionReceiveVO> list=new ArrayList<MyAuctionReceiveVO>();
+		
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
+		try {
+		StringBuilder AuctionReceive=new StringBuilder();
+		AuctionReceive.append(" select  ai.item_name, ai.start_price, ai.start_date, bi.bid_price, ei.ended_date, ei.send_status, ( select kakao_id from auc_user where user_id=(select user_id from auc_item where auc_code=ai.auc_code)) as kakao_id ")
+		.append(" from  auc_item ai, bid_item bi, ended_item ei , auc_user au " )
+		.append(" where  au.user_id=? and ( au.user_id=bi.user_id and bi.bid_num=ei.bid_num and bi.auc_code=ai.auc_code) ");
+		
+		con=getconn();
+		pstmt=con.prepareStatement(AuctionReceive.toString());
+		pstmt.setString(1, AuctionMainFrm.User_id );
+		rs=pstmt.executeQuery();
+		
+		MyAuctionReceiveVO marv = null;
+		 while (rs.next()) {
+			 marv = new MyAuctionReceiveVO(rs.getString("item_name"), rs.getString("start_date"), rs.getString("ended_date"),
+                           rs.getString("kakao_id"), rs.getString("send_status"), rs.getInt("start_price") ,rs.getInt("bid_price"));
+			 
+           list.add(marv); 
+   } // end while
+		}finally {
+			dbClose(con, pstmt, rs);
+		}//end finally
+		return list;
+	}//AuctionSend
+	
+	public void sendStatus(int ended_num) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+
+			StringBuilder send = new StringBuilder();
+			send.append(" update ended_item ") 
+				  .append(" set send_status='발송완료' ")
+				  .append(" where ended_num=? ");
+			
+			con=getconn();
+			pstmt = con.prepareStatement(send.toString());
+			pstmt.setInt(1, ended_num);
+			pstmt.executeUpdate();
+			
+		}finally {
+			dbClose(con, pstmt, null);
+
+		}		
+	}//sendStatus
 	
 	}//class
