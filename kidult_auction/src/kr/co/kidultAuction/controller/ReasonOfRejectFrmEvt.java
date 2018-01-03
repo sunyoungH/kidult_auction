@@ -11,17 +11,18 @@ import kr.co.kidultAuction.view.AdminPageFrm;
 import kr.co.kidultAuction.view.AuctionMainFrm;
 import kr.co.kidultAuction.view.ReasonOfRejectFrm;
 import kr.co.kidultAuction.vo.RejectVO;
+import kr.co.kidultAuction.vo.RejectVO2;
 
 public class ReasonOfRejectFrmEvt implements ActionListener {
 private ReasonOfRejectFrm rorf;
-private RejectVO rv;
+private RejectVO2 rv;
 
 	public ReasonOfRejectFrmEvt(ReasonOfRejectFrm rorf) {
 		this.rorf=rorf;
 	}//reasonOfReject
 
 	public void addReject() throws SQLException {
-		RejectVO rv=new RejectVO();
+		RejectVO2 rv=new RejectVO2();
 		System.out.println(AuctionMainFrm.User_id+"/"+AuctionMainFrm.Admin_id+"/"+AdminPageFrm.auc_code);
 		rv.setAdmin_id(AuctionMainFrm.Admin_id);
 		rv.setAuc_code(AdminPageFrm.auc_code);
