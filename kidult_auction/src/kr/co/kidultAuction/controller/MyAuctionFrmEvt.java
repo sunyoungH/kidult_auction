@@ -143,11 +143,7 @@ public class MyAuctionFrmEvt extends MouseAdapter {
 		}// end switch
 	}//panel()
 
-	/**
-	 * 거부사유
-	 * @param me
-	 * @throws ClassCastException
-	 */
+	
 	public void doubleClick( MouseEvent me)throws ClassCastException {
 		JTable tempTable=(JTable)me.getSource();
 		int rowNum=tempTable.getSelectedRow();
@@ -177,6 +173,8 @@ public class MyAuctionFrmEvt extends MouseAdapter {
 				 
 				switch (me.getClickCount()) {
 				case SucBidList:
+					switch (JOptionPane.showConfirmDialog(maf, "발송완료로 바꾸시겠습니까?\n발송완료일 경우에만 '예'를 눌러주세요.","발송완료",0)) {
+					case JOptionPane.OK_OPTION:
 					UserDAO u_dao = UserDAO.getInstance();
 					try {
 					int ended_num=sendList.get(rowNum).getEnded_num();
@@ -184,7 +182,7 @@ public class MyAuctionFrmEvt extends MouseAdapter {
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
-
+					}
 				}// end switch
 				
 			}//end if
