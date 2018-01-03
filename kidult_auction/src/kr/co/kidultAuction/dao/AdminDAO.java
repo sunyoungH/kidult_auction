@@ -23,6 +23,7 @@ import kr.co.kidultAuction.vo.AdminSucBidVO;
 import kr.co.kidultAuction.vo.AdminUserVO;
 import kr.co.kidultAuction.vo.LoginVO;
 import kr.co.kidultAuction.vo.RejectVO;
+import kr.co.kidultAuction.vo.RejectVO2;
 
 public class AdminDAO {
 	private static AdminDAO a_dao;
@@ -295,7 +296,7 @@ public class AdminDAO {
 	 * °ÅºÎ 
 	 * @throws SQLException 
 	 */
-	public boolean rejectItem(RejectVO rv) throws SQLException {
+	public boolean rejectItem(RejectVO2 rv) throws SQLException {
 		boolean rejectFlag=false;
 		Connection con=null;
 		PreparedStatement pstmt=null;

@@ -67,8 +67,8 @@ public class LoginFrmEvt implements ActionListener {
 		try {
 			if (a_dao.selectUserLogin(lv)) {
 				JOptionPane.showMessageDialog(null, "사용자 로그인 성공!");
-				lf.getAmf().getBtnLogin().setIcon(
-						new ImageIcon(getClass().getClassLoader().getResource("kidultAuction_img/logout.png")));
+//				lf.getAmf().getBtnLogin().setIcon(
+//						new ImageIcon(getClass().getClassLoader().getResource("kidultAuction_img/logout.png")));
 
 				AuctionMainFrm.User_id = lf.getTfId().getText().trim();
 				lf.dispose();

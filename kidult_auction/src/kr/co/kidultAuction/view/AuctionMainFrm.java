@@ -2,7 +2,6 @@ package kr.co.kidultAuction.view;
 
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.event.WindowListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -39,6 +38,7 @@ public class AuctionMainFrm extends JFrame {
 		ImageIcon exit = new ImageIcon(path + "\\src\\kr\\co\\kidultAuction\\img\\exit.png");
 		ImageIcon login = new ImageIcon(path + "\\src\\kr\\co\\kidultAuction\\img\\mainLogin.png");
 		ImageIcon join = new ImageIcon(path + "\\src\\kr\\co\\kidultAuction\\img\\mainJoin.png");
+		
 
 		// JPanel background = new JPanel();
 

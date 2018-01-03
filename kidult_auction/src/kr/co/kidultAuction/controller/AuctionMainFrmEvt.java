@@ -58,6 +58,7 @@ public class AuctionMainFrmEvt implements ActionListener, Runnable{
 				e.printStackTrace();
 			}
 		} // end if
+		
         
 		if (ae.getSource() == amf.getBtnLogin()) {
 			LoginFrm lf = new LoginFrm(amf);
@@ -67,6 +68,7 @@ public class AuctionMainFrmEvt implements ActionListener, Runnable{
 				flag=true;
 			}
 		} // end if
+		
 
 		if (ae.getSource() == amf.getBtnMyPage()) {
 //			if() {

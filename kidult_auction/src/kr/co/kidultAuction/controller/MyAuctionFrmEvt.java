@@ -143,6 +143,11 @@ public class MyAuctionFrmEvt extends MouseAdapter {
 		}// end switch
 	}//panel()
 
+	/**
+	 * 거부사유
+	 * @param me
+	 * @throws ClassCastException
+	 */
 	public void doubleClick( MouseEvent me)throws ClassCastException {
 		JTable tempTable=(JTable)me.getSource();
 		int rowNum=tempTable.getSelectedRow();
