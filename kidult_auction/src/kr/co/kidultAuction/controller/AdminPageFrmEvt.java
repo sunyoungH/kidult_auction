@@ -191,9 +191,6 @@ public class AdminPageFrmEvt extends MouseAdapter{
 
 					
  			if((nowDate.compareTo(start_date)>-1) && (nowDate.compareTo(expected_end_date)<1 )) {
-					System.out.println(expected_end_date);
-					System.out.println(nowDate);
-					System.out.println(nowDate.compareTo(expected_end_date));
 				bidList.addRow(rowData);
 			}
 		}//end for

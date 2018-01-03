@@ -23,17 +23,22 @@ import kr.co.kidultAuction.view.MyAuctionFrm;
 import kr.co.kidultAuction.view.MyPageFrm;
 import kr.co.kidultAuction.vo.AdminOncomingBidVO;
 
-public class AuctionMainFrmEvt implements ActionListener {
+public class AuctionMainFrmEvt implements ActionListener, Runnable{
 	private AuctionMainFrm amf;
 	private boolean flag = false;
+	private Thread insertEndBid;
+	private long leftTotal=0;
 
 	public AuctionMainFrmEvt(AuctionMainFrm amf) {
 		this.amf=amf;
-		try {
-			endBid();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		
+		if(insertEndBid!=null) {
+			System.out.println("thread 도는 중");
+			return;
+		}//end if
+		insertEndBid=new Thread(this);
+		insertEndBid.start();
+		
 	}// auctionmainFrmEvt
 
 	@Override
@@ -88,7 +93,6 @@ public class AuctionMainFrmEvt implements ActionListener {
 	 */
 
 	public void endBid() throws SQLException {
-		boolean flag = false;
 		AdminDAO a_dao = AdminDAO.getInstance();
 		List<AdminOncomingBidVO> dataList = a_dao.selectOncomingData();
 		AdminOncomingBidVO aobv = null;
@@ -121,6 +125,29 @@ public class AuctionMainFrmEvt implements ActionListener {
 				System.out.println("키없음");
 			} // end else
 		} // end for
+		
 	}// endBid
+
+	
+	@Override
+	public void run() {
+		while(true) {
+			try {
+				SimpleDateFormat sdf_date=new SimpleDateFormat("HH:mm:ss");
+				String nowSec=sdf_date.format(new Date());
+				long leftHour=24-Integer.parseInt(nowSec.substring(0, 2));	
+				long leftMinute=60-Integer.parseInt(nowSec.substring(3,5));
+				long leftSec=60-Integer.parseInt(nowSec.substring(6));
+				
+				leftTotal=leftHour*1000*60*60 + leftMinute*1000*60 + leftSec*1000;
+				insertEndBid.sleep(leftTotal);
+				endBid();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}//end run
 
 }// class
