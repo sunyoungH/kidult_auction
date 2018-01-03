@@ -173,12 +173,12 @@ public class AdminPageFrmEvt extends MouseAdapter{
 		String nowDate=sdf.format(new Date());
 		String expected_end_date="";
 		String start_date="";
+		int cnt=0;
 
 
 		for(int i=0; i<biddingList.size(); i++) {
 			abv=biddingList.get(i);
 			rowData=new Object[8];
-			rowData[0]=new Integer(i+1);
 			rowData[1]=abv.getUser_id();
 			rowData[2]=abv.getItem_name();
 			rowData[3]=abv.getAuc_code();
@@ -191,8 +191,11 @@ public class AdminPageFrmEvt extends MouseAdapter{
 
 					
  			if((nowDate.compareTo(start_date)>-1) && (nowDate.compareTo(expected_end_date)<1 )) {
+				cnt++;
+				rowData[0]=new Integer(cnt);
 				bidList.addRow(rowData);
 			}
+ 			
 		}//end for
 		/// 경매시작시간(승인날짜 +1일 자정 =expected_date)과 끝나는 날짜 사이면, 입찰 목록을 조회
 	}//viewBidList
