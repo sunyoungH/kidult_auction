@@ -68,7 +68,6 @@ public class AuctionMainFrmEvt implements ActionListener, Runnable{
 			LoginFrm lf = new LoginFrm(amf);
 			if (lf.isFlag()) {
 				amf.getBtnLogin().setIcon(new ImageIcon(getClass().getClassLoader().getResource("kidultAuction_img/mainLogin.png")));
-				// amf.getBtnLogin().setText("·Î±×ÀÎ");
 				flag=true;
 			}
 		} // end if

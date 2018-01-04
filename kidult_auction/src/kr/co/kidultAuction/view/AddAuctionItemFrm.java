@@ -1,11 +1,14 @@
 package kr.co.kidultAuction.view;
 
+import java.awt.Color;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -23,6 +26,7 @@ public class AddAuctionItemFrm extends JDialog {
 	private JComboBox<String> jcbCategory, jcbStatus, jcbPeriod;
 	private JButton btnAddImg, btnPermit, btnCancel;
 	private JTextArea taItemInfo;
+	
 
 	public AddAuctionItemFrm(AuctionMainFrm amf) {
 		super(amf,"경매 등록",true); 
@@ -70,6 +74,12 @@ public class AddAuctionItemFrm extends JDialog {
 		btnAddImg = new JButton("이미지 등록");
 		btnPermit = new JButton("승인 신청");
 		btnCancel = new JButton("취소");
+		
+		JPanel jp = new JPanel();
+
+		jp.setBackground(new Color(0xFFFFCE));
+
+		jp.setBounds(0, 0, 600, 600);
 
 		///////////////////////////////////////////////////
 
@@ -123,6 +133,7 @@ public class AddAuctionItemFrm extends JDialog {
 
 		add(btnPermit);
 		add(btnCancel);
+		add(jp);
 
 		///////////////////////////////////////////////////
 

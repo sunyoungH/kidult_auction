@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.sql.SQLException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -32,6 +33,12 @@ public class UserEditFrm extends JDialog {
 	public UserEditFrm(AuctionMainFrm amf) throws SQLException {
 		super(amf, "회원정보수정");
 		setLayout(null);
+		
+		String path = System.getProperty("user.dir");
+		System.out.println(path);
+		ImageIcon Lava = new ImageIcon(path+"\\src\\kr\\co\\kidultAuction\\img\\mushroomMario.png");
+		ImageIcon Mario = new ImageIcon(path+"\\src\\kr\\co\\kidultAuction\\img\\marioJoin.png");
+		ImageIcon underBar = new ImageIcon(path+"\\src\\kr\\co\\kidultAuction\\img\\underJoin.png");
 
 		lblId = new JLabel("ID");
 		lblPass = new JLabel("Password");
@@ -55,6 +62,10 @@ public class UserEditFrm extends JDialog {
 		tfPhone = new JTextField();
 		tfKakao = new JTextField();
 		tfKakao.setEnabled(false);
+		
+		JLabel lblMushroom = new JLabel(Lava);
+		JLabel lblMario = new JLabel(Mario);
+		JLabel lblUnder = new JLabel(underBar);
 
 		btnSubmit = new JButton("변경하기");
 		btnCancel = new JButton("취소");
@@ -78,6 +89,9 @@ public class UserEditFrm extends JDialog {
 		lblPhone.setBounds(70, 320, 80, 30);
 		lblKakao.setBounds(58, 360, 80, 30);
 		lblBirthinfo.setBounds(260, 200, 80, 30);
+		lblMushroom.setBounds(290, 95, 88, 90);
+		lblMario.setBounds(10, 390, 80, 75);
+		lblUnder.setBounds(0, 450, 430, 80);
 
 		tfId.setBounds(170, 40, 80, 25);
 		pfPass.setBounds(170, 80, 100, 25);
@@ -109,6 +123,9 @@ public class UserEditFrm extends JDialog {
 		add(lblPhone);
 		add(lblKakao);
 		add(lblBirthinfo);
+		add(lblMario);
+		add(lblUnder);
+		add(lblMushroom);
 
 		add(tfId);
 		add(pfPass);
