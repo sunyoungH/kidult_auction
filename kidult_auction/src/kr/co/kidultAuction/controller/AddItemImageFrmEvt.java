@@ -2,6 +2,7 @@ package kr.co.kidultAuction.controller;
 
 import java.awt.FileDialog;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,14 +30,14 @@ public class AddItemImageFrmEvt implements ActionListener{
 	private AddAuctionItemFrm aaif;
 	private File writeFile, writeThumbFile;
 	
-	static ImageIcon icon, finalIcon;
+	static ImageIcon icon, finalIcon, downsizeImg;
 	
 	private Socket client;
 	
-	boolean frontFlag;
-	boolean leftFlag;
-	boolean rightFlag;
-	boolean backFlag;
+	boolean frontFlag=false;
+	boolean leftFlag=false;
+	boolean rightFlag=false;
+	boolean backFlag=false;
 	
 	 static ImageIcon frontIcon;
 	 static ImageIcon backIcon;
@@ -44,6 +45,15 @@ public class AddItemImageFrmEvt implements ActionListener{
 	 static ImageIcon rightIcon;
 	
 	static String path, fileName;
+	
+	 static String frontFileName;
+	 static String backFileName;
+	 static String leftFileName;
+	 static String rightFileName;
+	 
+	 static int cnt=0;
+	
+
 	
 	
 	
@@ -56,10 +66,8 @@ public class AddItemImageFrmEvt implements ActionListener{
 	
 	private void imgSelect() throws IOException {
 		
-		frontFlag=false;
-		leftFlag=false;
-		rightFlag=false;
-		backFlag=false;
+		
+		
 		FileDialog fdImg = new FileDialog(aiif, "사진 선택하기 ", FileDialog.LOAD);
 		fdImg.setVisible(true);
 
@@ -107,6 +115,7 @@ public class AddItemImageFrmEvt implements ActionListener{
 //			fis.close();
 //			client.close();
 			
+			
 			icon=new ImageIcon(path+fileName);
 			
 			/*----------------------------------------------------------------------------------------------------*/
@@ -118,16 +127,59 @@ public class AddItemImageFrmEvt implements ActionListener{
 //			 icon=new ImageIcon(writeFile.getAbsolutePath());
 			 Image resizeImg = icon.getImage();  //ImageIcon을 Image로 변환.
 			 Image finishImg = resizeImg.getScaledInstance(225, 225, java.awt.Image.SCALE_SMOOTH);
+//			 ImageIO.write(finishImg, "jpg", "C:/Users/Public/Pictures/Sample Pictures/ddd.jpg");
 			 finalIcon = new ImageIcon(finishImg); //Image로 ImageIcon 생성
+			 
+			 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		     BufferedImage newImage = new BufferedImage(225, 225, finishImg.SCALE_SMOOTH);
+		        Graphics g = newImage.getGraphics();
+		        g.drawImage(finishImg, 0, 0, null);
+		        g.dispose();
+		        ImageIO.write(newImage, "jpg", new File(path+"s_"+fileName));
+		        
+		        downsizeImg=new ImageIcon(path+"s_"+fileName);
 
+			 /*===================================================================================*/
+//			 BufferedImage originalImage = ImageIO.read(new File("C:/Users/Public/Pictures/Sample Pictures/ej_test5.jpg"));
+//				int type = originalImage.getType() == 0? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
+//			 
+//			 BufferedImage resizedImage = new BufferedImage(225, 225, type);
+//			 Graphics2D g2 = resizedImage.createGraphics();
+//			 g2.drawImage(originalImage, 0, 0, 225, 225, null);
+//			 ImageIO.write(resizedImage, "jpg", new File("C:/Users/Public/Pictures/Sample Pictures/ej_test5.png"));
+//			 System.out.println(resizedImage);
+//			 g2.dispose();
+			 /*===================================================================================*/
+			 
+			 
 			 JOptionPane.showMessageDialog(aiif, "이미지가 정상적으로 등록되었음");
+			 
+			 if(frontFlag==true) {
+				 frontFileName="front_"+fileName;
+				 return;
+			 }//end if
+			 
+			 if(backFlag==true) {
+				 backFileName="back_"+fileName;
+				 return;
+			 }//end if
+			 
+			 if(leftFlag==true) {
+				 leftFileName="left_"+fileName;
+				 return;
+			 }//end if
+			 
+			 if(rightFlag==true) {
+				 rightFileName="right_"+fileName;
+				 return;
+			 }//end if
+
 			 
 		}//end if
 		
 	}//imgSelect
 	
-	
-	
+
 	
 	
 	
@@ -137,7 +189,8 @@ public class AddItemImageFrmEvt implements ActionListener{
 			try {
 				frontFlag=true;
 				imgSelect();
-				frontIcon=icon;
+				frontFlag=false;
+				frontIcon=downsizeImg; //frontIcon=icon   icon을 이미지 사이즈를 경로로 바꾸면은 됨
 				aiif.getLbFrontImg().setIcon(finalIcon);
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(aiif, "이미지가 정상적으로 등록되지 않음");
@@ -149,7 +202,8 @@ public class AddItemImageFrmEvt implements ActionListener{
 			try {
 				backFlag=true;
 				imgSelect();
-				 backIcon=icon;
+				backFlag=false;
+				 backIcon=downsizeImg;
 				aiif.getLbBackImg().setIcon(finalIcon);
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(aiif, "이미지가 정상적으로 등록되지 않음");
@@ -161,7 +215,8 @@ public class AddItemImageFrmEvt implements ActionListener{
 			try {
 				leftFlag=true;
 				imgSelect();
-				leftIcon=icon;
+				leftFlag=false;
+				leftIcon=downsizeImg;
 				aiif.getLbLeftImg().setIcon(finalIcon);
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(aiif, "이미지가 정상적으로 등록되지 않음");
@@ -173,7 +228,8 @@ public class AddItemImageFrmEvt implements ActionListener{
 			try {
 				rightFlag=true;
 				imgSelect();
-				rightIcon=icon;
+				rightFlag=false;
+				rightIcon=downsizeImg;
 				aiif.getLbRightImg().setIcon(finalIcon);
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(aiif, "이미지가 정상적으로 등록되지 않음");

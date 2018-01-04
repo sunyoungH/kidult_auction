@@ -48,7 +48,11 @@ public class AuctionMainFrmEvt implements ActionListener, Runnable{
 		} // end if
 
 		if (ae.getSource() == amf.getBtnAddItem()) {
-			new AddAuctionItemFrm(amf);
+			if(!AuctionMainFrm.User_id.equals("")) {
+				new AddAuctionItemFrm(amf);
+			}else {
+				JOptionPane.showMessageDialog(null, "로그인 후 이용해 주세요");
+			}//end else
 		} // end if
 
 		if (ae.getSource() == amf.getBtnAuctionList()) {

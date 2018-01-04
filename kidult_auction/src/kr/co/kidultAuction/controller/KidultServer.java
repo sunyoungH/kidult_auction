@@ -16,8 +16,11 @@ import kr.co.kidultAuction.view.AuctionMainFrm;
 
 
 public class KidultServer implements Runnable{
-private Thread thread;
-private ServerSocket server;
+	
+	private AddItemImageFrmEvt aiife;
+	
+	private Thread thread;
+	private ServerSocket server;
 	
 	public KidultServer() {
 		if(thread!=null) {
@@ -30,7 +33,6 @@ private ServerSocket server;
 		System.out.println("가동중");
 	}//kidultServer
 	
-	@Override
 	public void run() {		//파일이 읽는 메소드를 동기화 처리... 파일을 읽어들이는 일
 		
 		try {
@@ -50,12 +52,17 @@ private ServerSocket server;
 			fileFullName=dis.readUTF();
 			fileDataSize=dis.readInt();
 			
-			SimpleDateFormat sdf=new SimpleDateFormat("yyMMdd_HHms");
-			String date= sdf.format(new Date());
-			newFileName=new StringBuilder(fileFullName);
-			newFileName.insert(newFileName.indexOf("."), "_"+AuctionMainFrm.User_id+"_"+date);
+//			SimpleDateFormat sdf=new SimpleDateFormat("yyMMdd_HH_m_s");
+//			String date= sdf.format(new Date());
+//			newFileName=new StringBuilder(fileFullName);
+//			
+////			newFileName.insert(newFileName.indexOf("."), "_"+AuctionMainFrm.User_id+"_"+date);
+//			
+//			String sendFileName=AuctionMainFrm.User_id+"_"+newFileName.insert(newFileName.indexOf("."), "_"+date);
 			
-			file=new File("C:/dev/git/kidult_auction/kidult_auction/src/kr/co/kidultAuction/img/"+newFileName);
+			
+			file=new File("C:/dev/git/kidult_auction/kidult_auction/kidult_auction/"
+					+ "kidult_auction/src/kr/co/kidultAuction/img/"+AddAuctionItemFrmEvt.sendFileName);
 			fos=new FileOutputStream(file);
 				while(fileDataSize>0) {
 					binaryLen=dis.read(data);
@@ -72,9 +79,5 @@ private ServerSocket server;
 		}//end catch
 		
 	}//run	
-	
-	public static void main (String args[]) {
-		new KidultServer();
-	}
 	
 }//class
