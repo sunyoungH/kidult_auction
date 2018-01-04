@@ -134,22 +134,22 @@ public class MyAuctionFrm extends JDialog {
 		JScrollPane jspSend = new JScrollPane(jtSendItem);
 		JScrollPane jspRecieve = new JScrollPane(jtRecieveItem);
 		
-		jspAuc.getViewport().setBackground(new Color(0xFFFFBF));
-		jspSend.getViewport().setBackground(new Color(0xFFFFBF));
-		jspRecieve.getViewport().setBackground(new Color(0xFFFFBF));
+		jspAuc.getViewport().setBackground(new Color(0xFFFFCE));
+		jspSend.getViewport().setBackground(new Color(0xFFFFCE));
+		jspRecieve.getViewport().setBackground(new Color(0xFFFFCE));
 
 		jtpTab = new JTabbedPane();
 		jtpTab.add("등록한 경매", jspAuc);
 		jtpTab.addTab("보낼물건", jspSend);
 		jtpTab.addTab("받을물건", jspRecieve);
 
-		jtpTab.setBackground(new Color(0xFFFFBF));
+		jtpTab.setBackground(new Color(0xD2FFD2));
 
 		jtpTab.setBounds(0, 0, 795, 500);
 
 		JPanel jp = new JPanel();
 
-		jp.setBackground(new Color(0xFFFBF6));
+		jp.setBackground(new Color(0xFFFFCE));
 
 		jp.setBounds(0, 0, 800, 500);
 
