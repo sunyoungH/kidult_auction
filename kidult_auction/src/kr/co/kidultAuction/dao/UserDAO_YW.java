@@ -158,7 +158,12 @@ public class UserDAO_YW {
 //////////////////////////////////////////////////////////////////////////////////////
 	
 	
-	//카테고리 불러오기
+
+	/**
+	 * DB에 저장된 카테고리를 조회
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<String> categoryList() throws SQLException {
 		List<String> list=new ArrayList<>();
 		
@@ -183,43 +188,13 @@ public class UserDAO_YW {
 	}//selectCategory
 	
 	
-	
-////// 모든 상품 조회
-//	public List<ListOfAuctionVO> selectItem() throws SQLException{
-//
-//		List<ListOfAuctionVO> list=new ArrayList<ListOfAuctionVO>();
-//		Connection con=null;
-//		PreparedStatement pstmt=null;
-//		ResultSet rs=null;
-//		
-//		try {
-//			con=getconn();
-//			
-//			StringBuilder selectitem=new StringBuilder();
-//			selectitem.append("select auc_code, item_name, front_img, category, status, period, detail_info, add_date, permit, permit_date, start_date, user_id, category_num, start_price")
-//						  .append(" from auc_item ");
-//			pstmt=con.prepareStatement(selectitem.toString());
-//			
-//			rs=pstmt.executeQuery();
-//			
-//			ListOfAuctionVO loav=null;
-//			while (rs.next()) {
-//				loav=new ListOfAuctionVO(rs.getString("auc_code"),rs.getString("item_name"),rs.getString("front_img"),rs.getString("category")
-//										,rs.getString("status"),rs.getString("period"),rs.getString("detail_info"),rs.getString("add_date")
-//										,rs.getString("permit"),rs.getString("permit_date"),rs.getString("start_date"),rs.getString("user_id")
-//										,rs.getString("category_num"),rs.getInt("start_price"));
-//				list.add(loav);
-//			}//end while
-//		} finally {
-//			dbClose(con, pstmt, rs);
-//		}//end finally
-//		
-//		return list;
-//	}//selectItem
-	
-	
-	
-////// 상품 상세정보 조회
+
+	/**
+	 * 경매코드를 통한 상품 상세정보 조회
+	 * @param auc_code
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<DetailOfAuctionVO> detail(String auc_code) throws SQLException{
 
 		List<DetailOfAuctionVO> list=new ArrayList<DetailOfAuctionVO>();
@@ -257,7 +232,13 @@ public class UserDAO_YW {
 	
 	
 	
-////// 카테고리별 상품 조회
+
+	/**
+	 * 카테고리(콤보박스)별 상품 조회
+	 * @param category
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<ListOfAuctionVO> selectCategory(String category) throws SQLException{
 
 		List<ListOfAuctionVO> list=new ArrayList<ListOfAuctionVO>();
@@ -299,8 +280,6 @@ public class UserDAO_YW {
 		
 		return list;
 	}//selectItem
-	
-//////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
 	  * 입찰 method (입찰 데이터등록시 숫자=1)

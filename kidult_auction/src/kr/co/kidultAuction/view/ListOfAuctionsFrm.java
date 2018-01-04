@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -96,8 +97,9 @@ public class ListOfAuctionsFrm extends JDialog {
 			
 			// 경매코드 저장
 			arrjl.add(new JLabel(lloav.get(i).getAuc_code()));
+			ImageIcon img=new ImageIcon(/*lloav.get(i).getFront_img()*/"C:/dev/git/kidult_auction/kidult_auction/src/kr/co/kidultAuction/img/cancel.JPG");
 			
-			ijp.add(lbImg=new JLabel(lloav.get(i).getFront_img()));
+			ijp.add(lbImg=new JLabel(img));
 			ijp.add(lbItemName=new JLabel(lloav.get(i).getItem_name()));
 			ijp.add(lbSeller=new JLabel("판매자"));
 			ijp.add(lbSellerId=new JLabel(lloav.get(i).getUser_id()));
@@ -105,6 +107,8 @@ public class ListOfAuctionsFrm extends JDialog {
 			ijp.add(lbUserPrice=new JLabel(new DecimalFormat("#,###원").format(lloav.get(i).getStart_price())));
 			ijp.add(lbDday=new JLabel(lloav.get(i).getPeriod()+"일"));
 				
+			lbImg.setBounds(10, 10, 265, 190);
+			lbImg.setPreferredSize(new Dimension(100, 100));
 			lbItemName.setBounds(250, 10, 265, 40);
 			lbItemName.setFont(new Font("Serif", Font.BOLD, 40)); 
 			lbSeller.setBounds(250, 50, 100, 25);
