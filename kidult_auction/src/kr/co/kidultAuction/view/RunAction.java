@@ -17,7 +17,7 @@ public class RunAction {
 
 	public static void main(String[] args) throws IOException {
 		new AuctionMainFrm();
-		new KidultServer();
+//		new KidultServer();
 		
 	}//main
 
