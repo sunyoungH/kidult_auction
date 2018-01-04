@@ -65,12 +65,10 @@ public class MyAuctionFrmEvt extends MouseAdapter {
 		} // end for
 	}// setAddedList
 	
-	
 
 	/**
 	 * 보낼물건
 	 */
-	
 	public void setBidList() throws SQLException {
 		DefaultTableModel tempSendList = maf.getSendItem();
 		
@@ -127,8 +125,13 @@ public class MyAuctionFrmEvt extends MouseAdapter {
 
 			tempReceiveList.addRow(rowData);
 		} // end for
-
 	}
+	
+	/**
+	 * 탭변경 메소드
+	 * @param taIndex
+	 * @throws SQLException
+	 */
 	public void panel(int taIndex) throws SQLException{
 		switch (taIndex) {
 		case 0:
@@ -144,6 +147,11 @@ public class MyAuctionFrmEvt extends MouseAdapter {
 	}//panel()
 
 	
+	/**
+	 * 더블클릭 이벤트 메소드
+	 * @param me
+	 * @throws ClassCastException
+	 */
 	public void doubleClick( MouseEvent me)throws ClassCastException {
 		JTable tempTable=(JTable)me.getSource();
 		int rowNum=tempTable.getSelectedRow();
@@ -184,7 +192,6 @@ public class MyAuctionFrmEvt extends MouseAdapter {
 					}
 					}
 				}// end switch
-				
 			}//end if
 			
 			

@@ -133,6 +133,10 @@ public class MyAuctionFrm extends JDialog {
 		JScrollPane jspAuc = new JScrollPane(jtAucItem);
 		JScrollPane jspSend = new JScrollPane(jtSendItem);
 		JScrollPane jspRecieve = new JScrollPane(jtRecieveItem);
+		
+		jspAuc.getViewport().setBackground(new Color(0xFFFFBF));
+		jspSend.getViewport().setBackground(new Color(0xFFFFBF));
+		jspRecieve.getViewport().setBackground(new Color(0xFFFFBF));
 
 		jtpTab = new JTabbedPane();
 		jtpTab.add("등록한 경매", jspAuc);

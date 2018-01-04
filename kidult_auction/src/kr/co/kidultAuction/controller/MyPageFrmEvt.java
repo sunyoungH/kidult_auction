@@ -50,6 +50,9 @@ public class MyPageFrmEvt implements ActionListener {
 
 	JButton btn1;
 
+	/**
+	 * 비밀번호 확인
+	 */
 	public void passMsg() {
 
 		JFrame p = new JFrame("비밀번호 입력");
