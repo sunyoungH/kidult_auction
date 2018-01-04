@@ -2,8 +2,6 @@ package kr.co.kidultAuction.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.net.Socket;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,13 +63,6 @@ public class ApproveFrmEvt implements ActionListener{
 		
 		AdminPageFrm.start_price=aav.getStart_price();
 	}//addApprove
-	
-	/***
-	 * 사용자가 등록시 서버 이미지폴더에 등록되므로, 서버 이미지 폴더에서 가져오기
-	 * @throws IOException
-	 */
-	public void addImg() {
-	}//addImg
 	
 
 	@Override

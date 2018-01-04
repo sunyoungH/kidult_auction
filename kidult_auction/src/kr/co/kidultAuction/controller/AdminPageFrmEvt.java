@@ -2,26 +2,13 @@ package kr.co.kidultAuction.controller;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Properties;
 
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -30,16 +17,13 @@ import kr.co.kidultAuction.view.AdminPageFrm;
 import kr.co.kidultAuction.view.AllTimeBidFrm;
 import kr.co.kidultAuction.view.AuctionMainFrm;
 import kr.co.kidultAuction.view.ApproveFrm;
-import kr.co.kidultAuction.vo.AdminApproveVO;
 import kr.co.kidultAuction.vo.AdminBidVO;
-import kr.co.kidultAuction.vo.AdminOncomingBidVO;
 import kr.co.kidultAuction.vo.AdminPermitVO;
 import kr.co.kidultAuction.vo.AdminSucBidVO;
 import kr.co.kidultAuction.vo.AdminUserVO;
 
 public class AdminPageFrmEvt extends MouseAdapter{
 	private AdminPageFrm apf;
-	private ApproveFrm af;
 
 	public static final int WAITING_LIST=1;
 	public static final int BIDDING_LIST=3;
