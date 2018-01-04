@@ -64,7 +64,7 @@ public class DetailOfAuctionsEvt extends WindowAdapter implements ActionListener
 				bid=JOptionPane.showInputDialog(null,msg,"ÀÔÂûÇÏ±â",0,icon,null,"ÀÔÂû°¡°Ý");
 			String bidprice=(String)bid;
 			int start_price=Integer.parseInt(doa.getLblUserPrice().getText().trim().replace("¿ø", "").replace(",", ""));
-			
+			 
 			if (!bidprice.matches("^.*[a-zA-Z¤¡-¤¾°¡-ÆR]+.*$"))  {
 				int temp=Integer.parseInt( bidprice);
 			if (Integer.parseInt(bidprice) > start_price )  {
