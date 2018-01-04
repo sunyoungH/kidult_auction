@@ -37,7 +37,7 @@ public class MyAuctionFrm extends JDialog {
 		String[][] arrAucItemData = { { "", "", "", "", "", "", "" } };
 		String[] arrSendItem = { "번호", "물품명", "경매 시작가격", "낙찰가격", "등록일", "종료일", "낙찰자 카톡ID", "발송여부" };
 		String[][] arrSendItemData = { { "", "", "", "", "", "", "", "" } };
-		String[] arrRecieveItem = { "번호", "물품명", "경매 시작가격", "낙찰가격", "등록일", "낙찰일", "경매자 카톡ID", "수취여부" };
+		String[] arrRecieveItem = { "번호", "물품명", "경매 시작가격", "낙찰가격", "등록일", "낙찰일", "경매자 카톡ID", "발송여부" };
 		String[][] arrRecieveItemData = { { "", "", "", "", "", "", "", "" } };
 
 		dtmAucItem = new DefaultTableModel(arrAucItemData, arrAucItem);
