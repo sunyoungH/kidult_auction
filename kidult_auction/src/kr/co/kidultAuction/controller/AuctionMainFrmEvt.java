@@ -19,7 +19,6 @@ import kr.co.kidultAuction.view.AdminPageFrm;
 import kr.co.kidultAuction.view.AuctionMainFrm;
 import kr.co.kidultAuction.view.ListOfAuctionsFrm;
 import kr.co.kidultAuction.view.LoginFrm;
-import kr.co.kidultAuction.view.MyAuctionFrm;
 import kr.co.kidultAuction.view.MyPageFrm;
 import kr.co.kidultAuction.vo.AdminOncomingBidVO;
 
