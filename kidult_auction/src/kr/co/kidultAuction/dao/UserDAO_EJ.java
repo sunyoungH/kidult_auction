@@ -36,7 +36,9 @@ private static UserDAO_EJ u_dao;
 		Properties prop=new Properties();
 		
 		try {
-			prop.load(new FileReader("C:/dev/git/kidult_auction/kidult_auction/kidult_auction/kidult_auction/src/kr/co/kidultAuction/dao/database.properties"));
+			String path=System.getProperty("user.dir");
+			prop.load(new FileReader(path+"/src/kr/co/kidultAuction/dao/database.properties"));
+//			C:\dev\git\kidult_auction_sub\kidult_auction\src\kr\co\kidultAuction\dao\database.properties
 			try {
 				Class.forName(prop.getProperty("driverClass"));
 				con=DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("id"), prop.getProperty("pass"));
