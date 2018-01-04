@@ -57,7 +57,7 @@ public class AuctionMainFrmEvt implements ActionListener, Runnable{
 
 		if (ae.getSource() == amf.getBtnAuctionList()) {
 			try {
-				new ListOfAuctionsFrm(amf);
+				new ListOfAuctionsFrm(amf, "전체상품");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

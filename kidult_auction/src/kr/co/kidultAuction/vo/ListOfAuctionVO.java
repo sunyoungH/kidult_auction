@@ -1,39 +1,38 @@
 package kr.co.kidultAuction.vo;
 
 public class ListOfAuctionVO {
-	String front_img, status, item_name, end_date, user_id,auc_code;
+	String auc_code, item_name, front_img, category, status, period, detail_info, add_date, permit, permit_date, start_date, user_id, category_num;
 	int start_price;
 	
 	public ListOfAuctionVO() {
 		super();
 	}
 
-	public ListOfAuctionVO(String front_img, String status, String item_name, String end_date, String user_id,
-			String auc_code, int start_price) {
+	public ListOfAuctionVO(String auc_code, String item_name, String front_img, String category, String status,
+			String period, String detail_info, String add_date, String permit, String permit_date, String start_date,
+			String user_id, int start_price) {
 		super();
-		this.front_img = front_img;
-		this.status = status;
-		this.item_name = item_name;
-		this.end_date = end_date;
-		this.user_id = user_id;
 		this.auc_code = auc_code;
+		this.item_name = item_name;
+		this.front_img = front_img;
+		this.category = category;
+		this.status = status;
+		this.period = period;
+		this.detail_info = detail_info;
+		this.add_date = add_date;
+		this.permit = permit;
+		this.permit_date = permit_date;
+		this.start_date = start_date;
+		this.user_id = user_id;
 		this.start_price = start_price;
 	}
 
-	public String getFront_img() {
-		return front_img;
+	public String getAuc_code() {
+		return auc_code;
 	}
 
-	public void setFront_img(String front_img) {
-		this.front_img = front_img;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
+	public void setAuc_code(String auc_code) {
+		this.auc_code = auc_code;
 	}
 
 	public String getItem_name() {
@@ -44,12 +43,76 @@ public class ListOfAuctionVO {
 		this.item_name = item_name;
 	}
 
-	public String getEnd_date() {
-		return end_date;
+	public String getFront_img() {
+		return front_img;
 	}
 
-	public void setEnd_date(String end_date) {
-		this.end_date = end_date;
+	public void setFront_img(String front_img) {
+		this.front_img = front_img;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getPeriod() {
+		return period;
+	}
+
+	public void setPeriod(String period) {
+		this.period = period;
+	}
+
+	public String getDetail_info() {
+		return detail_info;
+	}
+
+	public void setDetail_info(String detail_info) {
+		this.detail_info = detail_info;
+	}
+
+	public String getAdd_date() {
+		return add_date;
+	}
+
+	public void setAdd_date(String add_date) {
+		this.add_date = add_date;
+	}
+
+	public String getPermit() {
+		return permit;
+	}
+
+	public void setPermit(String permit) {
+		this.permit = permit;
+	}
+
+	public String getPermit_date() {
+		return permit_date;
+	}
+
+	public void setPermit_date(String permit_date) {
+		this.permit_date = permit_date;
+	}
+
+	public String getStart_date() {
+		return start_date;
+	}
+
+	public void setStart_date(String start_date) {
+		this.start_date = start_date;
 	}
 
 	public String getUser_id() {
@@ -58,14 +121,6 @@ public class ListOfAuctionVO {
 
 	public void setUser_id(String user_id) {
 		this.user_id = user_id;
-	}
-
-	public String getAuc_code() {
-		return auc_code;
-	}
-
-	public void setAuc_code(String auc_code) {
-		this.auc_code = auc_code;
 	}
 
 	public int getStart_price() {
@@ -78,11 +133,12 @@ public class ListOfAuctionVO {
 
 	@Override
 	public String toString() {
-		return "ListOfAuctionVO [front_img=" + front_img + ", status=" + status + ", item_name=" + item_name
-				+ ", end_date=" + end_date + ", user_id=" + user_id + ", auc_code=" + auc_code + ", start_price="
-				+ start_price + "]";
+		return "ListOfAuctionVO [auc_code=" + auc_code + ", item_name=" + item_name + ", front_img=" + front_img
+				+ ", category=" + category + ", status=" + status + ", period=" + period + ", detail_info="
+				+ detail_info + ", add_date=" + add_date + ", permit=" + permit + ", permit_date=" + permit_date
+				+ ", start_date=" + start_date + ", user_id=" + user_id + ", start_price=" + start_price + "]";
 	}
-	
+
 	
 	
 }
