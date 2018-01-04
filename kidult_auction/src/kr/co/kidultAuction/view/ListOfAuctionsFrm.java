@@ -85,7 +85,7 @@ public class ListOfAuctionsFrm extends JDialog {
 		JPanel ijp; //상품별 패널
 		btnShowDetail=null;
 		
-		System.out.println("listfrm "+lloav);
+//		System.out.println("listfrm "+lloav);
 			
 		for(int i=0; i<lloav.size();i++) {
 			ijp=new JPanel();

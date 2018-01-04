@@ -9,17 +9,21 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 import kr.co.kidultAuction.dao.UserDAO_YW;
+import kr.co.kidultAuction.view.AuctionMainFrm;
 import kr.co.kidultAuction.view.DetailOfAuctionsFrm;
+import kr.co.kidultAuction.view.LoginFrm;
 import kr.co.kidultAuction.vo.AddBidVO;
 
 public class DetailOfAuctionsEvt extends WindowAdapter implements ActionListener {
 	
 	private DetailOfAuctionsFrm doa;
 	
+	private AuctionMainFrm amf;
+	
 	
 	public DetailOfAuctionsEvt(DetailOfAuctionsFrm doa) {
 		this.doa=doa;
-		
+		this.amf=amf;
 	}//DetailOfAuctionsEvt
 	
 	@Override
@@ -48,12 +52,21 @@ public class DetailOfAuctionsEvt extends WindowAdapter implements ActionListener
 				"\n"+doa.getLblDsPrice().getText().trim()+
 				"   "+doa.getLblUserPrice().getText().trim();
 		Object bid="";
+		System.out.println(AuctionMainFrm.User_id);
 		if(ae.getSource() == doa.getBtnBid()) {
-			while(!(bid==null)) {
-			bid=JOptionPane.showInputDialog(null,msg,"ÀÔÂûÇÏ±â",0,icon,null,"ÀÔÂû°¡°İ");
+//			if(AuctionMainFrm.User_id == null) {
+//				JOptionPane.showMessageDialog(null, "·Î±×ÀÎ");
+//				return;
+//			}
+			
+			
+			while(bid !=null) {
+				bid=JOptionPane.showInputDialog(null,msg,"ÀÔÂûÇÏ±â",0,icon,null,"ÀÔÂû°¡°İ");
 			String bidprice=(String)bid;
 			int start_price=Integer.parseInt(doa.getLblUserPrice().getText().trim().replace("¿ø", "").replace(",", ""));
 			
+			if (!bidprice.matches("^.*[a-zA-Z¤¡-¤¾°¡-ÆR]+.*$"))  {
+				int temp=Integer.parseInt( bidprice);
 			if (Integer.parseInt(bidprice) > start_price )  {
 					
 					int bidInserted=0;
@@ -65,17 +78,16 @@ public class DetailOfAuctionsEvt extends WindowAdapter implements ActionListener
 						bidInserted= u_dao.insertBidPrice(abv);
 					} catch (SQLException e) {
 						e.printStackTrace();
-					}
-					
-					System.out.println(bidInserted +" : 0ÀÌ»óÀÌ¸é Á¤»óÀÔÂû¿Ï·á");
-					
+					} // catch
 					
 					JOptionPane.showMessageDialog(null, "Á¤»ó ÀÔÂûµÇ¾ú½À´Ï´Ù.");
-					break;
-				} else {
+					return;
+				
+			}else {
 					JOptionPane.showMessageDialog(null, "ÀÔÂû¿¡ ½ÇÆĞÇÏ¿´½À´Ï´Ù. °¡°İÀ» È®ÀÎÇØÁÖ¼¼¿ä.");
 				}//end else
 			}//end while
-		}//end if
+			}
+			}//end if
 	}//actionPerformed
 }//class
