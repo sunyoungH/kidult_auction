@@ -14,7 +14,6 @@ import kr.co.kidultAuction.vo.AdminRejectVO;
 
 public class ReasonOfRejectFrmEvt implements ActionListener {
 private ReasonOfRejectFrm rorf;
-private AdminRejectVO rv;
 
 	public ReasonOfRejectFrmEvt(ReasonOfRejectFrm rorf) {
 		this.rorf=rorf;
@@ -22,7 +21,6 @@ private AdminRejectVO rv;
 
 	public void addReject() throws SQLException {
 		AdminRejectVO rv=new AdminRejectVO();
-		System.out.println(AuctionMainFrm.User_id+"/"+AuctionMainFrm.Admin_id+"/"+AdminPageFrm.auc_code);
 		rv.setAdmin_id(AuctionMainFrm.Admin_id);
 		rv.setAuc_code(AdminPageFrm.auc_code);
 		rv.setReject_reason(rorf.getJtaReason().getText());

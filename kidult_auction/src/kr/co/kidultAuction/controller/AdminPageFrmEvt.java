@@ -244,7 +244,6 @@ public class AdminPageFrmEvt extends MouseAdapter{
 			if(me.getClickCount()==2) {
 				AdminPageFrm.auc_code=(String)bidList.getValueAt(bidList.getSelectedRow(), 3);
 				AdminPageFrm.user_id=(String)bidList.getValueAt(bidList.getSelectedRow(), 1);
-				System.out.println(AdminPageFrm.auc_code+"/"+AdminPageFrm.user_id);
 				try {
 					new AllTimeBidFrm(apf);
 				} catch (SQLException e) {
