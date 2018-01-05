@@ -1,5 +1,6 @@
 package kr.co.kidultAuction.view;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.sql.SQLException;
@@ -75,6 +76,11 @@ public class ListOfAuctionsFrm extends JDialog {
 		}//end if
 		
 		lloav=u_dao.selectCategory(category);
+		JPanel jp=new JPanel();
+		
+		jp.setBackground(new Color(0xFFFFCE));
+		
+		jp.setBounds(0,0,590,750);
 		
 		
 ////////////////////////////////// 리스트 구성 //////////////////////////////////
@@ -153,6 +159,7 @@ public class ListOfAuctionsFrm extends JDialog {
 		jspAuction.setBounds(10, 56, 565, 657);
 		add(jpsearch);
 		add(jspAuction);
+		add(jp);
 		
 		//이벤트 등록
 		ListOfAuctionsEvt loae=new ListOfAuctionsEvt(this,amf);
