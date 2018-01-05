@@ -129,8 +129,6 @@ public class MyAuctionFrmEvt extends MouseAdapter {
 	
 	/**
 	 * 탭변경 메소드
-	 * @param taIndex
-	 * @throws SQLException
 	 */
 	public void panel(int taIndex) throws SQLException{
 		switch (taIndex) {

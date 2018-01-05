@@ -132,6 +132,9 @@ public class UserDAO {
 		
 	}//insertUser
 	
+	/**
+	 * 수정전 정보 불러오는 메소드
+	 */
 	public List<UserShowVO> selectUserInfo() throws SQLException{
 		List<UserShowVO> list=new ArrayList<UserShowVO>();
 		
@@ -162,7 +165,10 @@ public class UserDAO {
 		return list;
 	}//selectUserInfo
 	
-	  public boolean updateUser( UserEditVO uev) throws SQLException{
+	  /**
+	 * 회원정보를 수정하는 메소드
+	 */
+	public boolean updateUser( UserEditVO uev) throws SQLException{
 		    boolean returnValue = false;
 		    Connection con=null;
 	        PreparedStatement pstmt = null;
@@ -225,9 +231,7 @@ public class UserDAO {
 			 while (rs.next()) {
 				 maav = new MyAuctionAddVO(rs.getString("item_name"), rs.getString("category"), rs.getString("period"),
 	                             rs.getString("add_date"), rs.getString("permit"),rs.getString("auc_code"),rs.getInt("start_price")) ;
-//				 maav = new MyAuctionAddVO(rs.getString("item_name"), rs.getString("category"), rs.getString("period"),
-//						 rs.getString("add_date"), rs.getString("permit"),rs.getString("reject_reason"),rs.getString("reject_date"),rs.getInt("start_price")) ;
-				 
+
 	             list.add(maav); 
 	     } // end while
 
@@ -342,6 +346,9 @@ public class UserDAO {
 		return list;
 	}//AuctionSend
 	
+	/**
+	 * 발송상태 수정하기
+	 */
 	public void sendStatus(int ended_num) throws SQLException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
