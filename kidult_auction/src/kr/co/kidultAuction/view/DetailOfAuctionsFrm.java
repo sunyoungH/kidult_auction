@@ -1,5 +1,6 @@
 package kr.co.kidultAuction.view;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
@@ -9,6 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
 
@@ -99,6 +101,12 @@ public class DetailOfAuctionsFrm extends JDialog {
 	//ÀÔÂû ¹öÆ°
 	btnBid.setBounds(10, 770, 565, 50);
 	
+	JPanel jp = new JPanel();
+
+	jp.setBackground(new Color(0xFFFFCE));
+
+	jp.setBounds(0, 0, 600, 868);
+	
 	add(lblDlmg);
 	add(btnFrontImg);
 	add(btnBackImg);
@@ -113,6 +121,7 @@ public class DetailOfAuctionsFrm extends JDialog {
 	add(lblDDay);
 	add(taDItemInfo);
 	add(btnBid);
+	add(jp);
 	
 	DetailOfAuctionsEvt doae=new DetailOfAuctionsEvt(this);
 	btnBid.addActionListener(doae);

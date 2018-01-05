@@ -149,6 +149,7 @@ public class ListOfAuctionsFrm extends JDialog {
 		JPanel jpsearch=new JPanel();
 		jpsearch.add(cbCategory);
 		jpsearch.add(btnSearch);
+		jspAuction.getViewport().setBackground(new Color(0xFFFFCE));
 		
 		setLayout(null);
 		
